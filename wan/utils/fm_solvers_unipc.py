@@ -738,7 +738,7 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             else:
                 return value          
 
-        motion_max_variance = normalize_motion_variance(motion_max_variance.item())
+        # motion_max_variance = normalize_motion_variance(motion_max_variance.item())
 
         with open(save_file, "a") as log_file:
             log_file.write(f"In timestep: {timestep.item()}\n")
