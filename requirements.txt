@@ -4,7 +4,7 @@ opencv-python>=4.9.0.80
 diffusers>=0.31.0
 transformers>=4.46.3
 tokenizers>=0.20.3
-accelerate>=1.1.1
+accelerate>=1.0.1
 tqdm
 imageio
 easydict
@@ -12,5 +12,5 @@ ftfy
 dashscope
 imageio-ffmpeg
 flash_attn
-gradio>=5.0.0
+gradio>=4.44.0
 numpy==1.24.4
