@@ -6,6 +6,7 @@ import os
 import sys
 import warnings
 import gc
+import config
 
 warnings.filterwarnings('ignore')
 
@@ -482,8 +483,8 @@ def generate(args):
                                                         "_")[:50]
     suffix = ".txt"
     suffix1 = ".png"
-    save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{args.base_seed}" + suffix
-    output_image_path = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{args.base_seed}_plot" + suffix1
+    save_file = f"{config.get(project_dir)}/{formatted_prompt}_{args.base_seed}" + suffix
+    output_image_path = f"{config.get(project_dir)}/{formatted_prompt}_{args.base_seed}_plot" + suffix1
     plot_variances(save_file, output_image_path, args.base_seed)
 
 

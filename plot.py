@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import re
 import numpy as np
+import config
 
 def parse_file(file_path):
     """Parse the variance data file and extract timesteps and variance values."""
@@ -16,8 +17,10 @@ def parse_file(file_path):
 
 def main():
     # File paths
-    optimized_file = '/home/ai_center/ai_users/arielshaulov/Wan2.1/zero_var/A_figure_skater_gliding_gracefully_across_the_ice_150.txt'
-    non_optimized_file = '/home/ai_center/ai_users/arielshaulov/Wan2.1/runs_without_opti/A_figure_skater_gliding_gracefully_across_the_ice_150.txt'
+    prompt = "A_figure_skater_gliding_gracefully_across_the_ice_150"
+    project_dir = config.get('project_dir')
+    optimized_file = f'{project_dir}/{prompt}.txt'
+    non_optimized_file = '{project_dir}/runs_without_opti/{prompt}.txt'
     
     # Parse files
     timesteps_opt, motion_var_opt, appearance_var_opt = parse_file(optimized_file)

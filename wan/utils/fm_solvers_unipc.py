@@ -13,6 +13,8 @@ from diffusers.schedulers.scheduling_utils import (KarrasDiffusionSchedulers,
                                                    SchedulerOutput)
 from diffusers.utils import deprecate, is_scipy_available
 
+import config
+
 if is_scipy_available():
     import scipy.stats
 
@@ -726,7 +728,8 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
         formatted_prompt = prompt.replace(" ", "_").replace("/",
                                                             "_")[:50]
         suffix = ".txt"
-        save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{seed}" + suffix
+        project_dir = config.get('project_dir')        
+        save_file = f"{project_dir}/{formatted_prompt}_{seed}" + suffix
 
         def normalize_motion_variance(motion_max_variance):
             value = motion_max_variance
