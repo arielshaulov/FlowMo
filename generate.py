@@ -6,7 +6,7 @@ import os
 import sys
 import warnings
 import gc
-import config
+from . import config
 
 warnings.filterwarnings('ignore')
 

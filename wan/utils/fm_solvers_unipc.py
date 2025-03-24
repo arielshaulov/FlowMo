@@ -13,7 +13,7 @@ from diffusers.schedulers.scheduling_utils import (KarrasDiffusionSchedulers,
                                                    SchedulerOutput)
 from diffusers.utils import deprecate, is_scipy_available
 
-import config
+from ... import config
 
 if is_scipy_available():
     import scipy.stats

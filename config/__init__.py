@@ -1,3 +1,3 @@
-from config import get
+from .config import get
 
-__all__ = ['get']
+__all__ = [ 'get' ]

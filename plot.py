@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import re
 import numpy as np
-import config
+from . import config
 
 def parse_file(file_path):
     """Parse the variance data file and extract timesteps and variance values."""
