@@ -12,8 +12,9 @@ from diffusers.schedulers.scheduling_utils import (KarrasDiffusionSchedulers,
                                                    SchedulerMixin,
                                                    SchedulerOutput)
 from diffusers.utils import deprecate, is_scipy_available
-
-from ... import config
+import os
+from ...config import config
+from ...utils import compute_best_buddies, compute_best_buddies_continuity_loss
 
 if is_scipy_available():
     import scipy.stats
@@ -706,12 +707,30 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
         frames, height, width, channels = latent_frames.shape
 
         motion_frames = []
+
+        motion_ni = []
+        disti = []
+        lossi = []
+        loss_ni = []
         for frame_idx in range(1, frames):
             current_frame = latent_frames[frame_idx, :, :, :]    # Shape: [60, 104, 16]
             previous_frame = latent_frames[frame_idx - 1, :, :, :]  # Shape: [60, 104, 16]
 
             motion_frame = torch.abs(current_frame - previous_frame)   # Shape: [60, 104, 16]
             motion_frames.append(motion_frame)
+
+            _, n, dist = compute_best_buddies(previous_frame, current_frame)
+            motion_ni.append(n)
+            disti.append(dist)
+
+            if frame_idx >= 2:
+                previous_previous_frame = latent_frames[frame_idx - 2, :, :, :]  # Shape: [60, 104, 16]
+                loss, n = compute_best_buddies_continuity_loss(previous_previous_frame, previous_frame, current_frame)
+                loss_ni.append(n)
+                lossi.append(loss)
+            else:
+                loss_ni.append(1.0)
+                lossi.append(0)
 
         motion_frames_tensor = torch.stack(motion_frames, dim=0)  # Shape: [20, 60, 104, 16]
         motion_variance_tensor = torch.var(motion_frames_tensor, dim=0, unbiased=False) # Shape: [60, 104, 16]
@@ -723,7 +742,6 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
 
         motion_max_variance = torch.max(mean_motion_variance_tensor)
         motion_appearance_max_variance = torch.max(mean_motion_appearance_variance_tensor)
-
 
         formatted_prompt = prompt.replace(" ", "_").replace("/",
                                                             "_")[:50]
@@ -747,6 +765,9 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             log_file.write(f"In timestep: {timestep.item()}\n")
             log_file.write(f"motion_variance: {motion_max_variance.item()}\n")
             log_file.write(f"motion_appearance_variance: {motion_appearance_max_variance.item()}\n")
+            log_file.write(f"mean best-buddy motion: {sum(disti)/sum(motion_ni)}\n")
+            log_file.write(f"mean best-buddy continuity loss: {sum(lossi)/sum(loss_ni)}\n")
+
             log_file.write("\n")
 
 
