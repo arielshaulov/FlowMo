@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.9
+FROM --platform=linux/amd64 pytorch/pytorch:2.4.0-cuda12.4-cudnn9-devel
 
 RUN pip install --upgrade pip
 
@@ -10,14 +10,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENV PYTORCH_KERNEL_CACHE_PATH="/home/ai_center/ai_users/itaytuviah/video-motion/cache"
-ENV TORCH_KERNEL_CACHE_DIR="/home/ai_center/ai_users/itaytuviah/video-motion/cache"
-ENV HF_HOME="/home/ai_center/ai_users/itaytuviah/video-motion/cache"
-ENV TRANSFORMERS_CACHE="/home/ai_center/ai_users/itaytuviah/video-motion/cache"
-ENV WANDB_CACHE_DIR="/home/ai_center/ai_users/itaytuviah/video-motion/cache"
-ENV WANDB_DIR="/home/ai_center/ai_users/itaytuviah/video-motion/cache/wandb/"
-ENV WANDB_CONFIG_DIR="/home/ai_center/ai_users/itaytuviah/video-motion/cache/wandb/"
-ENV WANDB_TEMP_DIR="/home/ai_center/ai_users/itaytuviah/video-motion/cache/wandb/"
-ENV WANDB_DATA_DIR="/home/ai_center/ai_users/itaytuviah/video-motion/cache/wandb/"
+ENV PYTORCH_KERNEL_CACHE_PATH="/storage/itaytuviah/cache"
+ENV TORCH_KERNEL_CACHE_DIR="/storage/itaytuviah/cache"
+ENV HF_HOME="/storage/itaytuviah/cache"
+ENV TRANSFORMERS_CACHE="/storage/itaytuviah/cache"
+ENV WANDB_CACHE_DIR="/storage/itaytuviah/cache"
+ENV WANDB_DIR="/storage/itaytuviah/cache/wandb/"
+ENV WANDB_CONFIG_DIR="/storage/itaytuviah/cache/wandb/"
+ENV WANDB_TEMP_DIR="/storage/itaytuviah/cache/wandb/"
+ENV WANDB_DATA_DIR="/storage/itaytuviah/cache/wandb/"
 
 CMD [ "bash" , "run.sh" ]
