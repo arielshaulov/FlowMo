@@ -1,0 +1,700 @@
+In timestep: 999
+mean_motion_appearance_mean_tensor: 0.060865432024002075
+max_motion_appearance_mean_tensor: 0.3919183611869812
+mean_motion_appearance_variance_tensor: 0.8865912556648254
+max_motion_appearance_variance_tensor: 1.2048976421356201
+mean_motion_mean_tensor: 0.0016749852802604437
+max_motion_mean_tensor: 0.06388397514820099
+mean_motion_variance_tensor: 1.8452365398406982
+max_motion_variance_tensor: 2.581468105316162
+mean_abs_motion_mean_tensor: 1.0852664709091187
+max_abs_motion_mean_tensor: 1.2787742614746094
+mean_abs_motion_variance_tensor: 0.6243423223495483
+max_abs_motion_variance_tensor: 0.9293675422668457
+
+In timestep: 995
+mean_motion_appearance_mean_tensor: 0.09801676869392395
+max_motion_appearance_mean_tensor: 0.4604838490486145
+mean_motion_appearance_variance_tensor: 0.8532624244689941
+max_motion_appearance_variance_tensor: 1.1495862007141113
+mean_motion_mean_tensor: 0.0014655328122898936
+max_motion_mean_tensor: 0.0646020844578743
+mean_motion_variance_tensor: 1.7674658298492432
+max_motion_variance_tensor: 2.460113048553467
+mean_abs_motion_mean_tensor: 1.0622066259384155
+max_abs_motion_mean_tensor: 1.2503597736358643
+mean_abs_motion_variance_tensor: 0.5982778668403625
+max_abs_motion_variance_tensor: 0.8860254883766174
+
+In timestep: 991
+mean_motion_appearance_mean_tensor: 0.07151609659194946
+max_motion_appearance_mean_tensor: 0.37595152854919434
+mean_motion_appearance_variance_tensor: 0.8403654098510742
+max_motion_appearance_variance_tensor: 1.2060928344726562
+mean_motion_mean_tensor: 3.135111182928085e-05
+max_motion_mean_tensor: 0.0612335242331028
+mean_motion_variance_tensor: 1.7374279499053955
+max_motion_variance_tensor: 2.382766008377075
+mean_abs_motion_mean_tensor: 1.0530836582183838
+max_abs_motion_mean_tensor: 1.244107723236084
+mean_abs_motion_variance_tensor: 0.5882585048675537
+max_abs_motion_variance_tensor: 0.8647387027740479
+
+In timestep: 987
+mean_motion_appearance_mean_tensor: 0.08093543350696564
+max_motion_appearance_mean_tensor: 0.4205305278301239
+mean_motion_appearance_variance_tensor: 0.8463842272758484
+max_motion_appearance_variance_tensor: 1.198913812637329
+mean_motion_mean_tensor: -0.0008193228859454393
+max_motion_mean_tensor: 0.06289179623126984
+mean_motion_variance_tensor: 1.7443091869354248
+max_motion_variance_tensor: 2.400794744491577
+mean_abs_motion_mean_tensor: 1.055221676826477
+max_abs_motion_mean_tensor: 1.2432442903518677
+mean_abs_motion_variance_tensor: 0.5905274152755737
+max_abs_motion_variance_tensor: 0.8649539947509766
+
+In timestep: 982
+mean_motion_appearance_mean_tensor: 0.08456982672214508
+max_motion_appearance_mean_tensor: 0.42246246337890625
+mean_motion_appearance_variance_tensor: 0.8749358057975769
+max_motion_appearance_variance_tensor: 1.9518945217132568
+mean_motion_mean_tensor: -0.00325731560587883
+max_motion_mean_tensor: 0.06211109459400177
+mean_motion_variance_tensor: 1.752544641494751
+max_motion_variance_tensor: 2.419656753540039
+mean_abs_motion_mean_tensor: 1.0577479600906372
+max_abs_motion_mean_tensor: 1.2431793212890625
+mean_abs_motion_variance_tensor: 0.5934371948242188
+max_abs_motion_variance_tensor: 0.8728004693984985
+
+In timestep: 978
+mean_motion_appearance_mean_tensor: 0.09739815443754196
+max_motion_appearance_mean_tensor: 0.4335693120956421
+mean_motion_appearance_variance_tensor: 0.8758333325386047
+max_motion_appearance_variance_tensor: 1.903965711593628
+mean_motion_mean_tensor: -0.00123298610560596
+max_motion_mean_tensor: 0.06311503052711487
+mean_motion_variance_tensor: 1.7578222751617432
+max_motion_variance_tensor: 2.439073324203491
+mean_abs_motion_mean_tensor: 1.0593332052230835
+max_abs_motion_mean_tensor: 1.248652458190918
+mean_abs_motion_variance_tensor: 0.5951901078224182
+max_abs_motion_variance_tensor: 0.8823758363723755
+
+In timestep: 973
+mean_motion_appearance_mean_tensor: 0.10242916643619537
+max_motion_appearance_mean_tensor: 0.4459388554096222
+mean_motion_appearance_variance_tensor: 0.886965811252594
+max_motion_appearance_variance_tensor: 1.8601371049880981
+mean_motion_mean_tensor: -0.0010962672531604767
+max_motion_mean_tensor: 0.06745744496583939
+mean_motion_variance_tensor: 1.7666093111038208
+max_motion_variance_tensor: 2.4301822185516357
+mean_abs_motion_mean_tensor: 1.0619797706604004
+max_abs_motion_mean_tensor: 1.2480018138885498
+mean_abs_motion_variance_tensor: 0.5982587337493896
+max_abs_motion_variance_tensor: 0.8758792877197266
+
+In timestep: 968
+mean_motion_appearance_mean_tensor: 0.10705231875181198
+max_motion_appearance_mean_tensor: 0.44852331280708313
+mean_motion_appearance_variance_tensor: 0.8919699788093567
+max_motion_appearance_variance_tensor: 1.9045268297195435
+mean_motion_mean_tensor: -0.000848334573674947
+max_motion_mean_tensor: 0.0691455826163292
+mean_motion_variance_tensor: 1.773175597190857
+max_motion_variance_tensor: 2.420586109161377
+mean_abs_motion_mean_tensor: 1.0638518333435059
+max_abs_motion_mean_tensor: 1.2562994956970215
+mean_abs_motion_variance_tensor: 0.6007276773452759
+max_abs_motion_variance_tensor: 0.8749994039535522
+
+In timestep: 963
+mean_motion_appearance_mean_tensor: 0.1086340919137001
+max_motion_appearance_mean_tensor: 0.45297226309776306
+mean_motion_appearance_variance_tensor: 0.8936691284179688
+max_motion_appearance_variance_tensor: 1.9483402967453003
+mean_motion_mean_tensor: -0.0004982604295946658
+max_motion_mean_tensor: 0.07021713256835938
+mean_motion_variance_tensor: 1.7755886316299438
+max_motion_variance_tensor: 2.4314982891082764
+mean_abs_motion_mean_tensor: 1.0645887851715088
+max_abs_motion_mean_tensor: 1.2602547407150269
+mean_abs_motion_variance_tensor: 0.6015191674232483
+max_abs_motion_variance_tensor: 0.875687837600708
+
+In timestep: 957
+mean_motion_appearance_mean_tensor: 0.1097612977027893
+max_motion_appearance_mean_tensor: 0.45976775884628296
+mean_motion_appearance_variance_tensor: 0.893375813961029
+max_motion_appearance_variance_tensor: 1.5493402481079102
+mean_motion_mean_tensor: -0.0003468360810074955
+max_motion_mean_tensor: 0.06907043606042862
+mean_motion_variance_tensor: 1.779463291168213
+max_motion_variance_tensor: 2.4591174125671387
+mean_abs_motion_mean_tensor: 1.0657719373703003
+max_abs_motion_mean_tensor: 1.2714905738830566
+mean_abs_motion_variance_tensor: 0.6028138995170593
+max_abs_motion_variance_tensor: 0.8839873671531677
+
+In timestep: 952
+mean_motion_appearance_mean_tensor: 0.11180587857961655
+max_motion_appearance_mean_tensor: 0.46936753392219543
+mean_motion_appearance_variance_tensor: 0.8960177302360535
+max_motion_appearance_variance_tensor: 1.4932670593261719
+mean_motion_mean_tensor: -0.0003173027071170509
+max_motion_mean_tensor: 0.06969299167394638
+mean_motion_variance_tensor: 1.7841204404830933
+max_motion_variance_tensor: 2.452481746673584
+mean_abs_motion_mean_tensor: 1.0671252012252808
+max_abs_motion_mean_tensor: 1.271200180053711
+mean_abs_motion_variance_tensor: 0.604479968547821
+max_abs_motion_variance_tensor: 0.8921445608139038
+
+In timestep: 946
+mean_motion_appearance_mean_tensor: 0.11308183521032333
+max_motion_appearance_mean_tensor: 0.4731948971748352
+mean_motion_appearance_variance_tensor: 0.9012838006019592
+max_motion_appearance_variance_tensor: 1.4841899871826172
+mean_motion_mean_tensor: -0.00036910033668391407
+max_motion_mean_tensor: 0.06884612888097763
+mean_motion_variance_tensor: 1.7914416790008545
+max_motion_variance_tensor: 2.475776195526123
+mean_abs_motion_mean_tensor: 1.0692145824432373
+max_abs_motion_mean_tensor: 1.2800201177597046
+mean_abs_motion_variance_tensor: 0.60716712474823
+max_abs_motion_variance_tensor: 0.9165427684783936
+
+In timestep: 940
+mean_motion_appearance_mean_tensor: 0.11421499401330948
+max_motion_appearance_mean_tensor: 0.47611919045448303
+mean_motion_appearance_variance_tensor: 0.9115007519721985
+max_motion_appearance_variance_tensor: 1.5093938112258911
+mean_motion_mean_tensor: -0.00038221862632781267
+max_motion_mean_tensor: 0.06922302395105362
+mean_motion_variance_tensor: 1.803507685661316
+max_motion_variance_tensor: 2.656728744506836
+mean_abs_motion_mean_tensor: 1.0726208686828613
+max_abs_motion_mean_tensor: 1.3256126642227173
+mean_abs_motion_variance_tensor: 0.6115253567695618
+max_abs_motion_variance_tensor: 0.9131131768226624
+
+In timestep: 934
+mean_motion_appearance_mean_tensor: 0.11759994924068451
+max_motion_appearance_mean_tensor: 0.48808035254478455
+mean_motion_appearance_variance_tensor: 0.9203059673309326
+max_motion_appearance_variance_tensor: 1.6056466102600098
+mean_motion_mean_tensor: -0.00033845091820694506
+max_motion_mean_tensor: 0.0698699951171875
+mean_motion_variance_tensor: 1.814320683479309
+max_motion_variance_tensor: 2.7223148345947266
+mean_abs_motion_mean_tensor: 1.0754865407943726
+max_abs_motion_mean_tensor: 1.3351154327392578
+mean_abs_motion_variance_tensor: 0.6157379150390625
+max_abs_motion_variance_tensor: 0.9648424386978149
+
+In timestep: 927
+mean_motion_appearance_mean_tensor: 0.11865344643592834
+max_motion_appearance_mean_tensor: 0.4840763807296753
+mean_motion_appearance_variance_tensor: 0.9215755462646484
+max_motion_appearance_variance_tensor: 1.7643100023269653
+mean_motion_mean_tensor: -0.00025266633019782603
+max_motion_mean_tensor: 0.06693725287914276
+mean_motion_variance_tensor: 1.821504831314087
+max_motion_variance_tensor: 2.9278807640075684
+mean_abs_motion_mean_tensor: 1.0774470567703247
+max_abs_motion_mean_tensor: 1.3639535903930664
+mean_abs_motion_variance_tensor: 0.6184119582176208
+max_abs_motion_variance_tensor: 0.9862983822822571
+
+In timestep: 920
+mean_motion_appearance_mean_tensor: 0.11989735066890717
+max_motion_appearance_mean_tensor: 0.48693564534187317
+mean_motion_appearance_variance_tensor: 0.9321472644805908
+max_motion_appearance_variance_tensor: 1.8366103172302246
+mean_motion_mean_tensor: -0.000190303340787068
+max_motion_mean_tensor: 0.06637115776538849
+mean_motion_variance_tensor: 1.8438156843185425
+max_motion_variance_tensor: 3.1790530681610107
+mean_abs_motion_mean_tensor: 1.0830172300338745
+max_abs_motion_mean_tensor: 1.4065639972686768
+mean_abs_motion_variance_tensor: 0.6272619366645813
+max_abs_motion_variance_tensor: 1.4050031900405884
+
+In timestep: 913
+mean_motion_appearance_mean_tensor: 0.11963262408971786
+max_motion_appearance_mean_tensor: 0.48788851499557495
+mean_motion_appearance_variance_tensor: 0.9314603805541992
+max_motion_appearance_variance_tensor: 1.8437851667404175
+mean_motion_mean_tensor: -0.00016699083789717406
+max_motion_mean_tensor: 0.06608124077320099
+mean_motion_variance_tensor: 1.8441194295883179
+max_motion_variance_tensor: 3.1509346961975098
+mean_abs_motion_mean_tensor: 1.0832831859588623
+max_abs_motion_mean_tensor: 1.4053025245666504
+mean_abs_motion_variance_tensor: 0.6269749402999878
+max_abs_motion_variance_tensor: 1.145278811454773
+
+In timestep: 906
+mean_motion_appearance_mean_tensor: 0.11993715912103653
+max_motion_appearance_mean_tensor: 0.4884240925312042
+mean_motion_appearance_variance_tensor: 0.9309206008911133
+max_motion_appearance_variance_tensor: 1.7995270490646362
+mean_motion_mean_tensor: -0.0001595567009644583
+max_motion_mean_tensor: 0.06675414741039276
+mean_motion_variance_tensor: 1.8421218395233154
+max_motion_variance_tensor: 3.1073522567749023
+mean_abs_motion_mean_tensor: 1.082999587059021
+max_abs_motion_mean_tensor: 1.4081627130508423
+mean_abs_motion_variance_tensor: 0.6258144974708557
+max_abs_motion_variance_tensor: 1.0838886499404907
+
+In timestep: 898
+mean_motion_appearance_mean_tensor: 0.12028723210096359
+max_motion_appearance_mean_tensor: 0.48841071128845215
+mean_motion_appearance_variance_tensor: 0.9332109093666077
+max_motion_appearance_variance_tensor: 1.8073115348815918
+mean_motion_mean_tensor: -5.962714203633368e-05
+max_motion_mean_tensor: 0.06831665337085724
+mean_motion_variance_tensor: 1.8448913097381592
+max_motion_variance_tensor: 3.2332422733306885
+mean_abs_motion_mean_tensor: 1.0837550163269043
+max_abs_motion_mean_tensor: 1.4434623718261719
+mean_abs_motion_variance_tensor: 0.6267111897468567
+max_abs_motion_variance_tensor: 1.1624886989593506
+
+In timestep: 890
+mean_motion_appearance_mean_tensor: 0.12117846310138702
+max_motion_appearance_mean_tensor: 0.4887475371360779
+mean_motion_appearance_variance_tensor: 0.9323996901512146
+max_motion_appearance_variance_tensor: 1.7258760929107666
+mean_motion_mean_tensor: 6.379113074217457e-06
+max_motion_mean_tensor: 0.06972885131835938
+mean_motion_variance_tensor: 1.843697190284729
+max_motion_variance_tensor: 3.0870370864868164
+mean_abs_motion_mean_tensor: 1.0835210084915161
+max_abs_motion_mean_tensor: 1.4121720790863037
+mean_abs_motion_variance_tensor: 0.6261318325996399
+max_abs_motion_variance_tensor: 1.120203971862793
+
+In timestep: 882
+mean_motion_appearance_mean_tensor: 0.1221739798784256
+max_motion_appearance_mean_tensor: 0.4857475459575653
+mean_motion_appearance_variance_tensor: 0.9327876567840576
+max_motion_appearance_variance_tensor: 1.6768691539764404
+mean_motion_mean_tensor: 7.339597505051643e-05
+max_motion_mean_tensor: 0.07084274291992188
+mean_motion_variance_tensor: 1.843613624572754
+max_motion_variance_tensor: 2.9871983528137207
+mean_abs_motion_mean_tensor: 1.0834736824035645
+max_abs_motion_mean_tensor: 1.3930745124816895
+mean_abs_motion_variance_tensor: 0.6262218952178955
+max_abs_motion_variance_tensor: 1.071967601776123
+
+In timestep: 873
+mean_motion_appearance_mean_tensor: 0.12284976989030838
+max_motion_appearance_mean_tensor: 0.4877275824546814
+mean_motion_appearance_variance_tensor: 0.9344298243522644
+max_motion_appearance_variance_tensor: 1.7207390069961548
+mean_motion_mean_tensor: 9.971507824957371e-05
+max_motion_mean_tensor: 0.0717674270272255
+mean_motion_variance_tensor: 1.8461482524871826
+max_motion_variance_tensor: 3.008653402328491
+mean_abs_motion_mean_tensor: 1.084218978881836
+max_abs_motion_mean_tensor: 1.3654006719589233
+mean_abs_motion_variance_tensor: 0.6270698308944702
+max_abs_motion_variance_tensor: 1.0799936056137085
+
+In timestep: 863
+mean_motion_appearance_mean_tensor: 0.12308189272880554
+max_motion_appearance_mean_tensor: 0.49050068855285645
+mean_motion_appearance_variance_tensor: 0.9367380142211914
+max_motion_appearance_variance_tensor: 1.817291021347046
+mean_motion_mean_tensor: 9.446070180274546e-05
+max_motion_mean_tensor: 0.0722755417227745
+mean_motion_variance_tensor: 1.8511956930160522
+max_motion_variance_tensor: 3.0392069816589355
+mean_abs_motion_mean_tensor: 1.085505723953247
+max_abs_motion_mean_tensor: 1.381788730621338
+mean_abs_motion_variance_tensor: 0.6290975213050842
+max_abs_motion_variance_tensor: 1.10312819480896
+
+In timestep: 854
+mean_motion_appearance_mean_tensor: 0.12408170104026794
+max_motion_appearance_mean_tensor: 0.4915582537651062
+mean_motion_appearance_variance_tensor: 0.9388778805732727
+max_motion_appearance_variance_tensor: 1.8500012159347534
+mean_motion_mean_tensor: 1.3796828170598019e-05
+max_motion_mean_tensor: 0.07135200500488281
+mean_motion_variance_tensor: 1.853790521621704
+max_motion_variance_tensor: 3.389404773712158
+mean_abs_motion_mean_tensor: 1.0861256122589111
+max_abs_motion_mean_tensor: 1.400813341140747
+mean_abs_motion_variance_tensor: 0.6301887631416321
+max_abs_motion_variance_tensor: 1.3579583168029785
+
+In timestep: 843
+mean_motion_appearance_mean_tensor: 0.12475171685218811
+max_motion_appearance_mean_tensor: 0.4933617115020752
+mean_motion_appearance_variance_tensor: 0.9417762756347656
+max_motion_appearance_variance_tensor: 1.7901405096054077
+mean_motion_mean_tensor: -1.2449371524780872e-06
+max_motion_mean_tensor: 0.0724082887172699
+mean_motion_variance_tensor: 1.8592007160186768
+max_motion_variance_tensor: 3.277942657470703
+mean_abs_motion_mean_tensor: 1.08760666847229
+max_abs_motion_mean_tensor: 1.4045372009277344
+mean_abs_motion_variance_tensor: 0.632138729095459
+max_abs_motion_variance_tensor: 1.352200984954834
+
+In timestep: 833
+mean_motion_appearance_mean_tensor: 0.12557482719421387
+max_motion_appearance_mean_tensor: 0.4920981228351593
+mean_motion_appearance_variance_tensor: 0.9432784914970398
+max_motion_appearance_variance_tensor: 1.8233942985534668
+mean_motion_mean_tensor: -7.972406456246972e-05
+max_motion_mean_tensor: 0.0719505324959755
+mean_motion_variance_tensor: 1.8614869117736816
+max_motion_variance_tensor: 3.080501079559326
+mean_abs_motion_mean_tensor: 1.0882694721221924
+max_abs_motion_mean_tensor: 1.4227920770645142
+mean_abs_motion_variance_tensor: 0.6328349113464355
+max_abs_motion_variance_tensor: 1.1845180988311768
+
+In timestep: 821
+mean_motion_appearance_mean_tensor: 0.12567143142223358
+max_motion_appearance_mean_tensor: 0.4937046766281128
+mean_motion_appearance_variance_tensor: 0.9443845748901367
+max_motion_appearance_variance_tensor: 1.814544439315796
+mean_motion_mean_tensor: -0.00011552814248716459
+max_motion_mean_tensor: 0.07157821208238602
+mean_motion_variance_tensor: 1.8634296655654907
+max_motion_variance_tensor: 3.042738437652588
+mean_abs_motion_mean_tensor: 1.088863730430603
+max_abs_motion_mean_tensor: 1.4219486713409424
+mean_abs_motion_variance_tensor: 0.6333960890769958
+max_abs_motion_variance_tensor: 1.1609857082366943
+
+In timestep: 809
+mean_motion_appearance_mean_tensor: 0.12631094455718994
+max_motion_appearance_mean_tensor: 0.4927600920200348
+mean_motion_appearance_variance_tensor: 0.9451915621757507
+max_motion_appearance_variance_tensor: 1.8011780977249146
+mean_motion_mean_tensor: -0.00010942485823761672
+max_motion_mean_tensor: 0.07064056396484375
+mean_motion_variance_tensor: 1.864052414894104
+max_motion_variance_tensor: 3.1034083366394043
+mean_abs_motion_mean_tensor: 1.0891271829605103
+max_abs_motion_mean_tensor: 1.4312564134597778
+mean_abs_motion_variance_tensor: 0.6334627270698547
+max_abs_motion_variance_tensor: 1.084436297416687
+
+In timestep: 796
+mean_motion_appearance_mean_tensor: 0.12695643305778503
+max_motion_appearance_mean_tensor: 0.4947662353515625
+mean_motion_appearance_variance_tensor: 0.9459092617034912
+max_motion_appearance_variance_tensor: 1.7739263772964478
+mean_motion_mean_tensor: -3.7118984437256586e-06
+max_motion_mean_tensor: 0.07090835273265839
+mean_motion_variance_tensor: 1.8649060726165771
+max_motion_variance_tensor: 3.082219123840332
+mean_abs_motion_mean_tensor: 1.089490532875061
+max_abs_motion_mean_tensor: 1.4196405410766602
+mean_abs_motion_variance_tensor: 0.6336525082588196
+max_abs_motion_variance_tensor: 1.0585198402404785
+
+In timestep: 783
+mean_motion_appearance_mean_tensor: 0.12768030166625977
+max_motion_appearance_mean_tensor: 0.4907059669494629
+mean_motion_appearance_variance_tensor: 0.9464480876922607
+max_motion_appearance_variance_tensor: 1.789515733718872
+mean_motion_mean_tensor: 2.1584395653917454e-05
+max_motion_mean_tensor: 0.07021675258874893
+mean_motion_variance_tensor: 1.8652260303497314
+max_motion_variance_tensor: 3.0611205101013184
+mean_abs_motion_mean_tensor: 1.0896297693252563
+max_abs_motion_mean_tensor: 1.4095020294189453
+mean_abs_motion_variance_tensor: 0.6337091326713562
+max_abs_motion_variance_tensor: 1.0758934020996094
+
+In timestep: 768
+mean_motion_appearance_mean_tensor: 0.1281447410583496
+max_motion_appearance_mean_tensor: 0.49266016483306885
+mean_motion_appearance_variance_tensor: 0.9477925896644592
+max_motion_appearance_variance_tensor: 1.7922401428222656
+mean_motion_mean_tensor: 5.352159132598899e-05
+max_motion_mean_tensor: 0.06980514526367188
+mean_motion_variance_tensor: 1.8680423498153687
+max_motion_variance_tensor: 3.082803249359131
+mean_abs_motion_mean_tensor: 1.0904473066329956
+max_abs_motion_mean_tensor: 1.4001415967941284
+mean_abs_motion_variance_tensor: 0.6346889734268188
+max_abs_motion_variance_tensor: 1.0648068189620972
+
+In timestep: 753
+mean_motion_appearance_mean_tensor: 0.1288979947566986
+max_motion_appearance_mean_tensor: 0.4964561462402344
+mean_motion_appearance_variance_tensor: 0.9496075510978699
+max_motion_appearance_variance_tensor: 1.777892827987671
+mean_motion_mean_tensor: 4.5487246097764e-05
+max_motion_mean_tensor: 0.07032566517591476
+mean_motion_variance_tensor: 1.871727466583252
+max_motion_variance_tensor: 3.182309627532959
+mean_abs_motion_mean_tensor: 1.0914708375930786
+max_abs_motion_mean_tensor: 1.3929948806762695
+mean_abs_motion_variance_tensor: 0.6360342502593994
+max_abs_motion_variance_tensor: 1.0949933528900146
+
+In timestep: 737
+mean_motion_appearance_mean_tensor: 0.1294364631175995
+max_motion_appearance_mean_tensor: 0.4975414276123047
+mean_motion_appearance_variance_tensor: 0.9508130550384521
+max_motion_appearance_variance_tensor: 1.770405650138855
+mean_motion_mean_tensor: 6.628939445363358e-05
+max_motion_mean_tensor: 0.07212629169225693
+mean_motion_variance_tensor: 1.8734675645828247
+max_motion_variance_tensor: 3.0719847679138184
+mean_abs_motion_mean_tensor: 1.0920093059539795
+max_abs_motion_mean_tensor: 1.4007028341293335
+mean_abs_motion_variance_tensor: 0.636618971824646
+max_abs_motion_variance_tensor: 1.079574704170227
+
+In timestep: 720
+mean_motion_appearance_mean_tensor: 0.13010215759277344
+max_motion_appearance_mean_tensor: 0.49961352348327637
+mean_motion_appearance_variance_tensor: 0.9523147344589233
+max_motion_appearance_variance_tensor: 1.776094675064087
+mean_motion_mean_tensor: 8.506068115821108e-05
+max_motion_mean_tensor: 0.07176847755908966
+mean_motion_variance_tensor: 1.8761301040649414
+max_motion_variance_tensor: 3.170975685119629
+mean_abs_motion_mean_tensor: 1.0927678346633911
+max_abs_motion_mean_tensor: 1.3898770809173584
+mean_abs_motion_variance_tensor: 0.6375678777694702
+max_abs_motion_variance_tensor: 1.0956737995147705
+
+In timestep: 701
+mean_motion_appearance_mean_tensor: 0.13048915565013885
+max_motion_appearance_mean_tensor: 0.4987618625164032
+mean_motion_appearance_variance_tensor: 0.9545274376869202
+max_motion_appearance_variance_tensor: 1.7880420684814453
+mean_motion_mean_tensor: 5.0047776312567294e-05
+max_motion_mean_tensor: 0.07106932997703552
+mean_motion_variance_tensor: 1.8799407482147217
+max_motion_variance_tensor: 3.0446956157684326
+mean_abs_motion_mean_tensor: 1.0939809083938599
+max_abs_motion_mean_tensor: 1.3932236433029175
+mean_abs_motion_variance_tensor: 0.638772189617157
+max_abs_motion_variance_tensor: 1.0510178804397583
+
+In timestep: 681
+mean_motion_appearance_mean_tensor: 0.13109280169010162
+max_motion_appearance_mean_tensor: 0.501660943031311
+mean_motion_appearance_variance_tensor: 0.9571959376335144
+max_motion_appearance_variance_tensor: 1.8172690868377686
+mean_motion_mean_tensor: -1.614076791156549e-05
+max_motion_mean_tensor: 0.07078666985034943
+mean_motion_variance_tensor: 1.8849835395812988
+max_motion_variance_tensor: 2.9853224754333496
+mean_abs_motion_mean_tensor: 1.0954339504241943
+max_abs_motion_mean_tensor: 1.3795647621154785
+mean_abs_motion_variance_tensor: 0.640518069267273
+max_abs_motion_variance_tensor: 1.0528258085250854
+
+In timestep: 660
+mean_motion_appearance_mean_tensor: 0.13174749910831451
+max_motion_appearance_mean_tensor: 0.5008361339569092
+mean_motion_appearance_variance_tensor: 0.9587766528129578
+max_motion_appearance_variance_tensor: 1.8036777973175049
+mean_motion_mean_tensor: -4.6405588363995776e-05
+max_motion_mean_tensor: 0.0687229186296463
+mean_motion_variance_tensor: 1.8879971504211426
+max_motion_variance_tensor: 3.0014760494232178
+mean_abs_motion_mean_tensor: 1.0963692665100098
+max_abs_motion_mean_tensor: 1.3851311206817627
+mean_abs_motion_variance_tensor: 0.6414754986763
+max_abs_motion_variance_tensor: 1.062348484992981
+
+In timestep: 636
+mean_motion_appearance_mean_tensor: 0.13214080035686493
+max_motion_appearance_mean_tensor: 0.4983891546726227
+mean_motion_appearance_variance_tensor: 0.9618911147117615
+max_motion_appearance_variance_tensor: 1.8138025999069214
+mean_motion_mean_tensor: -8.587318006902933e-05
+max_motion_mean_tensor: 0.06969718635082245
+mean_motion_variance_tensor: 1.8952330350875854
+max_motion_variance_tensor: 3.027052164077759
+mean_abs_motion_mean_tensor: 1.098458170890808
+max_abs_motion_mean_tensor: 1.3905456066131592
+mean_abs_motion_variance_tensor: 0.6439563632011414
+max_abs_motion_variance_tensor: 1.0829706192016602
+
+In timestep: 611
+mean_motion_appearance_mean_tensor: 0.13278010487556458
+max_motion_appearance_mean_tensor: 0.49971771240234375
+mean_motion_appearance_variance_tensor: 0.9650457501411438
+max_motion_appearance_variance_tensor: 1.8757734298706055
+mean_motion_mean_tensor: -0.00012008466001134366
+max_motion_mean_tensor: 0.06929206848144531
+mean_motion_variance_tensor: 1.9015581607818604
+max_motion_variance_tensor: 3.044994831085205
+mean_abs_motion_mean_tensor: 1.1002891063690186
+max_abs_motion_mean_tensor: 1.3928191661834717
+mean_abs_motion_variance_tensor: 0.6461334824562073
+max_abs_motion_variance_tensor: 1.1022087335586548
+
+In timestep: 584
+mean_motion_appearance_mean_tensor: 0.1334500014781952
+max_motion_appearance_mean_tensor: 0.5019736886024475
+mean_motion_appearance_variance_tensor: 0.9686781764030457
+max_motion_appearance_variance_tensor: 1.9046006202697754
+mean_motion_mean_tensor: -0.00016063451766967773
+max_motion_mean_tensor: 0.07002449035644531
+mean_motion_variance_tensor: 1.9091771841049194
+max_motion_variance_tensor: 3.062708854675293
+mean_abs_motion_mean_tensor: 1.102508306503296
+max_abs_motion_mean_tensor: 1.3992258310317993
+mean_abs_motion_variance_tensor: 0.6486774682998657
+max_abs_motion_variance_tensor: 1.0968544483184814
+
+In timestep: 555
+mean_motion_appearance_mean_tensor: 0.13423892855644226
+max_motion_appearance_mean_tensor: 0.5059717297554016
+mean_motion_appearance_variance_tensor: 0.9719955325126648
+max_motion_appearance_variance_tensor: 1.8680261373519897
+mean_motion_mean_tensor: -0.00020020955707877874
+max_motion_mean_tensor: 0.07000331580638885
+mean_motion_variance_tensor: 1.9165825843811035
+max_motion_variance_tensor: 3.1410324573516846
+mean_abs_motion_mean_tensor: 1.1046080589294434
+max_abs_motion_mean_tensor: 1.4170258045196533
+mean_abs_motion_variance_tensor: 0.6512896418571472
+max_abs_motion_variance_tensor: 1.0640711784362793
+
+In timestep: 522
+mean_motion_appearance_mean_tensor: 0.13496379554271698
+max_motion_appearance_mean_tensor: 0.5061724185943604
+mean_motion_appearance_variance_tensor: 0.977860689163208
+max_motion_appearance_variance_tensor: 1.889331579208374
+mean_motion_mean_tensor: -0.0002776555484160781
+max_motion_mean_tensor: 0.0694553330540657
+mean_motion_variance_tensor: 1.9300669431686401
+max_motion_variance_tensor: 3.06026554107666
+mean_abs_motion_mean_tensor: 1.1085313558578491
+max_abs_motion_mean_tensor: 1.3990013599395752
+mean_abs_motion_variance_tensor: 0.6557856202125549
+max_abs_motion_variance_tensor: 1.087472915649414
+
+In timestep: 487
+mean_motion_appearance_mean_tensor: 0.13574309647083282
+max_motion_appearance_mean_tensor: 0.5080553293228149
+mean_motion_appearance_variance_tensor: 0.9817993640899658
+max_motion_appearance_variance_tensor: 1.8819026947021484
+mean_motion_mean_tensor: -0.00033801337121985853
+max_motion_mean_tensor: 0.07126244902610779
+mean_motion_variance_tensor: 1.9394508600234985
+max_motion_variance_tensor: 3.105114459991455
+mean_abs_motion_mean_tensor: 1.1113250255584717
+max_abs_motion_mean_tensor: 1.4116836786270142
+mean_abs_motion_variance_tensor: 0.6588176488876343
+max_abs_motion_variance_tensor: 1.0779649019241333
+
+In timestep: 448
+mean_motion_appearance_mean_tensor: 0.13671360909938812
+max_motion_appearance_mean_tensor: 0.5095550417900085
+mean_motion_appearance_variance_tensor: 0.9881705641746521
+max_motion_appearance_variance_tensor: 1.8788325786590576
+mean_motion_mean_tensor: -0.0004172711924184114
+max_motion_mean_tensor: 0.07021930068731308
+mean_motion_variance_tensor: 1.9547351598739624
+max_motion_variance_tensor: 3.097074508666992
+mean_abs_motion_mean_tensor: 1.1157053709030151
+max_abs_motion_mean_tensor: 1.4073082208633423
+mean_abs_motion_variance_tensor: 0.6639614701271057
+max_abs_motion_variance_tensor: 1.081369400024414
+
+In timestep: 405
+mean_motion_appearance_mean_tensor: 0.13775230944156647
+max_motion_appearance_mean_tensor: 0.5167916417121887
+mean_motion_appearance_variance_tensor: 0.9941020011901855
+max_motion_appearance_variance_tensor: 1.8851726055145264
+mean_motion_mean_tensor: -0.00048213251284323633
+max_motion_mean_tensor: 0.07098378241062164
+mean_motion_variance_tensor: 1.9702249765396118
+max_motion_variance_tensor: 3.0910661220550537
+mean_abs_motion_mean_tensor: 1.1201506853103638
+max_abs_motion_mean_tensor: 1.4012486934661865
+mean_abs_motion_variance_tensor: 0.6691829562187195
+max_abs_motion_variance_tensor: 1.0939445495605469
+
+In timestep: 356
+mean_motion_appearance_mean_tensor: 0.13868747651576996
+max_motion_appearance_mean_tensor: 0.5180150270462036
+mean_motion_appearance_variance_tensor: 1.0011324882507324
+max_motion_appearance_variance_tensor: 1.884768009185791
+mean_motion_mean_tensor: -0.0005662424373440444
+max_motion_mean_tensor: 0.07031193375587463
+mean_motion_variance_tensor: 1.9918006658554077
+max_motion_variance_tensor: 3.1154537200927734
+mean_abs_motion_mean_tensor: 1.1263487339019775
+max_abs_motion_mean_tensor: 1.4081041812896729
+mean_abs_motion_variance_tensor: 0.6762750148773193
+max_abs_motion_variance_tensor: 1.1056491136550903
+
+In timestep: 302
+mean_motion_appearance_mean_tensor: 0.14013920724391937
+max_motion_appearance_mean_tensor: 0.5156502723693848
+mean_motion_appearance_variance_tensor: 1.0022435188293457
+max_motion_appearance_variance_tensor: 1.864980697631836
+mean_motion_mean_tensor: -0.0006653453456237912
+max_motion_mean_tensor: 0.07019636780023575
+mean_motion_variance_tensor: 2.0056371688842773
+max_motion_variance_tensor: 3.0866947174072266
+mean_abs_motion_mean_tensor: 1.1301604509353638
+max_abs_motion_mean_tensor: 1.3873090744018555
+mean_abs_motion_variance_tensor: 0.6808801889419556
+max_abs_motion_variance_tensor: 1.104737401008606
+
+In timestep: 241
+mean_motion_appearance_mean_tensor: 0.1424255222082138
+max_motion_appearance_mean_tensor: 0.5161715149879456
+mean_motion_appearance_variance_tensor: 0.9914910793304443
+max_motion_appearance_variance_tensor: 1.877413034439087
+mean_motion_mean_tensor: -0.0007584406994283199
+max_motion_mean_tensor: 0.06837000697851181
+mean_motion_variance_tensor: 2.0020246505737305
+max_motion_variance_tensor: 3.0554327964782715
+mean_abs_motion_mean_tensor: 1.128688097000122
+max_abs_motion_mean_tensor: 1.3821864128112793
+mean_abs_motion_variance_tensor: 0.6795598864555359
+max_abs_motion_variance_tensor: 1.0997895002365112
+
+In timestep: 172
+mean_motion_appearance_mean_tensor: 0.14696849882602692
+max_motion_appearance_mean_tensor: 0.5047511458396912
+mean_motion_appearance_variance_tensor: 0.9464977979660034
+max_motion_appearance_variance_tensor: 1.811519980430603
+mean_motion_mean_tensor: -0.0008778094197623432
+max_motion_mean_tensor: 0.06732836365699768
+mean_motion_variance_tensor: 1.9314616918563843
+max_motion_variance_tensor: 2.9402315616607666
+mean_abs_motion_mean_tensor: 1.1066473722457886
+max_abs_motion_mean_tensor: 1.371822714805603
+mean_abs_motion_variance_tensor: 0.6562631726264954
+max_abs_motion_variance_tensor: 1.0448640584945679
+
+In timestep: 92
+mean_motion_appearance_mean_tensor: 0.15512549877166748
+max_motion_appearance_mean_tensor: 0.4915977716445923
+mean_motion_appearance_variance_tensor: 0.787839949131012
+max_motion_appearance_variance_tensor: 1.6568727493286133
+mean_motion_mean_tensor: -0.0008458003285340965
+max_motion_mean_tensor: 0.0668344497680664
+mean_motion_variance_tensor: 1.6211495399475098
+max_motion_variance_tensor: 2.574174642562866
+mean_abs_motion_mean_tensor: 1.0055209398269653
+max_abs_motion_mean_tensor: 1.280002236366272
+mean_abs_motion_variance_tensor: 0.554154098033905
+max_abs_motion_variance_tensor: 0.9445376396179199
+

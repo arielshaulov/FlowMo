@@ -41,7 +41,6 @@ def device_safe_linear(input, weight, bias=None):
     return original_linear(input, weight, bias)
 F.linear = device_safe_linear
 
-
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
 
 EXAMPLE_PROMPT = {
@@ -360,7 +359,7 @@ def generate(args):
         motion_optimizer = None
         if args.optimize:
             motion_optimizer = MotionVarianceOptimizer(
-                iterations=1,
+                iterations=3,
                 lr=0.005,
                 start_after_steps=int(args.sample_steps * 0.01),  # Start after 20% of steps
                 apply_frequency=1
@@ -457,7 +456,9 @@ def generate(args):
             formatted_prompt = args.prompt.replace(" ", "_").replace("/",
                                                                      "_")[:50]
             suffix = '.png' if "t2i" in args.task else '.mp4'
-            args.save_file = f"{args.ring_size}_{formatted_prompt}_{args.base_seed}" + suffix
+            is_optimized_suffix = "_optimized" if args.optimize else ""
+            extras = ".test_argmax_38_3"
+            args.save_file = f"{args.ring_size}_{formatted_prompt}_{args.base_seed}" + is_optimized_suffix + extras + suffix
 
         if "t2i" in args.task:
             logging.info(f"Saving generated image to {args.save_file}")
@@ -482,9 +483,10 @@ def generate(args):
                                                         "_")[:50]
     suffix = ".txt"
     suffix1 = ".png"
-    save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{args.base_seed}" + suffix
-    output_image_path = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{args.base_seed}_plot" + suffix1
-    plot_variances(save_file, output_image_path, args.base_seed)
+    is_optimized = "_optimized" if args.optimize else ""
+    save_file = f"/home/ai_center/ai_users/itaytuviah/video-motion/{formatted_prompt}_{args.base_seed}" + is_optimized + suffix
+    output_image_path = f"/home/ai_center/ai_users/itaytuviah/video-motion/{formatted_prompt}_{args.base_seed}_plot" + is_optimized + suffix1
+    # plot_variances(save_file, output_image_path, args.base_seed)
 
 
 def plot_variances(file_path, output_image_path, seed):
@@ -538,7 +540,6 @@ def plot_variances(file_path, output_image_path, seed):
     print(f"Plot saved as {output_image_path}")
 
 
-
 if __name__ == "__main__":
     args = _parse_args()
 
@@ -552,4 +553,3 @@ if __name__ == "__main__":
             generate(args)
             torch.cuda.empty_cache()
             gc.collect()
-

@@ -262,7 +262,8 @@ class WanT2V:
                     noise_pred_cond - noise_pred_uncond)
 
                 # Apply motion optimization if enabled and we're at the right step
-                timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946]
+                # timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946]
+                timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946, 940, 934, 927, 920, 913, 906, 898, 890, 882, 873, 863, 854, 843 ] #, 833, 821, 809, 796, 783, 768, 753, 737, 720, 701, 681, 660, 636, 611]
                 if motion_optimizer is not None and t.item() in timestemps:
                     # Save model state before optimization if we have a state_checkpointer
                     if state_checkpointer is not None:

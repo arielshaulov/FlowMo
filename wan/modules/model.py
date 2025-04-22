@@ -11,12 +11,43 @@ from .attention import flash_attention
 
 __all__ = ['WanModel']
 
+import subprocess
+
+def printGPUState():
+    try:
+        result = subprocess.run(
+            [
+                "nvidia-smi",
+                "--query-gpu=index,name,memory.total,memory.used,utilization.gpu,utilization.memory",
+                "--format=csv,noheader,nounits"
+            ],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+
+        lines = result.stdout.strip().split("\n")
+        for line in lines:
+            index, name, mem_total, mem_used, util_gpu, util_mem = [item.strip() for item in line.split(",")]
+            print(f"GPU {index}: {name}")
+            print(f"  Memory Used: {mem_used} MB / {mem_total} MB")
+            print(f"  GPU Utilization: {util_gpu}%")
+            print(f"  Memory Utilization: {util_mem}%")
+            print()
+
+    except subprocess.CalledProcessError as e:
+        print("Failed to run nvidia-smi:", e)
+    except FileNotFoundError:
+        print("nvidia-smi not found. Make sure NVIDIA drivers are installed and accessible.")
 
 def get_optimal_device(tensor_shape=None):
     """
     Select the GPU with the most available memory to balance workload.
     Returns the device with most available memory.
     """
+    
+    # printGPUState()
+    
     max_free = 0
     optimal_device = "cuda:0"  # Default fallback
     
@@ -37,7 +68,7 @@ def get_optimal_device(tensor_shape=None):
         if free_memory > max_free:
             max_free = free_memory
             optimal_device = device
-            
+
     return optimal_device
 
 

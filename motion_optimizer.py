@@ -191,9 +191,20 @@ class MotionVarianceOptimizer:
         Returns:
             Optimized sample tensor
         """
+        logfile = 'test_logs.txt'
+
+        with open(logfile, 'a') as log:
+            log.write(f'timestep={curr_step}, start_after_steps={self.start_after_steps}, apply_frequency={self.apply_frequency}...')
+
         # Only apply after certain steps and at specified frequency
         if curr_step < self.start_after_steps or curr_step % self.apply_frequency != 0:
+            with open(logfile, 'a') as log:
+                log.write(f'\tSkipped!\n')
             return sample
+        
+        with open(logfile, 'a') as log:
+                log.write(f'\tOptimizing!\n')
+                log.write(f'\titerations={self.iterations}, lr={self.lr}, use_softmax_mean={self.use_softmax_mean}, temperature={self.temperature}\n')
         
         # Save model state
         model_state = self._save_model_state(model)

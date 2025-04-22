@@ -703,30 +703,57 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
         latent_frames = unbatched.permute(1, 2, 3, 0) # shape: [21, 60, 104, 16]
         frames, height, width, channels = latent_frames.shape
 
+        ### Motion Appearance Mean
+        motion_appearance_mean_tensor = latent_frames.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
+        mean_motion_appearance_mean_tensor = motion_appearance_mean_tensor.mean() # to log
+        max_motion_appearance_mean_tensor = motion_appearance_mean_tensor.max() # to log
+
+        ### Motion Appearance Variance
+        motion_appearance_variance_tensor = torch.var(latent_frames, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104, 16]
+        mean_motion_appearance_variance_tensor = motion_appearance_variance_tensor.mean() # to log
+        max_motion_appearance_variance_tensor = motion_appearance_variance_tensor.max() # to log
+
         motion_frames = []
         for frame_idx in range(1, frames):
             current_frame = latent_frames[frame_idx, :, :, :]    # Shape: [60, 104, 16]
             previous_frame = latent_frames[frame_idx - 1, :, :, :]  # Shape: [60, 104, 16]
 
-            motion_frame = torch.abs(current_frame - previous_frame)   # Shape: [60, 104, 16]
+            # previously: motion_frame = torch.abs(current_frame - previous_frame)   # Shape: [60, 104, 16]
+            motion_frame = current_frame - previous_frame   # Shape: [60, 104, 16]
+        
             motion_frames.append(motion_frame)
 
         motion_frames_tensor = torch.stack(motion_frames, dim=0)  # Shape: [20, 60, 104, 16]
-        motion_variance_tensor = torch.var(motion_frames_tensor, dim=0, unbiased=False) # Shape: [60, 104, 16]
+        abs_motion_frames_tensor = torch.abs(motion_frames_tensor)  # Shape: [20, 60, 104, 16]
+
+        ### Motion Mean
+        mean_motion_frames_tensor = motion_frames_tensor.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
+        mean_motion_mean_tensor = mean_motion_frames_tensor.mean() # to log
+        max_motion_mean_tensor = mean_motion_frames_tensor.max() # to log
+
+        ### Abs Motion Mean
+        mean_abs_motion_frames_tensor = abs_motion_frames_tensor.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
+        mean_abs_motion_mean_tensor = mean_abs_motion_frames_tensor.mean() # to log
+        max_abs_motion_mean_tensor = mean_abs_motion_frames_tensor.max() # to log
+
+        ### Motion Variance
+        motion_variance_tensor = torch.var(motion_frames_tensor, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104]
+        mean_motion_variance_tensor = motion_variance_tensor.mean() # to log
+        max_motion_variance_tensor = motion_variance_tensor.max() # to log
+
+        ### Abs Motion Variance
+        abs_motion_variance_tensor = torch.var(abs_motion_frames_tensor, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104]
+        mean_abs_motion_variance_tensor = abs_motion_variance_tensor.mean() # to log
+        max_abs_motion_variance_tensor = abs_motion_variance_tensor.max() # to log
+        argmax_abs_motion_variance_tensor = torch.unravel_index(abs_motion_variance_tensor.argmax(), abs_motion_variance_tensor.shape)
         
-        motion_appearance_variance_tensor = torch.var(latent_frames, dim=0, unbiased=False) # Shape: [60, 104, 16]
-
-        mean_motion_variance_tensor = motion_variance_tensor.mean(dim=-1)
-        mean_motion_appearance_variance_tensor = motion_appearance_variance_tensor.mean(dim=-1)
-
-        motion_max_variance = torch.max(mean_motion_variance_tensor)
-        motion_appearance_max_variance = torch.max(mean_motion_appearance_variance_tensor)
-
 
         formatted_prompt = prompt.replace(" ", "_").replace("/",
                                                             "_")[:50]
-        suffix = ".txt"
-        save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{seed}" + suffix
+        suffix =  ".txt" 
+        extras = ".test_argmax_38_3"
+        is_optimized_suffix = "_optimized" 
+        save_file = f"/home/ai_center/ai_users/itaytuviah/video-motion/metrics_logs/{formatted_prompt}_{seed}" + is_optimized_suffix + extras + suffix
 
         def normalize_motion_variance(motion_max_variance):
             value = motion_max_variance
@@ -736,14 +763,28 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
                 normalized_value = min_val + (max_val - min_val) * ((value - 1.3) / (value - 1.3 + 1))
                 return normalized_value
             else:
-                return value          
+                return value
 
         # motion_max_variance = normalize_motion_variance(motion_max_variance.item())
 
         with open(save_file, "a") as log_file:
             log_file.write(f"In timestep: {timestep.item()}\n")
-            log_file.write(f"motion_variance: {motion_max_variance.item()}\n")
-            log_file.write(f"motion_appearance_variance: {motion_appearance_max_variance.item()}\n")
+            
+            log_file.write(f"mean_motion_appearance_mean_tensor: {mean_motion_appearance_mean_tensor.item()}\n")
+            log_file.write(f"max_motion_appearance_mean_tensor: {max_motion_appearance_mean_tensor.item()}\n")
+            log_file.write(f"mean_motion_appearance_variance_tensor: {mean_motion_appearance_variance_tensor.item()}\n")
+            log_file.write(f"max_motion_appearance_variance_tensor: {max_motion_appearance_variance_tensor.item()}\n")
+            log_file.write(f"mean_motion_mean_tensor: {mean_motion_mean_tensor.item()}\n")
+            log_file.write(f"max_motion_mean_tensor: {max_motion_mean_tensor.item()}\n")
+            log_file.write(f"mean_motion_variance_tensor: {mean_motion_variance_tensor.item()}\n")
+            log_file.write(f"max_motion_variance_tensor: {max_motion_variance_tensor.item()}\n")
+            log_file.write(f"mean_abs_motion_mean_tensor: {mean_abs_motion_mean_tensor.item()}\n")
+            log_file.write(f"max_abs_motion_mean_tensor: {max_abs_motion_mean_tensor.item()}\n")
+            log_file.write(f"mean_abs_motion_variance_tensor: {mean_abs_motion_variance_tensor.item()}\n")
+            log_file.write(f"max_abs_motion_variance_tensor: {max_abs_motion_variance_tensor.item()}\n")
+            log_file.write(f"argmax_abs_motion_variance_tensor: {max_abs_motion_variance_tensor.item()}\n")
+            
+            
             log_file.write("\n")
 
 
