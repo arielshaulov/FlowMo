@@ -1,0 +1,14 @@
+Matplotlib created a temporary cache directory at /tmp/matplotlib-r_wf8mce because the default path (/a/home/cc/students/csguests/itaytuviah/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+  0%|          | 0/50 [00:00<?, ?it/s]  0%|          | 0/50 [00:03<?, ?it/s]
+Traceback (most recent call last):
+  File "generate.py", line 553, in <module>
+    generate(args)
+  File "generate.py", line 371, in generate
+    video = wan_t2v.generate(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/text2video.py", line 331, in generate
+    temp_x0 = sample_scheduler.step(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/utils/fm_solvers_unipc.py", line 864, in step
+    self.log_metrics(model_output[0], timestep, save_file, tensor_name="model_output")
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/utils/fm_solvers_unipc.py", line 732, in log_metrics
+    log_file.write(f"q75_abs_motion_variance_tensor: {q75.item()}\n")
+RuntimeError: a Tensor with 6240 elements cannot be converted to Scalar

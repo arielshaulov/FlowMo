@@ -1098,3 +1098,671 @@ timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
 	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
 timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
 	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=1, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=2, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=3, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=4, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=5, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=6, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=7, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=8, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=9, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=10, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=11, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=12, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=13, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=14, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=15, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=16, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=17, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=18, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=19, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=20, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=21, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=22, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=23, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=24, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0
+timestep=0, start_after_steps=0, apply_frequency=1...	Optimizing!
+	iterations=3, lr=0.005, use_softmax_mean=True, temperature=10.0

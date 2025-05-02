@@ -1,0 +1,12 @@
+Matplotlib created a temporary cache directory at /tmp/matplotlib-lzr6vykg because the default path (/a/home/cc/students/csguests/itaytuviah/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+  0%|          | 0/50 [00:00<?, ?it/s]  0%|          | 0/50 [00:05<?, ?it/s]
+Traceback (most recent call last):
+  File "generate.py", line 553, in <module>
+    generate(args)
+  File "generate.py", line 371, in generate
+    video = wan_t2v.generate(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/text2video.py", line 290, in generate
+    optimized_sample = motion_optimizer.optimize_noise_prediction(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/motion_optimizer.py", line 262, in optimize_noise_prediction
+    x0_pred = self.convert_model_output(
+AttributeError: 'MotionVarianceOptimizer' object has no attribute 'convert_model_output'

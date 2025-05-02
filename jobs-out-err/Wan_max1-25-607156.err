@@ -1,0 +1,14 @@
+Matplotlib created a temporary cache directory at /tmp/matplotlib-5iuavicr because the default path (/a/home/cc/students/csguests/itaytuviah/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+  0%|          | 0/50 [00:00<?, ?it/s]  0%|          | 0/50 [00:04<?, ?it/s]
+Traceback (most recent call last):
+  File "generate.py", line 553, in <module>
+    generate(args)
+  File "generate.py", line 371, in generate
+    video = wan_t2v.generate(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/text2video.py", line 290, in generate
+    optimized_sample = motion_optimizer.optimize_noise_prediction(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/motion_optimizer.py", line 262, in optimize_noise_prediction
+    x0_pred = sample_scheduler.convert_model_output(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/utils/fm_solvers_unipc.py", line 325, in convert_model_output
+    x0_pred = sample - sigma_t * model_output
+RuntimeError: The size of tensor a (51) must match the size of tensor b (104) at non-singleton dimension 4

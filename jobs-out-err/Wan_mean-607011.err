@@ -1,0 +1,14 @@
+Matplotlib created a temporary cache directory at /tmp/matplotlib-s8loa9nc because the default path (/a/home/cc/students/csguests/itaytuviah/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+  0%|          | 0/50 [00:00<?, ?it/s]  0%|          | 0/50 [00:04<?, ?it/s]
+Traceback (most recent call last):
+  File "generate.py", line 553, in <module>
+    generate(args)
+  File "generate.py", line 371, in generate
+    video = wan_t2v.generate(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/text2video.py", line 331, in generate
+    temp_x0 = sample_scheduler.step(
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/utils/fm_solvers_unipc.py", line 864, in step
+    self.log_metrics(model_output[0], timestep, save_file, tensor_name="model_output")
+  File "/home/ai_center/ai_users/itaytuviah/video-motion/wan/utils/fm_solvers_unipc.py", line 714, in log_metrics
+    euler_diff_mse = torch.mean((real_ij_var - expected_ij_var)**2)
+RuntimeError: The size of tensor a (102) must match the size of tensor b (103) at non-singleton dimension 1

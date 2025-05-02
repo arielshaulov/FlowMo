@@ -36,6 +36,8 @@ class WanT2V:
         dit_fsdp=False,
         use_usp=False,
         t5_cpu=False,
+        log_file_name=None,
+        optimizer_timesteps=None
     ):
         r"""
         Initializes the Wan text-to-video generation model components.
@@ -58,6 +60,9 @@ class WanT2V:
             t5_cpu (`bool`, *optional*, defaults to False):
                 Whether to place T5 model on CPU. Only works without t5_fsdp.
         """
+        self.log_file_name = log_file_name
+        self.optimizer_timesteps = optimizer_timesteps
+
         self.device = torch.device(f"cuda:{device_id}")
         self.device_id = device_id
         self.config = config
@@ -221,7 +226,8 @@ class WanT2V:
                 sample_scheduler = FlowUniPCMultistepScheduler(
                     num_train_timesteps=self.num_train_timesteps,
                     shift=1,
-                    use_dynamic_shifting=False)
+                    use_dynamic_shifting=False, 
+                    log_file_name=self.log_file_name)
                 sample_scheduler.set_timesteps(
                     sampling_steps, device=self.device, shift=shift)
                 timesteps = sample_scheduler.timesteps
@@ -238,8 +244,11 @@ class WanT2V:
             else:
                 raise NotImplementedError("Unsupported solver.")
 
+            
             # sample videos
-            latents = noise
+            ############### noise ##################
+            latents = noise 
+
 
             arg_c = {'context': context, 'seq_len': seq_len}
             arg_null = {'context': context_null, 'seq_len': seq_len}
@@ -258,12 +267,16 @@ class WanT2V:
                 noise_pred_uncond = self.model(
                     latent_model_input, t=timestep, **arg_null)[0]
 
+                ############### noise_pred is basically x1-x0 = model_output (with classifier-free guidance) ##################
                 noise_pred = noise_pred_uncond + guide_scale * (
                     noise_pred_cond - noise_pred_uncond)
 
                 # Apply motion optimization if enabled and we're at the right step
                 # timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946]
-                timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946, 940, 934, 927, 920, 913, 906, 898, 890, 882, 873, 863, 854, 843 ] #, 833, 821, 809, 796, 783, 768, 753, 737, 720, 701, 681, 660, 636, 611]
+                all_timesteps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946, 940, 934, 927, 920, 913, 906, 898, 890, 882, 873, 863, 854, 843, 833, 821, 809, 796, 783, 768, 753, 737, 720, 701, 681, 660, 636, 611, 584, 555, 522, 487, 448, 405, 356, 302, 241, 172, 92]
+
+                timestemps = [ t for i, t in enumerate(all_timesteps) if i in self.optimizer_timesteps ]
+
                 if motion_optimizer is not None and t.item() in timestemps:
                     # Save model state before optimization if we have a state_checkpointer
                     if state_checkpointer is not None:
@@ -281,6 +294,7 @@ class WanT2V:
                         param.requires_grad_(False)
                     
                     # Run optimization (this method handles its own gradient checkpointing)
+                    
                     optimized_sample = motion_optimizer.optimize_noise_prediction(
                         model=self.model,
                         sample=latents[0],
@@ -289,7 +303,10 @@ class WanT2V:
                         arg_null=arg_null,
                         guide_scale=guide_scale,
                         curr_step=step_idx,
-                        total_steps=len(timesteps)
+                        total_steps=len(timesteps),
+                        sample_scheduler=sample_scheduler,
+                        prompt=input_prompt,
+                        seed=seed,
                     )
                     
                     # Restore model training state
@@ -307,6 +324,7 @@ class WanT2V:
                     
                     # Use optimized sample for scheduler step
                     with amp.autocast(dtype=self.param_dtype), torch.no_grad():
+                        ############### = x_t_pred = step(model_output, x_t) ##################
                         temp_x0 = sample_scheduler.step(
                             input_prompt,
                             seed,

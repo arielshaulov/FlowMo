@@ -5,6 +5,7 @@
 import math
 from typing import List, Optional, Tuple, Union
 
+import os
 import numpy as np
 import torch
 from diffusers.configuration_utils import ConfigMixin, register_to_config
@@ -12,6 +13,8 @@ from diffusers.schedulers.scheduling_utils import (KarrasDiffusionSchedulers,
                                                    SchedulerMixin,
                                                    SchedulerOutput)
 from diffusers.utils import deprecate, is_scipy_available
+
+from metric_utils import MetricCalculator
 
 if is_scipy_available():
     import scipy.stats
@@ -92,7 +95,9 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             timestep_spacing: str = "linspace",
             steps_offset: int = 0,
             final_sigmas_type: Optional[str] = "zero",  # "zero", "sigma_min"
+            log_file_name: Optional[str] = None,
     ):
+        self.metric_calculator = MetricCalculator()
 
         if solver_type not in ["bh1", "bh2"]:
             if solver_type in ["midpoint", "heun", "logrho"]:
@@ -101,6 +106,7 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
                 raise NotImplementedError(
                     f"{solver_type} is not implemented for {self.__class__}")
 
+        self.log_file_name = log_file_name
         self.predict_x0 = predict_x0
         # setable values
         self.num_inference_steps = None
@@ -119,6 +125,7 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
 
         self.model_outputs = [None] * solver_order
         self.timestep_list = [None] * solver_order
+        self.x1_noise = None
         self.lower_order_nums = 0
         self.disable_corrector = disable_corrector
         self.solver_p = solver_p
@@ -300,7 +307,12 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             `torch.Tensor`:
                 The converted model output.
         """
+
         timestep = args[0] if len(args) > 0 else kwargs.pop("timestep", None)
+
+        if self.step_index is None:
+            self._init_step_index(timestep)
+
         if sample is None:
             if len(args) > 1:
                 sample = args[1]
@@ -654,6 +666,18 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
         else:
             self._step_index = self._begin_index
 
+    def log_metrics(self, tensor, timestep, save_file, tensor_name):
+        metrics = self.metric_calculator.calculate_metrics(tensor)
+
+        with open(save_file, "a") as log_file:
+            log_file.write(f"In timestep: {timestep.item()}\n")
+            log_file.write(f"tensor_name: {tensor_name}\n") 
+            
+            for metric_name, metric_value in metrics.items():
+                log_file.write(f"{metric_name}: {metric_value.item()}\n")
+
+            log_file.write("\n")
+
     def step(self,
              prompt,
              seed,
@@ -699,115 +723,43 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             self.last_sample is not None  # pyright: ignore
         )
 
-        unbatched = model_output[0]
-        latent_frames = unbatched.permute(1, 2, 3, 0) # shape: [21, 60, 104, 16]
-        frames, height, width, channels = latent_frames.shape
+        # def normalize_motion_variance(motion_max_variance):
+        #     value = motion_max_variance
 
-        ### Motion Appearance Mean
-        motion_appearance_mean_tensor = latent_frames.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
-        mean_motion_appearance_mean_tensor = motion_appearance_mean_tensor.mean() # to log
-        max_motion_appearance_mean_tensor = motion_appearance_mean_tensor.max() # to log
+        #     if value > 1.3:
+        #         min_val, max_val = 1.0, 1.25
+        #         normalized_value = min_val + (max_val - min_val) * ((value - 1.3) / (value - 1.3 + 1))
+        #         return normalized_value
+        #     else:
+        #         return value
 
-        ### Motion Appearance Variance
-        motion_appearance_variance_tensor = torch.var(latent_frames, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104, 16]
-        mean_motion_appearance_variance_tensor = motion_appearance_variance_tensor.mean() # to log
-        max_motion_appearance_variance_tensor = motion_appearance_variance_tensor.max() # to log
-
-        motion_frames = []
-        for frame_idx in range(1, frames):
-            current_frame = latent_frames[frame_idx, :, :, :]    # Shape: [60, 104, 16]
-            previous_frame = latent_frames[frame_idx - 1, :, :, :]  # Shape: [60, 104, 16]
-
-            # previously: motion_frame = torch.abs(current_frame - previous_frame)   # Shape: [60, 104, 16]
-            motion_frame = current_frame - previous_frame   # Shape: [60, 104, 16]
-        
-            motion_frames.append(motion_frame)
-
-        motion_frames_tensor = torch.stack(motion_frames, dim=0)  # Shape: [20, 60, 104, 16]
-        abs_motion_frames_tensor = torch.abs(motion_frames_tensor)  # Shape: [20, 60, 104, 16]
-
-        ### Motion Mean
-        mean_motion_frames_tensor = motion_frames_tensor.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
-        mean_motion_mean_tensor = mean_motion_frames_tensor.mean() # to log
-        max_motion_mean_tensor = mean_motion_frames_tensor.max() # to log
-
-        ### Abs Motion Mean
-        mean_abs_motion_frames_tensor = abs_motion_frames_tensor.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
-        mean_abs_motion_mean_tensor = mean_abs_motion_frames_tensor.mean() # to log
-        max_abs_motion_mean_tensor = mean_abs_motion_frames_tensor.max() # to log
-
-        ### Motion Variance
-        motion_variance_tensor = torch.var(motion_frames_tensor, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104]
-        mean_motion_variance_tensor = motion_variance_tensor.mean() # to log
-        max_motion_variance_tensor = motion_variance_tensor.max() # to log
-
-        ### Abs Motion Variance
-        abs_motion_variance_tensor = torch.var(abs_motion_frames_tensor, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104]
-        mean_abs_motion_variance_tensor = abs_motion_variance_tensor.mean() # to log
-        max_abs_motion_variance_tensor = abs_motion_variance_tensor.max() # to log
-        argmax_abs_motion_variance_tensor = torch.unravel_index(abs_motion_variance_tensor.argmax(), abs_motion_variance_tensor.shape)
-        
-
-        formatted_prompt = prompt.replace(" ", "_").replace("/",
-                                                            "_")[:50]
-        suffix =  ".txt" 
-        extras = ".test_argmax_38_3"
-        is_optimized_suffix = "_optimized" 
-        save_file = f"/home/ai_center/ai_users/itaytuviah/video-motion/metrics_logs/{formatted_prompt}_{seed}" + is_optimized_suffix + extras + suffix
-
-        def normalize_motion_variance(motion_max_variance):
-            value = motion_max_variance
-
-            if value > 1.3:
-                min_val, max_val = 1.0, 1.25
-                normalized_value = min_val + (max_val - min_val) * ((value - 1.3) / (value - 1.3 + 1))
-                return normalized_value
-            else:
-                return value
-
-        # motion_max_variance = normalize_motion_variance(motion_max_variance.item())
-
-        with open(save_file, "a") as log_file:
-            log_file.write(f"In timestep: {timestep.item()}\n")
-            
-            log_file.write(f"mean_motion_appearance_mean_tensor: {mean_motion_appearance_mean_tensor.item()}\n")
-            log_file.write(f"max_motion_appearance_mean_tensor: {max_motion_appearance_mean_tensor.item()}\n")
-            log_file.write(f"mean_motion_appearance_variance_tensor: {mean_motion_appearance_variance_tensor.item()}\n")
-            log_file.write(f"max_motion_appearance_variance_tensor: {max_motion_appearance_variance_tensor.item()}\n")
-            log_file.write(f"mean_motion_mean_tensor: {mean_motion_mean_tensor.item()}\n")
-            log_file.write(f"max_motion_mean_tensor: {max_motion_mean_tensor.item()}\n")
-            log_file.write(f"mean_motion_variance_tensor: {mean_motion_variance_tensor.item()}\n")
-            log_file.write(f"max_motion_variance_tensor: {max_motion_variance_tensor.item()}\n")
-            log_file.write(f"mean_abs_motion_mean_tensor: {mean_abs_motion_mean_tensor.item()}\n")
-            log_file.write(f"max_abs_motion_mean_tensor: {max_abs_motion_mean_tensor.item()}\n")
-            log_file.write(f"mean_abs_motion_variance_tensor: {mean_abs_motion_variance_tensor.item()}\n")
-            log_file.write(f"max_abs_motion_variance_tensor: {max_abs_motion_variance_tensor.item()}\n")
-            log_file.write(f"argmax_abs_motion_variance_tensor: {max_abs_motion_variance_tensor.item()}\n")
-            
-            
-            log_file.write("\n")
+        ############### save noise of first iteration ##################
+        if self.x1_noise is None:
+            self.x1_noise = sample 
 
 
-
-
+        ############### x0_pred = sample - sigma_t * model_output ##################
         model_output_convert = self.convert_model_output(
             prompt,
             seed,
             model_output, 
             sample=sample)
+        
         if use_corrector:
+            ############### correcting x_t with higher order terms ##################
             sample = self.multistep_uni_c_bh_update(
                 this_model_output=model_output_convert,
                 last_sample=self.last_sample,
                 this_sample=sample,
                 order=self.this_order,
             )
-
+        
+        ############### BEGIN: preparation of higher order terms before applying step function ##################
         for i in range(self.config.solver_order - 1):
             self.model_outputs[i] = self.model_outputs[i + 1]
             self.timestep_list[i] = self.timestep_list[i + 1]
 
-        self.model_outputs[-1] = model_output_convert
+        self.model_outputs[-1] = model_output_convert # x0_pred = signal pred
         self.timestep_list[-1] = timestep  # pyright: ignore
 
         if self.config.lower_order_final:
@@ -820,7 +772,9 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
         self.this_order = min(this_order,
                               self.lower_order_nums + 1)  # warmup for multistep
         assert self.this_order > 0
+        ############### END: preparation of higher order terms before applying step function ##################
 
+        ############### step function: x_{t-1} = c1 * x_t - c2 * model_output - higherorderterms ##################
         self.last_sample = sample
         prev_sample = self.multistep_uni_p_bh_update(
             model_output=model_output,  # pass the original non-converted model output, in case solver-p is used
@@ -830,9 +784,26 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
 
         if self.lower_order_nums < self.config.solver_order:
             self.lower_order_nums += 1
-
+       
         # upon completion increase step index by one
         self._step_index += 1  # pyright: ignore
+
+        ############### my logs ##################
+        if self.log_file_name:
+            tensor_dir = f"/home/ai_center/ai_data/itaytuviah/video-motion/tensors/{self.log_file_name}"
+            if not os.path.exists(tensor_dir):
+                os.makedirs(tensor_dir)
+
+            log_file_path = f"/home/ai_center/ai_users/itaytuviah/video-motion/metrics_logs/{self.log_file_name}.txt"
+
+            self.log_metrics(model_output[0], timestep, log_file_path, tensor_name="model_output")
+            self.log_metrics(prev_sample[0], timestep, log_file_path, tensor_name="prev_sample")
+            self.log_metrics(model_output_convert[0], timestep, log_file_path, tensor_name="x0_pred")
+
+            # torch.save(model_output[0],  f'{tensor_dir}/model_output_{self.step_index}.pt')
+            # torch.save(prev_sample[0], f'{tensor_dir}/prev_sample_{self.step_index}.pt')
+            # torch.save(model_output_convert[0], f'{tensor_dir}/x0_pred_{self.step_index}.pt')
+        ############### end my logs ##################
 
         if not return_dict:
             return (prev_sample,)

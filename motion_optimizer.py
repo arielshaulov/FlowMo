@@ -4,8 +4,9 @@ from typing import Dict, Any, Optional, Callable
 import torch.utils.checkpoint as checkpoint
 import types
 import os
-os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512,expandable_segments:True"
+from metric_utils import MetricCalculator
 
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512,expandable_segments:True"
 
 class ManualGradientCheckpointer:
     """
@@ -71,11 +72,12 @@ class MotionVarianceOptimizer:
     """
     def __init__(self, 
                  iterations=3,
-                 lr=0.001,
+                 lr=0.005,
                  start_after_steps=15, 
                  apply_frequency=5,
                  use_softmax_mean=True,
-                 temperature=10.0):
+                 temperature=10.0,
+                 metric='max_variance'):
         """
         Args:
             iterations: Number of optimization iterations per step
@@ -91,74 +93,9 @@ class MotionVarianceOptimizer:
         self.apply_frequency = apply_frequency
         self.use_softmax_mean = use_softmax_mean
         self.temperature = temperature
-        
-    def calculate_motion_variance(self, noise_pred):
-        """
-        Calculate motion variance in a differentiable way from noise prediction.
-        Handles 3D tensors with shape [C, F, H*W].
-        
-        Args:
-            noise_pred: Tensor of shape [C, F, H*W] - model's noise prediction
-            
-        Returns:
-            motion_variance_metric: Scalar tensor for optimization
-        """
-        # Get dimensions
-        if len(noise_pred.shape) == 3:  # [C, F, H*W]
-            channels, frames, flattened_hw = noise_pred.shape
-            
-            # Reshape to [F, H*W, C] for easier frame manipulation
-            latent_frames = noise_pred.permute(1, 2, 0)  # Shape: [frames, flattened_hw, channels]
-            
-            # Calculate frame-by-frame differences
-            motion_frames = []
-            for frame_idx in range(1, frames):
-                current_frame = latent_frames[frame_idx]       # Shape: [flattened_hw, channels]
-                previous_frame = latent_frames[frame_idx - 1]  # Shape: [flattened_hw, channels]
-                motion_frame = torch.abs(current_frame - previous_frame)
-                motion_frames.append(motion_frame)
-            
-            if not motion_frames:
-                # No motion to calculate for single-frame generation
-                return torch.tensor(0.0, device=noise_pred.device, requires_grad=True)
-            
-            motion_frames_tensor = torch.stack(motion_frames, dim=0)  # Shape: [frames-1, flattened_hw, channels]
-            
-            # Calculate variance across frames dimension
-            motion_variance = torch.var(motion_frames_tensor, dim=0, unbiased=False)  # Shape: [flattened_hw, channels]
-            
-            # Average across channels
-            mean_motion_variance = motion_variance.mean(dim=-1)  # Shape: [flattened_hw]
-        
-        elif len(noise_pred.shape) == 4:  # [C, F, H, W]
-            # Original implementation for 4D tensors
-            latent_frames = noise_pred.permute(1, 2, 3, 0)  # Shape: [frames, height, width, channels]
-            frames, height, width, channels = latent_frames.shape
-            
-            # Calculate frame-by-frame differences
-            motion_frames = []
-            for frame_idx in range(1, frames):
-                current_frame = latent_frames[frame_idx]
-                previous_frame = latent_frames[frame_idx - 1]
-                motion_frame = torch.abs(current_frame - previous_frame)
-                motion_frames.append(motion_frame)
-            
-            if not motion_frames:
-                # No motion to calculate for single-frame generation
-                return torch.tensor(0.0, device=noise_pred.device, requires_grad=True)
-            
-            motion_frames_tensor = torch.stack(motion_frames, dim=0)
-            motion_variance = torch.var(motion_frames_tensor, dim=0, unbiased=False)
-            
-            # Average across channels
-            mean_motion_variance = motion_variance.mean(dim=-1)  # [height, width]
-        else:
-            raise ValueError(f"Unsupported tensor shape: {noise_pred.shape}. Expected 3D or 4D tensor.")
-        
-        motion_variance_metric = torch.max(mean_motion_variance)
-        
-        return motion_variance_metric
-    
+        self.metric = metric
+        self.metric_calculator = MetricCalculator()
+
     def _save_model_state(self, model):
         """Save model parameter states to restore later"""
         state = {
@@ -174,7 +111,7 @@ class MotionVarianceOptimizer:
             if name in state['requires_grad']:
                 param.requires_grad_(state['requires_grad'][name])
     
-    def optimize_noise_prediction(self, model, sample, timestep, arg_c, arg_null, guide_scale, curr_step, total_steps):
+    def optimize_noise_prediction(self, model, sample, timestep, arg_c, arg_null, guide_scale, curr_step, total_steps, sample_scheduler, prompt, seed):
         """
         Memory-efficient sample optimization to minimize motion variance.
         
@@ -187,24 +124,14 @@ class MotionVarianceOptimizer:
             guide_scale: Classifier-free guidance scale
             curr_step: Current denoising step index
             total_steps: Total number of denoising steps
-            
+            sample_scheduler: Scheduler for sample generation
         Returns:
             Optimized sample tensor
         """
-        logfile = 'test_logs.txt'
-
-        with open(logfile, 'a') as log:
-            log.write(f'timestep={curr_step}, start_after_steps={self.start_after_steps}, apply_frequency={self.apply_frequency}...')
-
+        
         # Only apply after certain steps and at specified frequency
         if curr_step < self.start_after_steps or curr_step % self.apply_frequency != 0:
-            with open(logfile, 'a') as log:
-                log.write(f'\tSkipped!\n')
             return sample
-        
-        with open(logfile, 'a') as log:
-                log.write(f'\tOptimizing!\n')
-                log.write(f'\titerations={self.iterations}, lr={self.lr}, use_softmax_mean={self.use_softmax_mean}, temperature={self.temperature}\n')
         
         # Save model state
         model_state = self._save_model_state(model)
@@ -243,32 +170,35 @@ class MotionVarianceOptimizer:
                 # Run forward passes with gradient checkpointing
                 latent_model_input = [sample_opt]
                 
-                # Forward pass for conditional prediction 
-                outputs_cond = model(latent_model_input, t=timestep, **arg_c)
-                
-                # Ensure we have proper tensor outputs
-                if isinstance(outputs_cond, (list, tuple)):
-                    noise_pred_cond = outputs_cond[0]
-                else:
-                    noise_pred_cond = outputs_cond
+                noise_pred_cond = model(
+                    latent_model_input, t=timestep, **arg_c)
                 
                 # Free memory between forward passes
                 torch.cuda.synchronize()
                 torch.cuda.empty_cache()
                 gc.collect()
                 
-                outputs_uncond = model(latent_model_input, t=timestep, **arg_null)
+                noise_pred_uncond = model(
+                    latent_model_input, t=timestep, **arg_null)
+
+                ############### noise_pred is basically x1-x0 = model_output (with classifier-free guidance) ##################
+                noise_pred = noise_pred_uncond + guide_scale * (
+                    noise_pred_cond - noise_pred_uncond)
                 
-                if isinstance(outputs_uncond, (list, tuple)):
-                    noise_pred_uncond = outputs_uncond[0]
-                else:
-                    noise_pred_uncond = outputs_uncond
-                
-                noise_pred = noise_pred_uncond + guide_scale * (noise_pred_cond - noise_pred_uncond)
-                
-                motion_variance = self.calculate_motion_variance(noise_pred)
-                                
-                loss = motion_variance 
+                model_output = noise_pred.unsqueeze(0)
+                sample = sample.unsqueeze(0)
+
+                # Regular scheduler step without optimization
+                x0_pred = sample_scheduler.convert_model_output(
+                    prompt,
+                    seed,
+                    model_output, 
+                    sample=sample,
+                    timestep=timestep)[0]
+
+                self.metric_calculator.calculate_metrics(x0_pred)
+
+                loss = self.metric_calculator.get_metric(self.metric)
                 
                 # Backward pass
                 # print_gpu_memory_status()
@@ -279,19 +209,19 @@ class MotionVarianceOptimizer:
                     print("WARNING: No gradients computed for sample_opt!")
                     continue
                     
-                # print(f"Gradient magnitude: {sample_opt.grad.abs().sum().item()}")
+                print(f"Gradient magnitude: {sample_opt.grad.abs().sum().item()}")
                 
                 # Step optimizer
                 optimizer.step()
                 
                 # Track best result
-                current_variance = motion_variance.item()
+                current_variance = loss.item()
                 if current_variance < lowest_variance:
                     lowest_variance = current_variance
                     best_sample = sample_opt.detach().clone()
                 
                 # Explicit cleanup
-                del noise_pred_cond, noise_pred_uncond, noise_pred, motion_variance, loss
+                del noise_pred_cond, noise_pred_uncond, noise_pred, x0_pred, loss
                 torch.cuda.empty_cache()
                 gc.collect()
         

@@ -217,6 +217,34 @@ def _parse_args():
         "--optimize",
         type=str2bool,
         default=None,)
+    
+    parser.add_argument(
+        "--optimizer_metrics",
+        type=str,
+        nargs="+",  # Allows multiple metrics
+        default=['max_abs_motion_variance_tensor'],)
+
+    parser.add_argument(
+        "--experiment_name",
+        type=str,
+        default=None,)
+
+    parser.add_argument(
+        "--optimizer_lr",
+        type=float,
+        default=0.005,)
+
+    parser.add_argument(
+        "--optimizer_iterations",
+        type=int,
+        default=1,)
+    
+    parser.add_argument(
+        "--optimizer_timesteps",
+        type=int,
+        nargs="+",  # Allows multiple timesteps
+        default=[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ],
+    )
 
     parser.add_argument(
         "--prompts",
@@ -343,6 +371,13 @@ def generate(args):
             args.prompt = input_prompt[0]
             logging.info(f"Extended prompt: {args.prompt}")
 
+        formatted_prompt = args.prompt.replace(" ", "_").replace("/","_").replace("'","_")[:50]
+
+        experiment_string = f"C_{args.optimizer_metric}_t{min(args.optimizer_timesteps)}-{max(args.optimizer_timesteps)}_it{args.optimizer_iterations}_lr{args.optimizer_lr}"
+
+        is_optimized_suffix = "_optimized" if args.optimize else ""
+        log_file_name = f'{args.ring_size}_{formatted_prompt}_{args.base_seed}{is_optimized_suffix}.test_{args.experiment_name}_{experiment_string}'
+
         logging.info("Creating WanT2V pipeline.")
         wan_t2v = wan.WanT2V(
             config=cfg,
@@ -353,16 +388,19 @@ def generate(args):
             dit_fsdp=args.dit_fsdp,
             use_usp=(args.ulysses_size > 1 or args.ring_size > 1),
             t5_cpu=args.t5_cpu,
+            log_file_name=log_file_name,
+            optimizer_timesteps=args.optimizer_timesteps,
         )
 
 
         motion_optimizer = None
         if args.optimize:
             motion_optimizer = MotionVarianceOptimizer(
-                iterations=3,
-                lr=0.005,
+                iterations=args.optimizer_iterations,
+                lr=args.optimizer_lr,
                 start_after_steps=int(args.sample_steps * 0.01),  # Start after 20% of steps
-                apply_frequency=1
+                apply_frequency=1,
+                metric=args.optimizer_metric
             )
 
 
@@ -453,12 +491,8 @@ def generate(args):
     if rank == 0:
         if args.save_file is None:
             formatted_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-            formatted_prompt = args.prompt.replace(" ", "_").replace("/",
-                                                                     "_")[:50]
             suffix = '.png' if "t2i" in args.task else '.mp4'
-            is_optimized_suffix = "_optimized" if args.optimize else ""
-            extras = ".test_argmax_38_3"
-            args.save_file = f"{args.ring_size}_{formatted_prompt}_{args.base_seed}" + is_optimized_suffix + extras + suffix
+            args.save_file = f"generated_videos/{log_file_name}{suffix}"
 
         if "t2i" in args.task:
             logging.info(f"Saving generated image to {args.save_file}")
@@ -479,77 +513,18 @@ def generate(args):
                 value_range=(-1, 1))
     logging.info("Finished.")
 
-    formatted_prompt = args.prompt.replace(" ", "_").replace("/",
-                                                        "_")[:50]
-    suffix = ".txt"
-    suffix1 = ".png"
-    is_optimized = "_optimized" if args.optimize else ""
-    save_file = f"/home/ai_center/ai_users/itaytuviah/video-motion/{formatted_prompt}_{args.base_seed}" + is_optimized + suffix
-    output_image_path = f"/home/ai_center/ai_users/itaytuviah/video-motion/{formatted_prompt}_{args.base_seed}_plot" + is_optimized + suffix1
-    # plot_variances(save_file, output_image_path, args.base_seed)
-
-
-def plot_variances(file_path, output_image_path, seed):
-    # Initialize lists to store data
-    timesteps = []
-    motion_variance = []
-    motion_appearance_variance = []
-
-    # Read the file line by line and extract values
-    with open(file_path, "r") as file:
-        for line in file:
-            line = line.strip()
-            if line.startswith("In timestep:"):
-                timesteps.append(int(line.split(": ")[1]))
-            elif line.startswith("motion_variance:"):
-                motion_variance.append(float(line.split(": ")[1]))
-            elif line.startswith("motion_appearance_variance:"):
-                motion_appearance_variance.append(float(line.split(": ")[1]))
-            elif line.startswith("Seed:"):
-                seed = line.split(": ")[1]  # Extract the seed value
-
-    # Convert to DataFrame for visualization
-    df = pd.DataFrame({
-        "Timestep": timesteps,
-        "Motion Variance": motion_variance,
-        "Motion Appearance Variance": motion_appearance_variance
-    })
-
-    # Plot the data
-    plt.figure(figsize=(10, 5))
-    plt.plot(df["Timestep"], df["Motion Variance"], label="Motion Variance", marker="o")
-    plt.plot(df["Timestep"], df["Motion Appearance Variance"], label="Motion And Appearance Variance", marker="s")
-    plt.xlabel("Timestep")
-    plt.ylabel("Variance")
-    plt.title("Motion Variance and Motion Appearance Variance Over Time")
-    plt.legend()
-    plt.grid(True)
-    plt.gca().invert_xaxis()  # Match the order in the file (decreasing timesteps)
-
-    # Add a text box with the seed value
-    if seed is not None:
-        text_box = f"Seed: {seed}"
-        plt.gcf().text(0.15, 0.85, text_box, fontsize=12, bbox=dict(facecolor="white", alpha=0.7))
-
-    # Save the plot as an image
-    plt.savefig(output_image_path, dpi=300, bbox_inches="tight")
-
-    # Display the plot
-    plt.show()
-
-    print(f"Plot saved as {output_image_path}")
-
-
 if __name__ == "__main__":
     args = _parse_args()
 
     for prompt in args.prompts:
         for seed in args.seeds:
-            args.prompt = prompt
-            args.base_seed = seed
-            args.save_file = None
+            for metric in args.optimizer_metrics:
+                args.prompt = prompt
+                args.base_seed = seed
+                args.save_file = None
+                args.optimizer_metric = metric
 
-            print(f"Generating video for prompt: '{prompt}' with seed: {seed}")
-            generate(args)
-            torch.cuda.empty_cache()
-            gc.collect()
+                print(f"Generating video for prompt: '{prompt}' with seed: {seed} and metric: {metric}")
+                generate(args)
+                torch.cuda.empty_cache()
+                gc.collect()
