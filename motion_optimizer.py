@@ -77,7 +77,8 @@ class MotionVarianceOptimizer:
                  apply_frequency=5,
                  use_softmax_mean=True,
                  temperature=10.0,
-                 metric='max_variance'):
+                 metric='max_variance',
+                 optimizer_tensor='x0_pred'):
         """
         Args:
             iterations: Number of optimization iterations per step
@@ -94,6 +95,7 @@ class MotionVarianceOptimizer:
         self.use_softmax_mean = use_softmax_mean
         self.temperature = temperature
         self.metric = metric
+        self.optimizer_tensor = optimizer_tensor
         self.metric_calculator = MetricCalculator()
 
     def _save_model_state(self, model):
@@ -196,7 +198,14 @@ class MotionVarianceOptimizer:
                     sample=sample,
                     timestep=timestep)[0]
 
-                self.metric_calculator.calculate_metrics(x0_pred)
+                if self.optimizer_tensor == 'x0_pred':
+                    self.metric_calculator.calculate_metrics(x0_pred)
+                elif self.optimizer_tensor == 'model_output':
+                    self.metric_calculator.calculate_metrics(model_output)
+                elif self.optimizer_tensor == 'sample':
+                    self.metric_calculator.calculate_metrics(sample)
+                else:
+                    raise ValueError(f"Unknown optimizer_tensor: {self.optimizer_tensor}")
 
                 loss = self.metric_calculator.get_metric(self.metric)
                 

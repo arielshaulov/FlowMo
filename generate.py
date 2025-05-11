@@ -1,36 +1,59 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
 import argparse
+print('import argparse')
 from datetime import datetime
+print('from datetime import datetime')
 import logging
+print('import logging')
 import os
+print('import os')
 import sys
+print('import sys')
 import warnings
+print('import warnings')
 import gc
+print('import gc')
 
 warnings.filterwarnings('ignore')
 
 import torch, random
+print('import torch, random')
 import torch.distributed as dist
+print('import torch.distributed as dist')
 
 torch.cuda.empty_cache()
 torch.cuda.ipc_collect()
+
 from PIL import Image
+print('from PIL import Image')
 
 import matplotlib.pyplot as plt
+print('import matplotlib.pyplot as plt')
 import pandas as pd
+print('import pandas as pd')    
 import numpy as np
+print('import numpy as np')
 
 import wan
+print('import wan')
 from wan.configs import WAN_CONFIGS, SIZE_CONFIGS, MAX_AREA_CONFIGS, SUPPORTED_SIZES
+print('from wan.configs import WAN_CONFIGS, SIZE_CONFIGS, MAX_AREA_CONFIGS, SUPPORTED_SIZES')
 from wan.utils.prompt_extend import DashScopePromptExpander, QwenPromptExpander
+print('from wan.utils.prompt_extend import DashScopePromptExpander, QwenPromptExpander')
 from wan.utils.utils import cache_video, cache_image, str2bool
+print('from wan.utils.utils import cache_video, cache_image, str2bool')
 
 from motion_optimizer import MotionVarianceOptimizer
+print('from motion_optimizer import MotionVarianceOptimizer')
 
 import os
+print('import os')
 
 import torch.nn.functional as F
+print('import torch.nn.functional as F')
 original_linear = F.linear
+
+print('====== Finishing imports ======')
 
 def device_safe_linear(input, weight, bias=None):
     target_device = weight.device
@@ -217,34 +240,47 @@ def _parse_args():
         "--optimize",
         type=str2bool,
         default=None,)
-    
     parser.add_argument(
         "--optimizer_metrics",
         type=str,
         nargs="+",  # Allows multiple metrics
         default=['max_abs_motion_variance_tensor'],)
-
     parser.add_argument(
         "--experiment_name",
         type=str,
         default=None,)
-
     parser.add_argument(
         "--optimizer_lr",
         type=float,
         default=0.005,)
-
     parser.add_argument(
         "--optimizer_iterations",
         type=int,
         default=1,)
-    
+    parser.add_argument(
+        "--optimizer_tensor",
+        type=str,
+        default='x0_pred',)
     parser.add_argument(
         "--optimizer_timesteps",
         type=int,
         nargs="+",  # Allows multiple timesteps
         default=[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ],
     )
+
+    parser.add_argument(
+        "--change_prompt",
+        type=str2bool,
+        default=None,)
+    parser.add_argument(
+        "--new_prompt",
+        type=str,
+        default=None,)
+    parser.add_argument(
+        "--new_prompt_timestep",
+        type=int,
+        default=1,)
+
 
     parser.add_argument(
         "--prompts",
@@ -372,11 +408,18 @@ def generate(args):
             logging.info(f"Extended prompt: {args.prompt}")
 
         formatted_prompt = args.prompt.replace(" ", "_").replace("/","_").replace("'","_")[:50]
+        formatted_new_prompt = "" if not args.new_prompt else args.new_prompt.replace(" ", "_").replace("/","_").replace("'","_")[:10]
 
-        experiment_string = f"C_{args.optimizer_metric}_t{min(args.optimizer_timesteps)}-{max(args.optimizer_timesteps)}_it{args.optimizer_iterations}_lr{args.optimizer_lr}"
+        change_prompt_string = "" if not args.change_prompt else f"changeprompt_t{args.new_prompt_timestep}_{formatted_new_prompt}"
 
-        is_optimized_suffix = "_optimized" if args.optimize else ""
-        log_file_name = f'{args.ring_size}_{formatted_prompt}_{args.base_seed}{is_optimized_suffix}.test_{args.experiment_name}_{experiment_string}'
+        is_optimized_suffix = "" if not args.optimize else "_optimized"
+        optimized_string = "" if not args.optimize else f"C_{args.optimizer_tensor}_{args.optimizer_metric}_t{min(args.optimizer_timesteps)}-{max(args.optimizer_timesteps)}_it{args.optimizer_iterations}_lr{args.optimizer_lr}"
+
+        experiment_name = "" if not args.experiment_name else args.experiment_name+'_'
+
+        full_experiment_suffix = f'test_{experiment_name}{optimized_string}{change_prompt_string}'
+
+        log_file_name = f'{args.ring_size}_{formatted_prompt}_{args.base_seed}{is_optimized_suffix}.{full_experiment_suffix}'
 
         logging.info("Creating WanT2V pipeline.")
         wan_t2v = wan.WanT2V(
@@ -390,6 +433,9 @@ def generate(args):
             t5_cpu=args.t5_cpu,
             log_file_name=log_file_name,
             optimizer_timesteps=args.optimizer_timesteps,
+            change_prompt=args.change_prompt,
+            new_prompt=args.new_prompt,
+            new_prompt_timestep=args.new_prompt_timestep
         )
 
 
@@ -400,7 +446,8 @@ def generate(args):
                 lr=args.optimizer_lr,
                 start_after_steps=int(args.sample_steps * 0.01),  # Start after 20% of steps
                 apply_frequency=1,
-                metric=args.optimizer_metric
+                metric=args.optimizer_metric,
+                optimizer_tensor=args.optimizer_tensor,
             )
 
 
@@ -514,7 +561,12 @@ def generate(args):
     logging.info("Finished.")
 
 if __name__ == "__main__":
+
     args = _parse_args()
+    print("Parsed arguments: ", args)
+
+    if not args.optimizer_metrics:
+        args.optimizer_metrics = ['unopt']
 
     for prompt in args.prompts:
         for seed in args.seeds:

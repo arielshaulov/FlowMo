@@ -37,7 +37,10 @@ class WanT2V:
         use_usp=False,
         t5_cpu=False,
         log_file_name=None,
-        optimizer_timesteps=None
+        optimizer_timesteps=None,
+        change_prompt=False,
+        new_prompt=None,
+        new_prompt_timestep=None
     ):
         r"""
         Initializes the Wan text-to-video generation model components.
@@ -62,6 +65,9 @@ class WanT2V:
         """
         self.log_file_name = log_file_name
         self.optimizer_timesteps = optimizer_timesteps
+        self.change_prompt = change_prompt
+        self.new_prompt = new_prompt
+        self.new_prompt_timestep = new_prompt_timestep
 
         self.device = torch.device(f"cuda:{device_id}")
         self.device_id = device_id
@@ -249,11 +255,31 @@ class WanT2V:
             ############### noise ##################
             latents = noise 
 
-
-            arg_c = {'context': context, 'seq_len': seq_len}
-            arg_null = {'context': context_null, 'seq_len': seq_len}
+            all_timesteps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946, 940, 934, 927, 920, 913, 906, 898, 890, 882, 873, 863, 854, 843, 833, 821, 809, 796, 783, 768, 753, 737, 720, 701, 681, 660, 636, 611, 584, 555, 522, 487, 448, 405, 356, 302, 241, 172, 92]
 
             for step_idx, t in enumerate(tqdm(timesteps)):
+                
+                ### change prompt experiment
+                print(f"step_idx: {step_idx}, new_prompt_timestep: {self.new_prompt_timestep}, change_prompt: {self.change_prompt}, new_prompt: {self.new_prompt}")
+                if self.change_prompt and self.new_prompt and step_idx == self.new_prompt_timestep:
+                    print(f"Changing prompt to: {self.new_prompt}")
+                    input_prompt = self.new_prompt
+
+                    del context
+                    
+                    if not self.t5_cpu:
+                        self.text_encoder.model.to(self.device)
+                        context = self.text_encoder([input_prompt], self.device)
+                        if offload_model:
+                            self.text_encoder.model.cpu()
+                    else:
+                        context = self.text_encoder([input_prompt], torch.device('cpu'))
+                        context = [t.to(self.device) for t in context]
+                ### end change prompt experiment
+                
+                arg_c = {'context': context, 'seq_len': seq_len}
+                arg_null = {'context': context_null, 'seq_len': seq_len}
+
                 latent_model_input = latents
                 timestep = [t]
 
@@ -271,13 +297,10 @@ class WanT2V:
                 noise_pred = noise_pred_uncond + guide_scale * (
                     noise_pred_cond - noise_pred_uncond)
 
-                # Apply motion optimization if enabled and we're at the right step
-                # timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946]
-                all_timesteps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946, 940, 934, 927, 920, 913, 906, 898, 890, 882, 873, 863, 854, 843, 833, 821, 809, 796, 783, 768, 753, 737, 720, 701, 681, 660, 636, 611, 584, 555, 522, 487, 448, 405, 356, 302, 241, 172, 92]
-
                 timestemps = [ t for i, t in enumerate(all_timesteps) if i in self.optimizer_timesteps ]
 
                 if motion_optimizer is not None and t.item() in timestemps:
+                    print(f"Optimizing motion at timestep {(step_idx, t.item())} with motion optimizer")
                     # Save model state before optimization if we have a state_checkpointer
                     if state_checkpointer is not None:
                         checkpoint_key = f"step_{step_idx}"
@@ -335,6 +358,7 @@ class WanT2V:
                             generator=seed_g,
                             vae=self.vae)[0]
                 else:
+                    print(f'Step {step_idx}, prompt: {input_prompt}, t: {t.item()}, motion optimizer not used')
                     # Regular scheduler step without optimization
                     temp_x0 = sample_scheduler.step(
                         input_prompt,

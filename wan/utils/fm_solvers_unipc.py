@@ -800,9 +800,9 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             self.log_metrics(prev_sample[0], timestep, log_file_path, tensor_name="prev_sample")
             self.log_metrics(model_output_convert[0], timestep, log_file_path, tensor_name="x0_pred")
 
-            # torch.save(model_output[0],  f'{tensor_dir}/model_output_{self.step_index}.pt')
-            # torch.save(prev_sample[0], f'{tensor_dir}/prev_sample_{self.step_index}.pt')
-            # torch.save(model_output_convert[0], f'{tensor_dir}/x0_pred_{self.step_index}.pt')
+            torch.save(model_output[0],  f'{tensor_dir}/model_output_{self.step_index}.pt')
+            torch.save(prev_sample[0], f'{tensor_dir}/prev_sample_{self.step_index}.pt')
+            torch.save(model_output_convert[0], f'{tensor_dir}/x0_pred_{self.step_index}.pt')
         ############### end my logs ##################
 
         if not return_dict:
