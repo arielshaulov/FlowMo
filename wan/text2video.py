@@ -152,7 +152,7 @@ class WanT2V:
                 seed=-1,
                 offload_model=True,
                 # freeinit args
-                freeinit_num_iters: int = 5):
+                freeinit_num_iters: int = 2):
         """
         Generates video frames from text prompt using diffusion process.
 
@@ -264,11 +264,11 @@ class WanT2V:
             # Sampling with FreeInit.
             for refinement_iter in range(freeinit_num_iters):
                 #  FreeInit { ------------------------------------------------------------------    
-                if refinement_iter > 0:
+                if refinement_iter == 0:
                     initial_noise = latents.detach().clone()
                 else:
                     # 1. Add initial noise, get noisy latents z_T
-                    current_diffuse_timestep = self.sample_scheduler.config.num_train_timesteps - 1 
+                    current_diffuse_timestep = self.sample_scheduler.config.num_train_timesteps - 1 # timestep 999
                     diffuse_timesteps = torch.full((1,),int(current_diffuse_timestep))
                     diffuse_timesteps = diffuse_timesteps.long()
                     z_T = self.sample_scheduler.add_noise(
