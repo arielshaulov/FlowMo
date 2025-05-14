@@ -13,7 +13,7 @@ import torch
 import torch.cuda.amp as amp
 import torch.distributed as dist
 from tqdm import tqdm
-
+import torch.nn as nn
 from .distributed.fsdp import shard_model
 from .modules.model import WanModel
 from .modules.t5 import T5EncoderModel
@@ -21,6 +21,7 @@ from .modules.vae import WanVAE
 from .utils.fm_solvers import (FlowDPMSolverMultistepScheduler,
                                get_sampling_sigmas, retrieve_timesteps)
 from .utils.fm_solvers_unipc import FlowUniPCMultistepScheduler
+
 
 
 class WanT2V:
@@ -35,6 +36,7 @@ class WanT2V:
         dit_fsdp=False,
         use_usp=False,
         t5_cpu=False,
+        is_optimize=False,
     ):
         r"""
         Initializes the Wan text-to-video generation model components.
@@ -58,6 +60,7 @@ class WanT2V:
                 Whether to place T5 model on CPU. Only works without t5_fsdp.
         """
         self.device = torch.device(f"cuda:{device_id}")
+        self.device_id = device_id
         self.config = config
         self.rank = rank
         self.t5_cpu = t5_cpu
@@ -81,7 +84,16 @@ class WanT2V:
             device=self.device)
 
         logging.info(f"Creating WanModel from {checkpoint_dir}")
-        self.model = WanModel.from_pretrained(checkpoint_dir)
+        if is_optimize:
+            self.model = WanModel.from_pretrained(
+                checkpoint_dir, 
+                device_map="balanced"
+            )
+        else: 
+            self.model = WanModel.from_pretrained(
+                checkpoint_dir, 
+            )
+
         self.model.eval().requires_grad_(False)
 
         if use_usp:
@@ -108,18 +120,21 @@ class WanT2V:
         self.sample_neg_prompt = config.sample_neg_prompt
 
     def generate(self,
-                 input_prompt,
-                 size=(1280, 720),
-                 frame_num=81,
-                 shift=5.0,
-                 sample_solver='unipc',
-                 sampling_steps=50,
-                 guide_scale=5.0,
-                 n_prompt="",
-                 seed=-1,
-                 offload_model=True):
-        r"""
+                input_prompt,
+                size=(1280, 720),
+                frame_num=81,
+                shift=5.0,
+                sample_solver='unipc',
+                sampling_steps=50,
+                guide_scale=5.0,
+                n_prompt="",
+                seed=-1,
+                lr=0.001,
+                offload_model=True,
+                motion_optimizer=None):
+        """
         Generates video frames from text prompt using diffusion process.
+        Modified to use memory-efficient motion optimization with manual gradient checkpointing.
 
         Args:
             input_prompt (`str`):
@@ -142,6 +157,8 @@ class WanT2V:
                 Random seed for noise generation. If -1, use random seed.
             offload_model (`bool`, *optional*, defaults to True):
                 If True, offloads models to CPU during generation to save VRAM
+            motion_optimizer (`MemoryEfficientMotionOptimizer`, *optional*, defaults to None):
+                Optimizer for minimizing motion variance in generated videos
 
         Returns:
             torch.Tensor:
@@ -151,7 +168,16 @@ class WanT2V:
                 - H: Frame height (from size)
                 - W: Frame width from size)
         """
+        # Import utilities for motion optimization if needed
+        if motion_optimizer is not None:
+            # Import locally to avoid circular imports
+            from motion_optimizer import ModelStateCheckpointer
+            state_checkpointer = ModelStateCheckpointer(device=self.device)
+        else:
+            state_checkpointer = None
+        
         # preprocess
+        print("lr: ", lr)
         F = frame_num
         target_shape = (self.vae.model.z_dim, (F - 1) // self.vae_stride[0] + 1,
                         size[1] // self.vae_stride[1],
@@ -226,13 +252,15 @@ class WanT2V:
             arg_c = {'context': context, 'seq_len': seq_len}
             arg_null = {'context': context_null, 'seq_len': seq_len}
 
-            for _, t in enumerate(tqdm(timesteps)):
+            for step_idx, t in enumerate(tqdm(timesteps)):
                 latent_model_input = latents
                 timestep = [t]
 
                 timestep = torch.stack(timestep)
 
                 self.model.to(self.device)
+                
+                # Regular denoising step without motion optimization
                 noise_pred_cond = self.model(
                     latent_model_input, t=timestep, **arg_c)[0]
                 noise_pred_uncond = self.model(
@@ -241,13 +269,82 @@ class WanT2V:
                 noise_pred = noise_pred_uncond + guide_scale * (
                     noise_pred_cond - noise_pred_uncond)
 
-                temp_x0 = sample_scheduler.step(
-                    noise_pred.unsqueeze(0),
-                    t,
-                    latents[0].unsqueeze(0),
-                    return_dict=False,
-                    generator=seed_g)[0]
+                # Apply motion optimization if enabled and we're at the right step
+                timestemps = [973, 968, 963, 957, 952, 946]
+                # timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946]
+                # timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946, 940, 934, 927, 920, 913, 906, 898, 890, 882, 873, 863, 854, 843, 833, 821, 809, 796, 783, 768, 753, 737, 720, 701, 681, 660, 636, 611]
+                if motion_optimizer is not None and t.item() in timestemps:
+                    # Save model state before optimization if we have a state_checkpointer
+                    if state_checkpointer is not None:
+                        checkpoint_key = f"step_{step_idx}"
+                        state_checkpointer.save_state(self.model, key=checkpoint_key)
+                        
+                    # Temporarily enable grad computation for sample optimization
+                    was_training = self.model.training
+                    requires_grad_orig = {}
+                    
+                    # Freeze model parameters but allow computation graph
+                    self.model.eval()
+                    for name, param in self.model.named_parameters():
+                        requires_grad_orig[name] = param.requires_grad
+                        param.requires_grad_(False)
+                    
+                    # Run optimization (this method handles its own gradient checkpointing)
+                    optimized_sample = motion_optimizer.optimize_noise_prediction(
+                        model=self.model,
+                        sample=latents[0],
+                        timestep=timestep,
+                        arg_c=arg_c,
+                        arg_null=arg_null,
+                        guide_scale=guide_scale,
+                        curr_step=step_idx,
+                        total_steps=len(timesteps)
+                    )
+                    
+                    # Restore model training state
+                    self.model.train(was_training)
+                    
+                    # Restore parameter requires_grad states
+                    for name, param in self.model.named_parameters():
+                        if name in requires_grad_orig:
+                            param.requires_grad_(requires_grad_orig[name])
+                    
+                    # Restore model state from checkpoint if we have one
+                    if state_checkpointer is not None:
+                        state_checkpointer.load_state(self.model, key=checkpoint_key)
+                        state_checkpointer.clear(key=checkpoint_key)
+                    
+                    # Use optimized sample for scheduler step
+                    with amp.autocast(dtype=self.param_dtype), torch.no_grad():
+                        temp_x0 = sample_scheduler.step(
+                            input_prompt,
+                            seed,
+                            lr,
+                            noise_pred.unsqueeze(0),
+                            t,
+                            optimized_sample.unsqueeze(0),  # Use optimized sample
+                            return_dict=False,
+                            generator=seed_g,
+                            vae=self.vae)[0]
+                else:
+                    # Regular scheduler step without optimization
+                    temp_x0 = sample_scheduler.step(
+                        input_prompt,
+                        seed,
+                        lr,
+                        noise_pred.unsqueeze(0),
+                        t,
+                        latents[0].unsqueeze(0),
+                        return_dict=False,
+                        generator=seed_g,
+                        vae=self.vae)[0]
+                
                 latents = [temp_x0.squeeze(0)]
+                
+                # Force garbage collection after each step
+                if motion_optimizer is not None:
+                    torch.cuda.empty_cache()
+                    gc.collect()
 
             x0 = latents
             if offload_model:
@@ -255,6 +352,11 @@ class WanT2V:
                 torch.cuda.empty_cache()
             if self.rank == 0:
                 videos = self.vae.decode(x0)
+
+        # Clean up state checkpointer
+        if state_checkpointer is not None:
+            state_checkpointer.clear_all()
+            del state_checkpointer
 
         del noise, latents
         del sample_scheduler

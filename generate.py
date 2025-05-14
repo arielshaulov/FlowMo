@@ -5,17 +5,44 @@ import logging
 import os
 import sys
 import warnings
+import gc
 
 warnings.filterwarnings('ignore')
 
 import torch, random
 import torch.distributed as dist
+
+torch.cuda.empty_cache()
+torch.cuda.ipc_collect()
 from PIL import Image
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
 import wan
 from wan.configs import WAN_CONFIGS, SIZE_CONFIGS, MAX_AREA_CONFIGS, SUPPORTED_SIZES
 from wan.utils.prompt_extend import DashScopePromptExpander, QwenPromptExpander
 from wan.utils.utils import cache_video, cache_image, str2bool
+
+from motion_optimizer import MotionVarianceOptimizer
+
+import os
+
+import torch.nn.functional as F
+original_linear = F.linear
+
+def device_safe_linear(input, weight, bias=None):
+    target_device = weight.device
+    if input.device != target_device:
+        input = input.to(target_device)
+    if bias is not None and bias.device != target_device:
+        bias = bias.to(target_device)
+    return original_linear(input, weight, bias)
+F.linear = device_safe_linear
+
+
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
 
 EXAMPLE_PROMPT = {
     "t2v-1.3B": {
@@ -111,6 +138,12 @@ def _parse_args():
         type=int,
         default=None,
         help="How many frames to sample from a image or video. The number should be 4n+1"
+    )
+    parser.add_argument(
+        "--lr",
+        type=float,
+        default=0.001,
+        help="Learning rate"
     )
     parser.add_argument(
         "--ckpt_dir",
@@ -233,6 +266,27 @@ def _parse_args():
         type=float,
         default=5.0,
         help="Classifier free guidance scale.")
+    
+    parser.add_argument(
+        "--optimize",
+        type=str2bool,
+        default=None,)
+
+    parser.add_argument(
+        "--prompts",
+        type=str,
+        nargs="+",  # Allows multiple prompts
+        default=[],
+        help="The prompts to generate images or videos from (provide multiple prompts separated by spaces)."
+    )
+
+    parser.add_argument(
+        "--seeds",
+        type=int,
+        nargs="+",  # Allows multiple seeds
+        default=[],
+        help="The seeds for generating images or videos (provide multiple seeds separated by spaces)."
+    )
 
     args = parser.parse_args()
 
@@ -353,7 +407,19 @@ def generate(args):
             dit_fsdp=args.dit_fsdp,
             use_usp=(args.ulysses_size > 1 or args.ring_size > 1),
             t5_cpu=args.t5_cpu,
+            is_optimize=args.optimize,
         )
+
+
+        motion_optimizer = None
+        if args.optimize:
+            motion_optimizer = MotionVarianceOptimizer(
+                iterations=1,
+                lr=args.lr,
+                start_after_steps=int(args.sample_steps * 0.01),  # Start after 20% of steps
+                apply_frequency=1
+            )
+
 
         logging.info(
             f"Generating {'image' if 't2i' in args.task else 'video'} ...")
@@ -366,7 +432,22 @@ def generate(args):
             sampling_steps=args.sample_steps,
             guide_scale=args.sample_guide_scale,
             seed=args.base_seed,
-            offload_model=args.offload_model)
+            lr=args.lr,
+            offload_model=args.offload_model,
+            motion_optimizer=motion_optimizer  # Pass the optimizer
+        )
+    
+
+        # video = wan_t2v.generate(
+        #     args.prompt,
+        #     size=SIZE_CONFIGS[args.size],
+        #     frame_num=args.frame_num,
+        #     shift=args.sample_shift,
+        #     sample_solver=args.sample_solver,
+        #     sampling_steps=args.sample_steps,
+        #     guide_scale=args.sample_guide_scale,
+        #     seed=args.base_seed,
+        #     offload_model=args.offload_model)
 
     elif "i2v" in args.task:
         if args.prompt is None:
@@ -545,7 +626,11 @@ def generate(args):
             formatted_prompt = args.prompt.replace(" ", "_").replace("/",
                                                                      "_")[:50]
             suffix = '.png' if "t2i" in args.task else '.mp4'
+<<<<<<< Updated upstream
             args.save_file = f"{args.task}_{args.size.replace('*','x') if sys.platform=='win32' else args.size}_{args.ulysses_size}_{args.ring_size}_{formatted_prompt}_{formatted_time}" + suffix
+=======
+            args.save_file = f"{args.ring_size}_{formatted_prompt}_{args.base_seed}/{args.lr}" + suffix
+>>>>>>> Stashed changes
 
         if "t2i" in args.task:
             logging.info(f"Saving generated image to {args.save_file}")
@@ -557,16 +642,91 @@ def generate(args):
                 value_range=(-1, 1))
         else:
             logging.info(f"Saving generated video to {args.save_file}")
+
+            formatted_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+            formatted_prompt = args.prompt.replace(" ", "_").replace("/",
+                                                                     "_")[:50]
+            suffix = '.mp4'
             cache_video(
                 tensor=video[None],
-                save_file=args.save_file,
+                save_file=f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{args.lr}/{formatted_prompt}_{args.base_seed}" + suffix,
                 fps=cfg.sample_fps,
                 nrow=1,
                 normalize=True,
                 value_range=(-1, 1))
     logging.info("Finished.")
 
+    formatted_prompt = args.prompt.replace(" ", "_").replace("/",
+                                                        "_")[:50]
+    suffix = ".txt"
+    suffix1 = ".png"
+    save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{args.lr}/{formatted_prompt}_{args.base_seed}" + suffix
+    output_image_path = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{args.lr}/{formatted_prompt}_{args.base_seed}_plot" + suffix1
+    plot_variances(save_file, output_image_path, args.base_seed)
+
+
+def plot_variances(file_path, output_image_path, seed):
+    # Initialize lists to store data
+    timesteps = []
+    motion_variance = []
+    motion_appearance_variance = []
+
+    # Read the file line by line and extract values
+    with open(file_path, "r") as file:
+        for line in file:
+            line = line.strip()
+            if line.startswith("In timestep:"):
+                timesteps.append(int(line.split(": ")[1]))
+            elif line.startswith("motion_variance:"):
+                motion_variance.append(float(line.split(": ")[1]))
+            elif line.startswith("motion_appearance_variance:"):
+                motion_appearance_variance.append(float(line.split(": ")[1]))
+            elif line.startswith("Seed:"):
+                seed = line.split(": ")[1]  # Extract the seed value
+
+    # Convert to DataFrame for visualization
+    df = pd.DataFrame({
+        "Timestep": timesteps,
+        "Motion Variance": motion_variance,
+        "Motion Appearance Variance": motion_appearance_variance
+    })
+
+    # Plot the data
+    plt.figure(figsize=(10, 5))
+    plt.plot(df["Timestep"], df["Motion Variance"], label="Motion Variance", marker="o")
+    plt.plot(df["Timestep"], df["Motion Appearance Variance"], label="Motion And Appearance Variance", marker="s")
+    plt.xlabel("Timestep")
+    plt.ylabel("Variance")
+    plt.title("Motion Variance and Motion Appearance Variance Over Time")
+    plt.legend()
+    plt.grid(True)
+    plt.gca().invert_xaxis()  # Match the order in the file (decreasing timesteps)
+
+    # Add a text box with the seed value
+    if seed is not None:
+        text_box = f"Seed: {seed}"
+        plt.gcf().text(0.15, 0.85, text_box, fontsize=12, bbox=dict(facecolor="white", alpha=0.7))
+
+    # Save the plot as an image
+    plt.savefig(output_image_path, dpi=300, bbox_inches="tight")
+
+    # Display the plot
+    plt.show()
+
+    print(f"Plot saved as {output_image_path}")
+
+
 
 if __name__ == "__main__":
     args = _parse_args()
-    generate(args)
+
+    for prompt in args.prompts:
+        for seed in args.seeds:
+            args.prompt = prompt
+            args.base_seed = seed
+            args.save_file = None
+
+            print(f"Generating video for prompt: '{prompt}' with seed: {seed}")
+            generate(args)
+            torch.cuda.empty_cache()
+            gc.collect()

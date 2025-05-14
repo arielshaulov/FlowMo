@@ -278,6 +278,8 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
 
     def convert_model_output(
         self,
+        prompt,
+        seed,
         model_output: torch.Tensor,
         *args,
         sample: torch.Tensor = None,
@@ -653,11 +655,17 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             self._step_index = self._begin_index
 
     def step(self,
+             prompt,
+             seed,
+             lr,
              model_output: torch.Tensor,
              timestep: Union[int, torch.Tensor],
              sample: torch.Tensor,
              return_dict: bool = True,
-             generator=None) -> Union[SchedulerOutput, Tuple]:
+             generator=None,
+             vae=None,
+             motion_weight: float = 0.1,
+             target_motion: float = None,) -> Union[SchedulerOutput, Tuple]:
         """
         Predict the sample from the previous timestep by reversing the SDE. This function propagates the sample with
         the multistep UniPC.
@@ -692,8 +700,152 @@ class FlowUniPCMultistepScheduler(SchedulerMixin, ConfigMixin):
             self.last_sample is not None  # pyright: ignore
         )
 
+        unbatched = model_output[0]
+        latent_frames = unbatched.permute(1, 2, 3, 0) # shape: [21, 60, 104, 16]
+        frames, height, width, channels = latent_frames.shape
+
+        motion_frames = []
+        for frame_idx in range(1, frames):
+            current_frame = latent_frames[frame_idx, :, :, :]    # Shape: [60, 104, 16]
+            previous_frame = latent_frames[frame_idx - 1, :, :, :]  # Shape: [60, 104, 16]
+
+            motion_frame = torch.abs(current_frame - previous_frame)   # Shape: [60, 104, 16]
+            motion_frames.append(motion_frame)
+
+        motion_frames_tensor = torch.stack(motion_frames, dim=0)  # Shape: [20, 60, 104, 16]
+        motion_variance_tensor = torch.var(motion_frames_tensor, dim=0, unbiased=False) # Shape: [60, 104, 16]
+        
+        motion_appearance_variance_tensor = torch.var(latent_frames, dim=0, unbiased=False) # Shape: [60, 104, 16]
+
+        mean_motion_variance_tensor = motion_variance_tensor.mean(dim=-1)
+        mean_motion_appearance_variance_tensor = motion_appearance_variance_tensor.mean(dim=-1)
+
+        motion_max_variance = torch.max(mean_motion_variance_tensor)
+        motion_appearance_max_variance = torch.max(mean_motion_appearance_variance_tensor)
+
+
+
+        ########## ONLY FOR THE EXPIREMENT ##############
+        # motion_mean_variance = motion_frames_tensor.mean()
+        # motion_max_variance = motion_frames_tensor.max()
+        
+        # k = int(mean_motion_variance_tensor.shape[0] * 0.1)
+        # top_k_values, _ = torch.topk(mean_motion_variance_tensor, k)
+        # top_k_motion_variance = torch.mean(top_k_values)
+
+
+        formatted_prompt = prompt.replace(" ", "_").replace("/",
+                                                            "_")[:50]
+        suffix = ".txt"
+        save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{lr}/{formatted_prompt}_{seed}" + suffix
+
+        with open(save_file, "a") as log_file:
+            log_file.write(f"In timestep: {timestep.item()}\n")
+            log_file.write(f"motion_variance: {motion_max_variance.item()}\n")
+            log_file.write(f"motion_appearance_variance: {motion_appearance_max_variance.item()}\n")
+            # log_file.write(f"mean_motion_variance: {motion_frames_tensor.mean().item()}\n")
+            # log_file.write(f"motion_max_variance: {motion_frames_tensor.max().item()}\n")
+            # log_file.write(f"top_k_motion_variance: {top_k_motion_variance.item()}\n")
+            log_file.write("\n")
+
+        # self.log_metrics(self, model_output[0], timestep, save_file)
+
+#######################################################################################################################
+        # unbatched = model_output[0]
+        # latent_frames = unbatched.permute(1, 2, 3, 0) # shape: [21, 60, 104, 16]
+        # frames, height, width, channels = latent_frames.shape
+
+        # ### Motion Appearance Mean
+        # motion_appearance_mean_tensor = latent_frames.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
+        # mean_motion_appearance_mean_tensor = motion_appearance_mean_tensor.mean() # to log
+        # max_motion_appearance_mean_tensor = motion_appearance_mean_tensor.max() # to log
+
+        # ### Motion Appearance Variance
+        # motion_appearance_variance_tensor = torch.var(latent_frames, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104, 16]
+        # mean_motion_appearance_variance_tensor = motion_appearance_variance_tensor.mean() # to log
+        # max_motion_appearance_variance_tensor = motion_appearance_variance_tensor.max() # to log
+
+        # motion_frames = []
+        # for frame_idx in range(1, frames):
+        #     current_frame = latent_frames[frame_idx, :, :, :]    # Shape: [60, 104, 16]
+        #     previous_frame = latent_frames[frame_idx - 1, :, :, :]  # Shape: [60, 104, 16]
+
+        #     # previously: motion_frame = torch.abs(current_frame - previous_frame)   # Shape: [60, 104, 16]
+        #     motion_frame = current_frame - previous_frame   # Shape: [60, 104, 16]
+        
+        #     motion_frames.append(motion_frame)
+
+        # motion_frames_tensor = torch.stack(motion_frames, dim=0)  # Shape: [20, 60, 104, 16]
+        # abs_motion_frames_tensor = torch.abs(motion_frames_tensor)  # Shape: [20, 60, 104, 16]
+
+        # ### Motion Mean
+        # mean_motion_frames_tensor = motion_frames_tensor.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
+        # mean_motion_mean_tensor = mean_motion_frames_tensor.mean() # to log
+        # max_motion_mean_tensor = mean_motion_frames_tensor.max() # to log
+
+        # ### Abs Motion Mean
+        # mean_abs_motion_frames_tensor = abs_motion_frames_tensor.mean(dim=0).mean(dim=-1) # Shape: [60, 104]
+        # mean_abs_motion_mean_tensor = mean_abs_motion_frames_tensor.mean() # to log
+        # max_abs_motion_mean_tensor = mean_abs_motion_frames_tensor.max() # to log
+
+
+        # ### Motion Variance
+        # motion_variance_tensor = torch.var(motion_frames_tensor, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104]
+        # mean_motion_variance_tensor = motion_variance_tensor.mean() # to log
+        # max_motion_variance_tensor = motion_variance_tensor.max() # to log
+
+        # ### Abs Motion Variance
+        # abs_motion_variance_tensor = torch.var(abs_motion_frames_tensor, dim=0, unbiased=False).mean(dim=-1) # Shape: [60, 104]
+        # mean_abs_motion_variance_tensor = abs_motion_variance_tensor.mean() # to log
+        # max_abs_motion_variance_tensor = abs_motion_variance_tensor.max() # to log
+        # argmax_abs_motion_variance_tensor = abs_motion_variance_mean_channels.argmax()
+
+        # # quantiles
+        # abs_motion_variance_mean_channels_flattened = abs_motion_variance_mean_channels.view(-1) # shape: [60*104]
+        # q90_abs_motion_variance_tensor = torch.quantile(abs_motion_variance_mean_channels_flattened, 0.9, dim=-1) # shape: [1]
+        # q99_abs_motion_variance_tensor = torch.quantile(abs_motion_variance_mean_channels_flattened, 0.99, dim=-1) # shape: [1]
+        # q95_abs_motion_variance_tensor = torch.quantile(abs_motion_variance_mean_channels_flattened, 0.95, dim=-1) # shape: [1]
+        # q75_abs_motion_variance_tensor = torch.quantile(abs_motion_variance_mean_channels_flattened, 0.75, dim=-1) # shape: [1]
+        
+
+        # formatted_prompt = prompt.replace(" ", "_").replace("/",
+        #                                                     "_")[:50]
+        # suffix = ".txt"
+        # save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/metrics_logs/{formatted_prompt}_{seed}_optimized" + suffix
+
+        # # motion_max_variance = normalize_motion_variance(motion_max_variance.item())
+
+        # with open(save_file, "a") as log_file:
+        #     log_file.write(f"In timestep: {timestep.item()}\n")
+            
+        #     log_file.write(f"mean_motion_appearance_mean_tensor: {mean_motion_appearance_mean_tensor.item()}\n")
+        #     log_file.write(f"max_motion_appearance_mean_tensor: {max_motion_appearance_mean_tensor.item()}\n")
+        #     log_file.write(f"mean_motion_appearance_variance_tensor: {mean_motion_appearance_variance_tensor.item()}\n")
+        #     log_file.write(f"max_motion_appearance_variance_tensor: {max_motion_appearance_variance_tensor.item()}\n")
+        #     log_file.write(f"mean_motion_mean_tensor: {mean_motion_mean_tensor.item()}\n")
+        #     log_file.write(f"max_motion_mean_tensor: {max_motion_mean_tensor.item()}\n")
+        #     log_file.write(f"mean_motion_variance_tensor: {mean_motion_variance_tensor.item()}\n")
+        #     log_file.write(f"max_motion_variance_tensor: {max_motion_variance_tensor.item()}\n")
+        #     log_file.write(f"mean_abs_motion_mean_tensor: {mean_abs_motion_mean_tensor.item()}\n")
+        #     log_file.write(f"max_abs_motion_mean_tensor: {max_abs_motion_mean_tensor.item()}\n")
+        #     log_file.write(f"mean_abs_motion_variance_tensor: {mean_abs_motion_variance_tensor.item()}\n")
+        #     log_file.write(f"max_abs_motion_variance_tensor: {max_abs_motion_variance_tensor.item()}\n")
+        #     log_file.write(f"argmax_abs_motion_variance_tensor: {mean_abs_motion_mean_tensor.item()}\n")
+        #     log_file.write(f"q90_abs_motion_variance_tensor: {max_abs_motion_mean_tensor.item()}\n")
+        #     log_file.write(f"q99_abs_motion_variance_tensor: {mean_abs_motion_variance_tensor.item()}\n")
+        #     log_file.write(f"q95_abs_motion_variance_tensor: {max_abs_motion_variance_tensor.item()}\n")
+        #     log_file.write(f"q75_abs_motion_variance_tensor: {max_abs_motion_variance_tensor.item()}\n")
+            
+        #     log_file.write("\n")
+
+#######################################################################################################################
+
+
         model_output_convert = self.convert_model_output(
-            model_output, sample=sample)
+            prompt,
+            seed,
+            model_output, 
+            sample=sample)
         if use_corrector:
             sample = self.multistep_uni_c_bh_update(
                 this_model_output=model_output_convert,
