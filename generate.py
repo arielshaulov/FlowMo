@@ -25,8 +25,6 @@ from wan.configs import WAN_CONFIGS, SIZE_CONFIGS, MAX_AREA_CONFIGS, SUPPORTED_S
 from wan.utils.prompt_extend import DashScopePromptExpander, QwenPromptExpander
 from wan.utils.utils import cache_video, cache_image, str2bool
 
-from motion_optimizer import MotionVarianceOptimizer
-
 import os
 
 import torch.nn.functional as F
@@ -215,11 +213,6 @@ def _parse_args():
         help="Classifier free guidance scale.")
     
     parser.add_argument(
-        "--optimize",
-        type=str2bool,
-        default=None,)
-
-    parser.add_argument(
         "--prompts",
         type=str,
         nargs="+",  # Allows multiple prompts
@@ -356,17 +349,6 @@ def generate(args):
             t5_cpu=args.t5_cpu,
         )
 
-
-        motion_optimizer = None
-        if args.optimize:
-            motion_optimizer = MotionVarianceOptimizer(
-                iterations=1,
-                lr=0.005,
-                start_after_steps=int(args.sample_steps * 0.01),  # Start after 20% of steps
-                apply_frequency=1
-            )
-
-
         logging.info(
             f"Generating {'image' if 't2i' in args.task else 'video'} ...")
         video = wan_t2v.generate(
@@ -378,8 +360,7 @@ def generate(args):
             sampling_steps=args.sample_steps,
             guide_scale=args.sample_guide_scale,
             seed=args.base_seed,
-            offload_model=args.offload_model,
-            motion_optimizer=motion_optimizer  # Pass the optimizer
+            offload_model=args.offload_model
         )
     
 
@@ -457,7 +438,7 @@ def generate(args):
             formatted_prompt = args.prompt.replace(" ", "_").replace("/",
                                                                      "_")[:50]
             suffix = '.png' if "t2i" in args.task else '.mp4'
-            args.save_file = f"{args.ring_size}_{formatted_prompt}_{args.base_seed}" + suffix
+            args.save_file = f"{args.ring_size}_{formatted_prompt}_{args.base_seed}_freeinit" + suffix
 
         if "t2i" in args.task:
             logging.info(f"Saving generated image to {args.save_file}")
@@ -480,64 +461,7 @@ def generate(args):
 
     formatted_prompt = args.prompt.replace(" ", "_").replace("/",
                                                         "_")[:50]
-    suffix = ".txt"
-    suffix1 = ".png"
-    save_file = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{args.base_seed}" + suffix
-    output_image_path = f"/home/ai_center/ai_users/arielshaulov/Wan2.1/{formatted_prompt}_{args.base_seed}_plot" + suffix1
-    plot_variances(save_file, output_image_path, args.base_seed)
-
-
-def plot_variances(file_path, output_image_path, seed):
-    # Initialize lists to store data
-    timesteps = []
-    motion_variance = []
-    motion_appearance_variance = []
-
-    # Read the file line by line and extract values
-    with open(file_path, "r") as file:
-        for line in file:
-            line = line.strip()
-            if line.startswith("In timestep:"):
-                timesteps.append(int(line.split(": ")[1]))
-            elif line.startswith("motion_variance:"):
-                motion_variance.append(float(line.split(": ")[1]))
-            elif line.startswith("motion_appearance_variance:"):
-                motion_appearance_variance.append(float(line.split(": ")[1]))
-            elif line.startswith("Seed:"):
-                seed = line.split(": ")[1]  # Extract the seed value
-
-    # Convert to DataFrame for visualization
-    df = pd.DataFrame({
-        "Timestep": timesteps,
-        "Motion Variance": motion_variance,
-        "Motion Appearance Variance": motion_appearance_variance
-    })
-
-    # Plot the data
-    plt.figure(figsize=(10, 5))
-    plt.plot(df["Timestep"], df["Motion Variance"], label="Motion Variance", marker="o")
-    plt.plot(df["Timestep"], df["Motion Appearance Variance"], label="Motion And Appearance Variance", marker="s")
-    plt.xlabel("Timestep")
-    plt.ylabel("Variance")
-    plt.title("Motion Variance and Motion Appearance Variance Over Time")
-    plt.legend()
-    plt.grid(True)
-    plt.gca().invert_xaxis()  # Match the order in the file (decreasing timesteps)
-
-    # Add a text box with the seed value
-    if seed is not None:
-        text_box = f"Seed: {seed}"
-        plt.gcf().text(0.15, 0.85, text_box, fontsize=12, bbox=dict(facecolor="white", alpha=0.7))
-
-    # Save the plot as an image
-    plt.savefig(output_image_path, dpi=300, bbox_inches="tight")
-
-    # Display the plot
-    plt.show()
-
-    print(f"Plot saved as {output_image_path}")
-
-
+    
 
 if __name__ == "__main__":
     args = _parse_args()

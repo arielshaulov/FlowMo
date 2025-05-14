@@ -22,7 +22,7 @@ from .utils.fm_solvers import (FlowDPMSolverMultistepScheduler,
                                get_sampling_sigmas, retrieve_timesteps)
 from .utils.fm_solvers_unipc import FlowUniPCMultistepScheduler
 
-
+from .freeinit_utils import (get_freq_filter,freq_mix_3d)
 
 class WanT2V:
 
@@ -63,6 +63,9 @@ class WanT2V:
         self.config = config
         self.rank = rank
         self.t5_cpu = t5_cpu
+        ###### FreeInit { ######
+        self.freq_filter = None
+        ###### } FreeInit ######
 
         self.num_train_timesteps = config.num_train_timesteps
         self.param_dtype = config.param_dtype
@@ -113,6 +116,30 @@ class WanT2V:
 
         self.sample_neg_prompt = config.sample_neg_prompt
 
+    ###### FreeInit { ######
+    @torch.no_grad()
+    def init_filter(self, video_length, height, width, filter_params):
+        # initialize frequency filter for noise reinitialization
+        batch_size = 1
+        num_channels_latents = self.unet.in_channels
+        filter_shape = [
+            batch_size, 
+            num_channels_latents, 
+            video_length, 
+            height // self.vae_scale_factor, 
+            width // self.vae_scale_factor
+        ]
+        # self.freq_filter = get_freq_filter(filter_shape, device=self._execution_device, params=filter_params)
+        self.freq_filter = get_freq_filter(
+            filter_shape, 
+            device=self._execution_device, 
+            filter_type=filter_params.method,
+            n=filter_params.n if filter_params.method=="butterworth" else None,
+            d_s=filter_params.d_s,
+            d_t=filter_params.d_t
+        )
+    ##### } FreeInit ######
+
     def generate(self,
                 input_prompt,
                 size=(1280, 720),
@@ -124,10 +151,10 @@ class WanT2V:
                 n_prompt="",
                 seed=-1,
                 offload_model=True,
-                motion_optimizer=None):
+                # freeinit args
+                freeinit_num_iters: int = 5):
         """
         Generates video frames from text prompt using diffusion process.
-        Modified to use memory-efficient motion optimization with manual gradient checkpointing.
 
         Args:
             input_prompt (`str`):
@@ -150,8 +177,6 @@ class WanT2V:
                 Random seed for noise generation. If -1, use random seed.
             offload_model (`bool`, *optional*, defaults to True):
                 If True, offloads models to CPU during generation to save VRAM
-            motion_optimizer (`MemoryEfficientMotionOptimizer`, *optional*, defaults to None):
-                Optimizer for minimizing motion variance in generated videos
 
         Returns:
             torch.Tensor:
@@ -161,14 +186,6 @@ class WanT2V:
                 - H: Frame height (from size)
                 - W: Frame width from size)
         """
-        # Import utilities for motion optimization if needed
-        if motion_optimizer is not None:
-            # Import locally to avoid circular imports
-            from motion_optimizer import ModelStateCheckpointer
-            state_checkpointer = ModelStateCheckpointer(device=self.device)
-        else:
-            state_checkpointer = None
-        
         # preprocess
         F = frame_num
         target_shape = (self.vae.model.z_dim, (F - 1) // self.vae_stride[0] + 1,
@@ -238,85 +255,51 @@ class WanT2V:
             else:
                 raise NotImplementedError("Unsupported solver.")
 
-            # sample videos
             latents = noise
+            latents_dtype = latents.dtype
 
             arg_c = {'context': context, 'seq_len': seq_len}
             arg_null = {'context': context_null, 'seq_len': seq_len}
 
-            for step_idx, t in enumerate(tqdm(timesteps)):
-                latent_model_input = latents
-                timestep = [t]
-
-                timestep = torch.stack(timestep)
-
-                self.model.to(self.device)
-                
-                # Regular denoising step without motion optimization
-                noise_pred_cond = self.model(
-                    latent_model_input, t=timestep, **arg_c)[0]
-                noise_pred_uncond = self.model(
-                    latent_model_input, t=timestep, **arg_null)[0]
-
-                noise_pred = noise_pred_uncond + guide_scale * (
-                    noise_pred_cond - noise_pred_uncond)
-
-                # Apply motion optimization if enabled and we're at the right step
-                timestemps = [999, 995, 991, 987, 982, 978, 973, 968, 963, 957, 952, 946]
-                if motion_optimizer is not None and t.item() in timestemps:
-                    # Save model state before optimization if we have a state_checkpointer
-                    if state_checkpointer is not None:
-                        checkpoint_key = f"step_{step_idx}"
-                        state_checkpointer.save_state(self.model, key=checkpoint_key)
-                        
-                    # Temporarily enable grad computation for sample optimization
-                    was_training = self.model.training
-                    requires_grad_orig = {}
-                    
-                    # Freeze model parameters but allow computation graph
-                    self.model.eval()
-                    for name, param in self.model.named_parameters():
-                        requires_grad_orig[name] = param.requires_grad
-                        param.requires_grad_(False)
-                    
-                    # Run optimization (this method handles its own gradient checkpointing)
-                    optimized_sample = motion_optimizer.optimize_noise_prediction(
-                        model=self.model,
-                        sample=latents[0],
-                        timestep=timestep,
-                        arg_c=arg_c,
-                        arg_null=arg_null,
-                        guide_scale=guide_scale,
-                        curr_step=step_idx,
-                        total_steps=len(timesteps)
-                    )
-                    
-                    # Restore model training state
-                    self.model.train(was_training)
-                    
-                    # Restore parameter requires_grad states
-                    for name, param in self.model.named_parameters():
-                        if name in requires_grad_orig:
-                            param.requires_grad_(requires_grad_orig[name])
-                    
-                    # Restore model state from checkpoint if we have one
-                    if state_checkpointer is not None:
-                        state_checkpointer.load_state(self.model, key=checkpoint_key)
-                        state_checkpointer.clear(key=checkpoint_key)
-                    
-                    # Use optimized sample for scheduler step
-                    with amp.autocast(dtype=self.param_dtype), torch.no_grad():
-                        temp_x0 = sample_scheduler.step(
-                            input_prompt,
-                            seed,
-                            noise_pred.unsqueeze(0),
-                            t,
-                            optimized_sample.unsqueeze(0),  # Use optimized sample
-                            return_dict=False,
-                            generator=seed_g,
-                            vae=self.vae)[0]
+            # Sampling with FreeInit.
+            for refinement_iter in range(freeinit_num_iters):
+                #  FreeInit { ------------------------------------------------------------------    
+                if refinement_iter > 0:
+                    initial_noise = latents.detach().clone()
                 else:
-                    # Regular scheduler step without optimization
+                    # 1. Add initial noise, get noisy latents z_T
+                    current_diffuse_timestep = self.sample_scheduler.config.num_train_timesteps - 1 
+                    diffuse_timesteps = torch.full((1,),int(current_diffuse_timestep))
+                    diffuse_timesteps = diffuse_timesteps.long()
+                    z_T = self.sample_scheduler.add_noise(
+                        original_samples=latents.to(self.device), 
+                        noise=initial_noise.to(self.device), 
+                        timesteps=diffuse_timesteps.to(self.device)
+                    )
+                    # 2. create random noise z_rand for high-frequency
+                    z_rand = torch.randn_like(z_T)
+                    # 3. Noise Reinitialization
+                    latents = freq_mix_3d(z_T.to(dtype=torch.float32), z_rand, LPF=self.freq_filter)
+                    latents = latents.to(latents_dtype)
+                #  } FreeInit ------------------------------------------------------------------
+                
+                for step_idx, t in enumerate(tqdm(timesteps)):
+                    
+                    latent_model_input = latents
+                    timestep = [t]
+
+                    timestep = torch.stack(timestep)
+
+                    self.model.to(self.device)
+                    
+                    noise_pred_cond = self.model(
+                        latent_model_input, t=timestep, **arg_c)[0]
+                    noise_pred_uncond = self.model(
+                        latent_model_input, t=timestep, **arg_null)[0]
+
+                    noise_pred = noise_pred_uncond + guide_scale * (
+                        noise_pred_cond - noise_pred_uncond)
+
                     temp_x0 = sample_scheduler.step(
                         input_prompt,
                         seed,
@@ -326,13 +309,9 @@ class WanT2V:
                         return_dict=False,
                         generator=seed_g,
                         vae=self.vae)[0]
-                
-                latents = [temp_x0.squeeze(0)]
-                
-                # Force garbage collection after each step
-                if motion_optimizer is not None:
-                    torch.cuda.empty_cache()
-                    gc.collect()
+                    
+                    latents = [temp_x0.squeeze(0)]
+
 
             x0 = latents
             if offload_model:

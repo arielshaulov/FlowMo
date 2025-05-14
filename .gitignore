@@ -40,4 +40,3 @@ models--Wan-AI--Wan2.1-T2V-14B-Diffusers/
 motion_loss_expirement/
 vae_encoder_decoder.py
 prompts.txt
-*.slurm
