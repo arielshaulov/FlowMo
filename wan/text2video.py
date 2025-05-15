@@ -22,7 +22,7 @@ from .utils.fm_solvers import (FlowDPMSolverMultistepScheduler,
                                get_sampling_sigmas, retrieve_timesteps)
 from .utils.fm_solvers_unipc import FlowUniPCMultistepScheduler
 
-from .freeinit_utils import (get_freq_filter,freq_mix_3d)
+from freeinit_utils import *
 
 class WanT2V:
 
@@ -121,22 +121,21 @@ class WanT2V:
     def init_filter(self, video_length, height, width, filter_params):
         # initialize frequency filter for noise reinitialization
         batch_size = 1
-        num_channels_latents = self.unet.in_channels
         filter_shape = [
             batch_size, 
-            num_channels_latents, 
-            video_length, 
-            height // self.vae_scale_factor, 
-            width // self.vae_scale_factor
+            self.vae.model.z_dim, 
+            (video_length - 1) // self.vae_stride[0] + 1, 
+            height // self.vae_stride[1], 
+            width // self.vae_stride[2]
         ]
         # self.freq_filter = get_freq_filter(filter_shape, device=self._execution_device, params=filter_params)
         self.freq_filter = get_freq_filter(
             filter_shape, 
-            device=self._execution_device, 
-            filter_type=filter_params.method,
-            n=filter_params.n if filter_params.method=="butterworth" else None,
-            d_s=filter_params.d_s,
-            d_t=filter_params.d_t
+            device=self.device, 
+            filter_type=filter_params['method'],
+            n=filter_params['n'] if filter_params['method'] == "butterworth" else None,
+            d_s=filter_params['d_s'],
+            d_t=filter_params['d_t']
         )
     ##### } FreeInit ######
 
@@ -233,30 +232,8 @@ class WanT2V:
 
         # evaluation mode
         with amp.autocast(dtype=self.param_dtype), torch.no_grad(), no_sync():
-
-            if sample_solver == 'unipc':
-                sample_scheduler = FlowUniPCMultistepScheduler(
-                    num_train_timesteps=self.num_train_timesteps,
-                    shift=1,
-                    use_dynamic_shifting=False)
-                sample_scheduler.set_timesteps(
-                    sampling_steps, device=self.device, shift=shift)
-                timesteps = sample_scheduler.timesteps
-            elif sample_solver == 'dpm++':
-                sample_scheduler = FlowDPMSolverMultistepScheduler(
-                    num_train_timesteps=self.num_train_timesteps,
-                    shift=1,
-                    use_dynamic_shifting=False)
-                sampling_sigmas = get_sampling_sigmas(sampling_steps, shift)
-                timesteps, _ = retrieve_timesteps(
-                    sample_scheduler,
-                    device=self.device,
-                    sigmas=sampling_sigmas)
-            else:
-                raise NotImplementedError("Unsupported solver.")
-
             latents = noise
-            latents_dtype = latents.dtype
+            latents_dtype = latents[0].dtype
 
             arg_c = {'context': context, 'seq_len': seq_len}
             arg_null = {'context': context_null, 'seq_len': seq_len}
@@ -264,15 +241,37 @@ class WanT2V:
             # Sampling with FreeInit.
             for refinement_iter in range(freeinit_num_iters):
                 #  FreeInit { ------------------------------------------------------------------    
+
+                if sample_solver == 'unipc':
+                    sample_scheduler = FlowUniPCMultistepScheduler(
+                        num_train_timesteps=self.num_train_timesteps,
+                        shift=1,
+                        use_dynamic_shifting=False)
+                    sample_scheduler.set_timesteps(
+                        sampling_steps, device=self.device, shift=shift)
+                    timesteps = sample_scheduler.timesteps
+                elif sample_solver == 'dpm++':
+                    sample_scheduler = FlowDPMSolverMultistepScheduler(
+                        num_train_timesteps=self.num_train_timesteps,
+                        shift=1,
+                        use_dynamic_shifting=False)
+                    sampling_sigmas = get_sampling_sigmas(sampling_steps, shift)
+                    timesteps, _ = retrieve_timesteps(
+                        sample_scheduler,
+                        device=self.device,
+                        sigmas=sampling_sigmas)
+                else:
+                    raise NotImplementedError("Unsupported solver.")
+
                 if refinement_iter == 0:
-                    initial_noise = latents.detach().clone()
+                    initial_noise = latents[0].detach().clone()
                 else:
                     # 1. Add initial noise, get noisy latents z_T
-                    current_diffuse_timestep = self.sample_scheduler.config.num_train_timesteps - 1 # timestep 999
+                    current_diffuse_timestep = sample_scheduler.config.num_train_timesteps - 1 # timestep 999
                     diffuse_timesteps = torch.full((1,),int(current_diffuse_timestep))
                     diffuse_timesteps = diffuse_timesteps.long()
-                    z_T = self.sample_scheduler.add_noise(
-                        original_samples=latents.to(self.device), 
+                    z_T = sample_scheduler.add_noise(
+                        original_samples=latents[0].to(self.device), 
                         noise=initial_noise.to(self.device), 
                         timesteps=diffuse_timesteps.to(self.device)
                     )
@@ -281,6 +280,7 @@ class WanT2V:
                     # 3. Noise Reinitialization
                     latents = freq_mix_3d(z_T.to(dtype=torch.float32), z_rand, LPF=self.freq_filter)
                     latents = latents.to(latents_dtype)
+                    # latents = [latents]
                 #  } FreeInit ------------------------------------------------------------------
                 
                 for step_idx, t in enumerate(tqdm(timesteps)):
@@ -318,11 +318,6 @@ class WanT2V:
                 self.model.cpu()
             if self.rank == 0:
                 videos = self.vae.decode(x0)
-
-        # Clean up state checkpointer
-        if state_checkpointer is not None:
-            state_checkpointer.clear_all()
-            del state_checkpointer
 
         del noise, latents
         del sample_scheduler

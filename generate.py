@@ -349,6 +349,18 @@ def generate(args):
             t5_cpu=args.t5_cpu,
         )
 
+        wan_t2v.init_filter(
+                width               = SIZE_CONFIGS[args.size][0],
+                height              = SIZE_CONFIGS[args.size][1],
+                video_length        = args.frame_num,
+                filter_params       = {
+                        'method': 'butterworth',
+                        'n': 4,
+                        'd_s': 0.25,
+                        'd_t': 0.25,
+                    },
+            )
+
         logging.info(
             f"Generating {'image' if 't2i' in args.task else 'video'} ...")
         video = wan_t2v.generate(
