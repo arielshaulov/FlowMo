@@ -315,11 +315,6 @@ class WanI2VCrossAttention(WanSelfAttention):
 
     def forward(self, x, context, context_lens):
         """
-<<<<<<< Updated upstream
-        image_context_length = context.shape[1] - T5_CONTEXT_TOKEN_NUMBER
-        context_img = context[:, :image_context_length]
-        context = context[:, image_context_length:]
-=======
         Device-balanced image-to-video cross-attention implementation
         """
         device = x.device
@@ -345,7 +340,6 @@ class WanI2VCrossAttention(WanSelfAttention):
             
         context_img = context[:, :257]
         context = context[:, 257:]
->>>>>>> Stashed changes
         b, n, d = x.size(0), self.num_heads, self.head_dim
 
         # compute query, key, value
@@ -536,29 +530,9 @@ class Head(nn.Module):
 
 
 class MLPProj(torch.nn.Module):
-<<<<<<< Updated upstream
-
-    def __init__(self, in_dim, out_dim, flf_pos_emb=False):
-=======
     def __init__(self, in_dim, out_dim):
->>>>>>> Stashed changes
         super().__init__()
         self.proj = torch.nn.Sequential(
-<<<<<<< Updated upstream
-            torch.nn.LayerNorm(in_dim), torch.nn.Linear(in_dim, in_dim),
-            torch.nn.GELU(), torch.nn.Linear(in_dim, out_dim),
-            torch.nn.LayerNorm(out_dim))
-        if flf_pos_emb:  # NOTE: we only use this for `flf2v`
-            self.emb_pos = nn.Parameter(torch.zeros(1, FIRST_LAST_FRAME_CONTEXT_TOKEN_NUMBER, 1280))
-
-    def forward(self, image_embeds):
-        if hasattr(self, 'emb_pos'):
-            bs, n, d = image_embeds.shape
-            image_embeds = image_embeds.view(-1, 2 * n, d)
-            image_embeds = image_embeds + self.emb_pos
-        clip_extra_context_tokens = self.proj(image_embeds)
-        return clip_extra_context_tokens
-=======
             torch.nn.LayerNorm(in_dim), 
             torch.nn.Linear(in_dim, in_dim),
             torch.nn.GELU(), 
@@ -597,7 +571,6 @@ class MLPProj(torch.nn.Module):
                 x = layer(x)
         
         return x
->>>>>>> Stashed changes
 
 
 class WanModel(ModelMixin, ConfigMixin):
@@ -626,48 +599,9 @@ class WanModel(ModelMixin, ConfigMixin):
                  qk_norm=True,
                  cross_attn_norm=True,
                  eps=1e-6):
-<<<<<<< Updated upstream
-        r"""
-        Initialize the diffusion model backbone.
-
-        Args:
-            model_type (`str`, *optional*, defaults to 't2v'):
-                Model variant - 't2v' (text-to-video) or 'i2v' (image-to-video) or 'flf2v' (first-last-frame-to-video) or 'vace'
-            patch_size (`tuple`, *optional*, defaults to (1, 2, 2)):
-                3D patch dimensions for video embedding (t_patch, h_patch, w_patch)
-            text_len (`int`, *optional*, defaults to 512):
-                Fixed length for text embeddings
-            in_dim (`int`, *optional*, defaults to 16):
-                Input video channels (C_in)
-            dim (`int`, *optional*, defaults to 2048):
-                Hidden dimension of the transformer
-            ffn_dim (`int`, *optional*, defaults to 8192):
-                Intermediate dimension in feed-forward network
-            freq_dim (`int`, *optional*, defaults to 256):
-                Dimension for sinusoidal time embeddings
-            text_dim (`int`, *optional*, defaults to 4096):
-                Input dimension for text embeddings
-            out_dim (`int`, *optional*, defaults to 16):
-                Output video channels (C_out)
-            num_heads (`int`, *optional*, defaults to 16):
-                Number of attention heads
-            num_layers (`int`, *optional*, defaults to 32):
-                Number of transformer blocks
-            window_size (`tuple`, *optional*, defaults to (-1, -1)):
-                Window size for local attention (-1 indicates global attention)
-            qk_norm (`bool`, *optional*, defaults to True):
-                Enable query/key normalization
-            cross_attn_norm (`bool`, *optional*, defaults to False):
-                Enable cross-attention normalization
-            eps (`float`, *optional*, defaults to 1e-6):
-                Epsilon value for normalization layers
-        """
-
-=======
->>>>>>> Stashed changes
         super().__init__()
 
-        assert model_type in ['t2v', 'i2v', 'flf2v', 'vace']
+        assert model_type in ['t2v', 'i2v']
         self.model_type = model_type
 
         self.patch_size = patch_size
@@ -728,8 +662,8 @@ class WanModel(ModelMixin, ConfigMixin):
             rope_params(1024, 2 * (d // 6))
         ], dim=1)
 
-        if model_type == 'i2v' or model_type == 'flf2v':
-            self.img_emb = MLPProj(1280, dim, flf_pos_emb=model_type == 'flf2v')
+        if model_type == 'i2v':
+            self.img_emb = MLPProj(1280, dim)
 
         # initialize weights
         self.init_weights()
@@ -765,30 +699,6 @@ class WanModel(ModelMixin, ConfigMixin):
         clip_fea=None,
         y=None,
     ):
-<<<<<<< Updated upstream
-        r"""
-        Forward pass through the diffusion model
-
-        Args:
-            x (List[Tensor]):
-                List of input video tensors, each with shape [C_in, F, H, W]
-            t (Tensor):
-                Diffusion timesteps tensor of shape [B]
-            context (List[Tensor]):
-                List of text embeddings each with shape [L, C]
-            seq_len (`int`):
-                Maximum sequence length for positional encoding
-            clip_fea (Tensor, *optional*):
-                CLIP image features for image-to-video mode or first-last-frame-to-video mode
-            y (List[Tensor], *optional*):
-                Conditional video inputs for image-to-video mode, same shape as x
-
-        Returns:
-            List[Tensor]:
-                List of denoised video tensors with original input shapes [C_out, F, H / 8, W / 8]
-        """
-        if self.model_type == 'i2v' or self.model_type == 'flf2v':
-=======
         """
         Forward pass with improved device distribution
         """
@@ -797,7 +707,6 @@ class WanModel(ModelMixin, ConfigMixin):
         # print(f"Using {primary_device} as primary device for large operations")
         
         if self.model_type == 'i2v':
->>>>>>> Stashed changes
             assert clip_fea is not None and y is not None
             
         # Process each input on its own device, then move to appropriate compute device
@@ -935,28 +844,6 @@ class WanModel(ModelMixin, ConfigMixin):
 
         # Process CLIP features if provided
         if clip_fea is not None:
-<<<<<<< Updated upstream
-            context_clip = self.img_emb(clip_fea)  # bs x 257 (x2) x dim
-            context = torch.concat([context_clip, context], dim=1)
-
-        # arguments
-        kwargs = dict(
-            e=e0,
-            seq_lens=seq_lens,
-            grid_sizes=grid_sizes,
-            freqs=self.freqs,
-            context=context,
-            context_lens=context_lens)
-
-        for block in self.blocks:
-            x = block(x, **kwargs)
-
-        # head
-        x = self.head(x, e)
-
-        # unpatchify
-        x = self.unpatchify(x, grid_sizes)
-=======
             clip_device = get_optimal_device()
             context_clip = self.img_emb(clip_fea.to(clip_device))
             context = torch.concat([context_clip.to(context.device), context], dim=1)
@@ -1015,7 +902,6 @@ class WanModel(ModelMixin, ConfigMixin):
         x = self.unpatchify(x.to(unpatching_device), grid_sizes.to(unpatching_device))
         
         # print("Forward pass complete")
->>>>>>> Stashed changes
         return [u.float() for u in x]
         
     def _print_memory_status(self):
