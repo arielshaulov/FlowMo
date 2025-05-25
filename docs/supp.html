@@ -1,0 +1,642 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>FlowMo: Variance-Based Flow Guidance for Coherent Motion in Video Generation</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <!-- additions for carousel -->
+    <!-- <link rel="stylesheet" href="static/css/bulma.min.css"> -->
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="static/css/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+    <script defer src="static/js/fontawesome.all.min.js"></script>
+    <script src="static/js/bulma-carousel.min.js"></script>
+    <script src="static/js/bulma-slider.min.js"></script>
+    <script src="static/js/index.js"></script>
+
+
+    <style>
+        h3 {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* 3 columns */
+            gap: 15px;
+            /* Space between videos */
+            max-width: 1500px;
+            /* Adjust to your preferred width */
+            margin: 0 auto;
+            /* Center align the grid */
+        }
+
+        .video-container2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 columns */
+            gap: 15px;
+            /* Space between videos */
+            max-width: 1500px;
+            /* Adjust to your preferred width */
+            margin: 0 auto;
+            /* Center align the grid */
+        }
+
+        .video-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-title {
+            margin-bottom: 10px;
+            /* Space between title and video */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            /* Make videos responsive */
+            height: auto;
+        }
+
+        .video-container-four {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 columns */
+            gap: 15px;
+            /* Space between videos */
+            max-width: 1100px;
+            /* Adjust to your preferred width */
+            margin: 0 auto;
+            /* Center align the grid */
+        }
+
+        .video-item-four {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-title-four {
+            margin-bottom: 10px;
+            /* Space between title and video */
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .video-container-five {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            /* 5 columns */
+            gap: 15px;
+            /* Space between videos */
+            max-width: 1400px;
+            /* Adjust to your preferred width */
+            margin: 0 auto;
+            /* Center align the grid */
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1 align="center">FlowMo: Variance-Based Flow Guidance for Coherent Motion in Video Generation</h1>
+    <h2 align="center">Paper ID #12093</h2>
+    <h2 align="center">Supplementary Material</h2>
+
+    <p style="margin-bottom:0.5cm;"></p>
+    <table align=center width=800px height=80px>
+        <tr>
+            <td align=center width=250px>
+                <center><span style="font-size:40px; text-align: center;">Abstract</span></center>
+            </td>
+        </tr>
+    </table>
+    <table align=center width=1200px height=100px>
+        <tr>
+            <td align=center width=1200px>
+                <center><span style="font-size:18px; text-align: center;">
+                        Text-to-video diffusion models are notoriously limited in their ability to model temporal
+                        aspects such as motion, physics, and dynamic interactions. Existing approaches address this
+                        limitation by retraining the model or introducing external conditioning signals to enforce
+                        temporal consistency. In this work, we explore whether a meaningful temporal representation can
+                        be extracted directly from the predictions of a pre-trained model without any additional
+                        training or auxiliary inputs. We introduce <strong>FlowMo</strong>, a novel training-free
+                        guidance method that enhances motion coherence using only the model's own predictions in each
+                        diffusion step.
+                        FlowMo first derives an appearance-debiased temporal representation by measuring the distance
+                        between latents corresponding to consecutive frames. This highlights the implicit temporal
+                        structure predicted by the model.
+                        It then estimates motion coherence by measuring the patch-wise variance across the temporal
+                        dimension, and guides the model to reduce this variance dynamically during sampling. Extensive
+                        experiments across multiple text-to-video models demonstrate that FlowMo significantly improves
+                        motion coherence without sacrificing visual quality or prompt alignment, offering an effective
+                        plug-and-play solution for enhancing the temporal fidelity of pre-trained video diffusion
+                        models.
+                        <br>
+                        <br>
+                    </span></center>
+            </td>
+        </tr>
+    </table>
+    <p style="margin-bottom:0.5cm;"></p>
+    </div>
+    <hr>
+
+    <!------------------ END SECTION ------------------>
+
+    <h2 id="our_results_container" class="results">
+        <a name="image-results" id="image-results"></a>Qualitative Comparison: FlowMo vs. the Base Model (Wan2.1-1.3B,
+        CogVideoX-5B)
+    </h2>
+    <td align="center" style="width: 100%; padding: 0;">
+        <!-- <div style="max-width: 1400px; width: 100%; margin: 0 auto; text-align: center;"> -->
+        <div style="max-width: 1400px; width: 100%; margin: 0 auto;">
+            <span style="font-size: 20px;">
+                As mentioned in the paper, <strong>FlowMo is a novel training-free guidance method that enhances motion
+                    coherence</strong>. In this section, we provide an
+                <strong>apples-to-apples</strong> qualitative comparison showing the impact of FlowMo on the base model
+                (Wan2.1-1.3B, CogVideoX-5B). The comparisons are conducted with the same random seed on diverse prompts
+                that capture a variety of motion types.
+                <strong>Use the arrows to navigate through the results.</strong>
+            </span>
+        </div>
+    </td>
+
+    <br>
+    <h3>Wan2.1-1.3B</h3>
+    <table width="100%" align="center">
+        <tbody>
+            <div id="results-carousel" class="carousel results-carousel">
+                <!-- Carousel Item 1 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_boy_with_glasses_flying_a_kite_in_a_grassy_field_72_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A boy with glasses flying a kite in a grassy field.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/gym_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A woman performing a challenging exercise.</div>
+                    </div>
+                </div>
+
+
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_dolphin_jumping_out_of_ocean_waves_72_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A dolphin jumping out of ocean waves.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_ninja_flipping_through_a_bamboo_forest_72_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A ninja flipping through a bamboo fores.</div>
+                    </div>
+                </div>
+
+                <!-- Carousel Item 2 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_person_rowing_a_boat_across_a_misty_lake_72_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A person rowing a boat across a misty lake.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_roulette_wheel_in_a_dimly_lit_room_or_casino_flo_1024_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A roulette wheel in a dimly lit room or casino floor.</div>
+                    </div>
+                </div>
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_senior_couple_dancing_at_sunset_on_a_pier_72_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A senior couple dancing at sunset on a pier.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_woman_in_a_flowing_dress_dancing_in_a_field_72_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A woman in a flowing dress dancing in a field.</div>
+                    </div>
+                </div>
+
+                <!-- Carousel Item 3 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_child_jumping_on_a_trampoline_72_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A child jumping on a trampoline.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_helicopter_flying_over_a_forest._The_helicopter__1024_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A helicopter flying over a forest.</div>
+                    </div>
+                </div>
+
+
+                <!-- Carousel Item 4 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/Pikachu_roasting_marshmallows_with_Charmander_at_a_42_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">Pikachu with Charmander at a campfire.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_wan/A_painter_creating_a_landscape_on_canvas_72_concat.mp4"
+                                type="video/mp4">
+                        </video>
+                        <div class="video-title">A painter creating a landscape on canvas.</div>
+                    </div>
+                </div>
+
+
+            </div>
+        </tbody>
+    </table>
+
+    <br>
+    <h3>CogVideoX-5B</h3>
+    <table width="100%" align="center">
+        <tbody>
+            <div id="results-carousel" class="carousel results-carousel">
+
+                <!-- Carousel Item 4 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/violin_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A violinist performing a solo on stage.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_pair_of_flamingos_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A pair of flamingos wading through shallow water.</div>
+                    </div>
+                </div>
+
+                <!-- Carousel Item 5 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_ballerina_leaping_through_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A ballerina leaping through the air.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_deer_leaping_over_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A deer leaping over a fallen log.</div>
+                    </div>
+                </div>
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_potter_shaping_clay_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A potter shaping clay on a spinning wheel.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_skateboarder_performing_an_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A teenager skateboarding down a handrail.</div>
+                    </div>
+                </div>
+
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_falcon_swooping_down_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A falcon swooping down.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_golfer_following_through_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A golfer following through on a perfect swing.</div>
+                    </div>
+                </div>
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_bee_collecting_pollen_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A bee collecting pollen from a vibrant flower.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_cog/A_chef_flipping_vegetables_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A chef flipping vegetables in a wok with dramatic flames.</div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </tbody>
+    </table>
+    <hr>
+
+    <h2 id="our_results_container" class="results">
+        <a name="image-results" id="image-results"></a>Qualitative Comparison: FlowMo vs. FreeInit
+    </h2>
+    <td align="center" style="width: 100%; padding: 0;">
+        <!-- <div style="max-width: 1400px; width: 100%; margin: 0 auto; text-align: center;"> -->
+        <div style="max-width: 1400px; width: 100%; margin: 0 auto;">
+            <span style="font-size: 20px;">
+                As mentioned in the paper, <strong>we compare FlowMo with FreeInit</strong>, a method originally
+                designed for UNet-based DDPM/DDIM models that suffer from temporal artifacts due to signal-to-noise
+                ratio (SNR) discrepancies between training and inference. These artifacts often result in
+                inconsistencies across frames (e.g., identity or background shifts).
+                In contrast, FlowMo operates on modern Transformer-based models trained with Flow Matching (FM), which
+                offer greater temporal consistency due to stronger architectures and training on large-scale data. For a
+                fair comparison, we adapted FreeInit to FM-based DiT models by applying its re-noising strategy to
+                initialize low-frequency components.
+                To provide a fair comparison, we adapted FreeInit for use with FM-based DiT models. This involved
+                re-noising a denoised latent and combining this re-noised latent with random noise to initialize the
+                low-frequency components, before repeating the denoising process, as per FreeInit's methodology. Here
+                are some of the results from our qualitative comparisons between FlowMo and our adapted FreeInit.
+                <strong>Use the arrows to navigate through the results.</strong>
+            </span>
+        </div>
+    </td>
+    
+    <table width="100%" align="center">
+        <tbody>
+            <div id="results-carousel" class="carousel results-carousel">
+
+                <!-- Carousel Item 4 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_Athletic_man_doing_gymnastics_elements_on_horizont_1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">Athletic man doing gymnastics on a horizontal bar.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_Young_Adult_Male_Doing_Handstand_on_the_beach._1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">Young adult male doing a handstand on the beach.</div>
+                    </div>
+                </div>
+
+                <!-- Carousel Item 5 (4 videos) -->
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_A_small_dog_playing_with_a_red_ball_on_a_hardwood__1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A small dog playing with a red ball on a hardwood floor.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_A_man_jumping_rope_on_a_dark_stage._His_movements__1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A man jumping rope on a dark stage.</div>
+                    </div>
+                </div>
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_Arc_camera_shot._A_young_woman_doing_stretches_on__1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A young woman doing stretches on the beach.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_A_close-up_of_a_person’s_feet_as_they_walk_through_1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A close-up of a person's feet as they walk through flowers.</div>
+                    </div>
+                </div>
+
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_A_person_lifts_one_knee_high_in_a_marching_motion,_1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A person lifts one knee high in a marching motion.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/1_A_young_woman_practicing_boxing_in_a_gym._1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A young woman practicing boxing in a gym.</div>
+                    </div>
+                </div>
+
+                <div class="carousel-item carousel-item-new">
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/A_female_kayaker_paddling_through_white_water_rapi_72_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">A female kayaker paddling through white water rapids.</div>
+                    </div>
+                    <div class="video-item video-item-new">
+                        <video loading="lazy" autoplay loop muted>
+                            <source src="out_freeinit/An_origami_bird_transforming_into_a_real_dove_and__1024_concat.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-title">An origami bird transforming into a real dove and taking flight.</div>
+                    </div>
+                </div>
+
+            </div>
+        </tbody>
+    </table>
+    <!------------------ END SECTION ------------------>
+
+    <!-- <h2 id="our_results_container" class="results"><a name="image-results" id="image-results"></a>Motion Incoherence in Video Generation</h2>
+ <td align="center" style="width: 100%; padding: 0;">
+     <div style="max-width: 1400px; width: 100%; margin: 0 auto;">
+         <span style="font-size: 20px;">
+             State-of-the-art video generators struggle to model real-world dynamics and physics. We identify four categories that current models struggle with: (a) <strong>basic motion</strong> (e.g., walking, running), (b) <strong>complex motion</strong> (e.g., gymnastics), (c) <strong>physics</strong> (e.g., solid objects that move through other objects), and (d) <strong>rotational motion</strong> (e.g., spinning).
+         </span>
+     </div>
+ </td>
+ <br>
+ 
+
+ </body>
+<hr> -->
+    <!------------------ END SECTION ------------------>
+
+
+    <hr>
+    <h2 id="our_results_container" class="results">
+        Motivation for FlowMo
+    </h2>
+    <td align="center" style="width: 100%; padding: 0;">
+        <!-- <div style="max-width: 1400px; width: 100%; margin: 0 auto; text-align: center;"> -->
+        <div style="max-width: 1400px; width: 100%; margin: 0 auto;">
+            <span style="font-size: 20px;">
+                FlowMo arose from the observation that videos with coherent and incoherent motion exhibit separation in
+                a measure we defined as <strong>Patch-Wise Variance</strong>. Given a tensor, we first compute the
+                ℓ<sub>1</sub>-distance between consecutive latent frames to eliminate their common appearance
+                information and get a debiased motion representation. We then compute patch-wise temporal variance, and
+                finally take its mean value across channels.
+            </span>
+            <div align="center" style="text-align: center;">
+                <video loading="lazy" autoplay loop muted style="margin: auto; width: 50%;">
+                    <source src="./method.mp4" type="video/mp4">
+                </video>
+                <div class="video-title">Patch-Wise Variance of a Latent Video</div>
+            </div>
+            <br>
+            <span style="font-size: 20px;">
+                After examining the patch-wise variance of the model's prediction when generating videos with coherent
+                and incoherent motion, we found that the model's predictions for coherent motion consistently exhibited
+                lower patch-wise variance compared to those for incoherent motion, as seen in the figure below.
+                Intuitively, in videos with smooth and consistent motion, object trajectories evolve gradually,
+                resulting in lower temporal variance. In contrast, incoherent motion introduces abrupt changes,
+                manifesting as larger fluctuations and higher patch-wise variance in the latent predictions.
+            </span>
+            <div align="center" style="text-align: center;">
+                <img src="./separation_on_tagged_videos_model_output_mean.jpg" alt="Patch-wise variance"
+                    style="width: 40%; height: auto; margin: auto; display: block;">
+                <div class="video-title">Patch-Wise Variance of a Latent Video</div>
+            </div>
+            <br>
+            <span style="font-size: 20px;">
+                We have therefore proposed to use this measure to guide the model to reduce the patch-wise variance
+                during sampling, thus encouraging it to produce a prediction which is more likely to demonstrate
+                coherent motion. After each timestep of the first 12 timesteps, <strong>FlowMo</strong> minimizes the maximum patch-wise variance of the model's prediction, which results in an adjusted latent for the next
+                timestep. We chose the first 12 timesteps because we found that coarse spatial information is determined in the first steps (0-4) and motion is determined at around steps 5-8 (and refined later), as seen in the figures below.
+            </span>
+            <table>
+                <tr>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=0_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 1</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=1_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 2</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=2_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 3</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=3_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 4</div> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=4_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 5</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=5_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 6</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=6_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 7</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=7_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 8</div> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=8_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 9</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=9_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 10</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=10_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 11</div> -->
+                    </td>
+                    <td align="center">
+                        <video loading="lazy" autoplay loop muted style="margin: auto; width: 100%;">
+                            <source src="channels/athletic_t=11_c=0.mp4" type="video/mp4">
+                        </video>
+                        <!-- <div class="video-title">Timestep 12</div> -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </td>
+
+
+    </div>
+</body>
+
+</html>

@@ -5,7 +5,6 @@
 # *.png
 *.gif
 *.bmp
-*.mp4
 *.mov
 *.mkv
 *.log
@@ -18,7 +17,6 @@
 # *.txt
 *.backup
 *.pkl
-*.html
 *.pdf
 *.whl
 cache
@@ -41,3 +39,7 @@ motion_loss_expirement/
 vae_encoder_decoder.py
 prompts.txt
 *.slurm
+*.png
+*.txt
+plot_remove_unnecessary_metrics.py
+plot_user_study_mean.py

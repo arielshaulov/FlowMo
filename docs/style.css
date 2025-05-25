@@ -1,0 +1,439 @@
+/* Define the color variable at the root level */
+:root {
+  --main-bg-color: #ebebe6 !important; /* Light gray background color */
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    /* background-color: #DEDAF4; */
+    color: #000;
+    background-color: var(--main-bg-color) !important;
+}
+td {
+  font-size: 20px;
+}
+.page-container {
+    width: 1200px;
+    min-height: 1000px;
+    margin: 0 auto; /* top and bottom, right and left */
+    text-align: left; /* top, right, bottom, left */
+    padding-top: 0em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+}
+#our_results_container {
+  text-align: center;
+  font-size: 30px;
+}
+.video-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Gap between video-item elements */
+}
+.title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+.video-title {
+    margin: 0;
+    padding: 0;
+}
+.video-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    gap: 5px; /* Controls space between the title and the video */
+}
+
+
+.new-video-title {
+    font-size: 16px;
+    margin-bottom: 5px; /* Space between title and video */
+}
+
+.results {
+    text-align: center;
+}
+.content {
+    margin-left: -100px;
+}
+
+
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: white; /* Sets the background color to white */
+    color: black; /* Ensures text remains readable */
+  }
+
+
+
+th.afhq {
+    width: 200px;
+}
+th {
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+}
+a:link {
+    color: #4488ff;
+    text-decoration: underline;
+}
+a:active {
+    color: #4488ff;
+    text-decoration: underline;
+}
+a:visited {
+    color: #4488ff;
+    text-decoration: underline;
+}
+a:hover {
+    color: #ff0000;
+    text-decoration: none;
+}
+.reference {
+    font-size: 80%;
+}
+.emph {
+    color: #B1FF00;
+}
+
+.comparison-img {
+    width: 150px !important;
+}
+
+hr {
+    background-color: white;
+}
+
+.video-grid {
+    /* display: grid; */
+    /* grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+    /* gap: 1px; /* Adjust the gap between videos as needed */
+  }
+
+  .video-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 48%;
+    /* height: 350px; /* Set the desired width */
+    /* padding-bottom: 350px; */
+    /* overflow: hidden; */
+  }
+
+
+  .video-wrapper video {
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-wrapper .hover-video {
+    display: none;
+  }
+
+  .video-wrapper .overlay-text {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    font-family: "Chalkduster";
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+  }
+
+  .video-wrapper:hover .default-video {
+    display: none;
+  }
+
+  .video-wrapper:hover .hover-video {
+    display: block;
+  }
+
+  .video-wrapper:hover .overlay-text {
+    opacity: 1;
+  }
+
+
+  .video-wrapper video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  .video-wrapper video::-webkit-media-controls-enclosure {
+    display: none !important;
+  }
+
+  .video-wrapper video::-webkit-media-controls-panel {
+    display: none !important;
+  }
+
+  .video-wrapper video::-webkit-media-controls-play-button {
+    display: none !important;
+  }
+
+
+
+
+  .video-grid-wide {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as needed */
+    gap: 1px; /* Adjust the gap between videos as needed */
+  }
+
+  .video-warpper-wide {
+    position: relative;
+    width: 350px; /* Set the desired width */
+    height: 350px;
+    overflow: hidden;
+  }
+
+  .video-warpper-wide video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-warpper-wide .hover-video {
+    display: none;
+  }
+
+  .caption-vid {
+    display: inline-block;
+  }
+
+  .video-warpper-wide .overlay-text {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    font-family: "Chalkduster";
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+    text-align: center;
+  }
+
+  .video-warpper-wide:hover .default-video {
+    display: none;
+  }
+
+  .video-warpper-wide:hover .hover-video {
+    display: block;
+  }
+
+  .video-warpper-wide:hover .overlay-text {
+    opacity: 1;
+  }
+
+   /* carousel additions- 2 items and 2 rows */
+
+
+/* Ensure the carousel uses a flexbox layout for its items */
+.results-carousel {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next row */
+  gap: 0px; /* Decrease space between carousel items */
+  padding: 0; /* Remove any extra padding to avoid overflow */
+  margin: 0 auto; /* Center the carousel container horizontally */
+  justify-content: center; /* Center the content inside the carousel */
+  box-sizing: border-box; /* Ensure padding is included in total width calculation */
+  width: auto; /* Let the width adjust to the content */
+  max-width: 1400px; /* Limit the maximum width of the carousel */
+  background-color: var(--main-bg-color) !important;
+}
+
+/* Each carousel item holds 4 video items (2 rows, 2 items per row) */
+.carousel-item-new {
+  display: flex;
+  flex-wrap: wrap; /* Allow the video items to wrap within the carousel item */
+  gap: 0px; /* Space between video items */
+  justify-content: space-between;
+  padding: 0px; /* Reduced padding inside each carousel item */
+  /* background-color: #fff; Ensure a clean background */
+  box-sizing: border-box; /* Make sure padding doesn't affect width calculation */
+  width: auto; /* Let each item size based on its content */
+  min-width: 100%; /* Ensure each carousel item fills its container */
+  background-color: var(--main-bg-color) !important;
+}
+
+/* Each video item takes 48% of the width to ensure two items fit per row */
+.video-item-new {
+  width: calc(50% - 12.5px); /* Two items per row, subtracting gap */
+  box-sizing: border-box; /* Ensure padding and margin don't affect width calculation */
+}
+
+/* Make sure videos fill the width of their containers */
+.video-item-new video {
+  width: 100%; /* Make video take full width of its container */
+  display: block; /* Ensures no extra space around the video */
+  border: none; /* Remove any default browser border */
+  outline: none; /* Remove focus outline */
+}
+
+/* Style the title below each video */
+.video-title {
+  text-align: center; /* Center the video title */
+  margin-top: 0px; /* Add space between the video and the title */
+  font-family: "Times New Roman", serif; /* Use Times New Roman font */
+  font-weight: normal !important; /* Ensure the text is not bold */
+  font-size: 20px; /* Increase the font size (adjust as needed) */
+}
+
+/* Responsive design: Stack video items vertically on small screens */
+@media (max-width: 768px) {
+  .carousel-item-new {
+      flex-direction: column; /* Stack video items vertically */
+  }
+
+  .video-item-new {
+      width: 100%; /* Make each item take full width */
+  }
+}
+
+
+/* carouseal with 3 items and 3 rows */
+
+/* Ensure the carousel uses a flexbox layout for its items */
+.results-carousel-3x3 {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next row */
+  gap: 25px; /* Space between carousel items */
+  padding: 0; /* Remove any extra padding to avoid overflow */
+  margin: 0 auto; /* Center the carousel container horizontally */
+  justify-content: center; /* Center the content inside the carousel */
+  width: 100%; /* Ensure carousel takes full width */
+  max-width: 1400px; /* Limit the maximum width of the carousel */
+  background-color: var(--main-bg-color); /* Background color of the page */
+  box-sizing: border-box; /* Include padding and borders in the element's total width/height */
+  overflow: hidden; /* Prevent content from overflowing the carousel */
+}
+
+/* Each carousel item holds 3 rows of 3 video items */
+.carousel-item-3x3 {
+  display: flex;
+  flex-direction: column; /* Stack the rows vertically */
+  gap: 0px; /* Space between rows */
+  padding: 0px; /* Reduced padding inside each carousel item */
+  box-sizing: border-box; /* Make sure padding doesn't affect width calculation */
+  width: 100%; /* Let each item size based on its content */
+  min-width: 100%; /* Ensure each carousel item fills its container */
+  background-color: var(--main-bg-color) !important;
+}
+
+/* Each row inside the carousel item holds 3 video items */
+.carousel-row-3x3 {
+  display: flex;
+  justify-content: space-between; /* Distribute videos evenly within the row */
+  gap: 0px; /* Space between video items */
+  width: 100%; /* Ensure the row takes up full width */
+}
+
+/* Each video item takes 33.3333% of the width to ensure three items fit per row */
+.video-item-3x3 {
+  width: calc(33.3333% - 16px); /* Three items per row, subtracting gap */
+  box-sizing: border-box; /* Ensure padding and margin don't affect width calculation */
+}
+
+/* Make sure videos fill the width of their containers */
+.video-item-3x3 video {
+  width: 100%; /* Make video take full width of its container */
+  display: block; /* Ensures no extra space around the video */
+  border: none; /* Remove any default browser border */
+  outline: none; /* Remove focus outline */
+}
+
+/* Style the title below each video */
+.video-title-3x3 {
+  text-align: center; /* Center the video title */
+  margin-top: 0px; /* Add space between the video and the title */
+  font-family: "Times New Roman", serif; /* Use Times New Roman font */
+  font-weight: normal !important; /* Ensure the text is not bold */
+  font-size: 20px; /* Adjust font size */
+}
+
+/* Responsive design: Stack video items vertically on small screens */
+@media (max-width: 768px) {
+  .carousel-item-3x3 {
+    flex-direction: column; /* Stack video items vertically */
+  }
+
+  .carousel-row-3x3 {
+    flex-direction: column; /* Stack rows vertically */
+  }
+
+  .video-item-3x3 {
+    width: 100%; /* Make each item take full width on small screens */
+  }
+}
+
+
+/* qulitative comparison css */
+
+/* Container that holds the row of videos */
+.new-row-container {
+  display: flex;
+  justify-content: space-between; /* Evenly space out the videos */
+  gap: 10px; /* Space between the videos */
+  flex-wrap: nowrap; /* Prevent wrapping of items */
+  padding: 0px 0;
+  width: 100%;
+  max-width: 100%; /* Ensure the container takes up the full width */
+  margin: 0 auto; /* Center the container */
+  overflow: hidden; /* Ensure any excess content is clipped */
+}
+
+
+
+/* Title above the video */
+.new-text-prompt {
+  font-size: 16px; /* Size of the title text */
+  font-weight: bold;
+  color: #333; /* Dark color for the text */
+}
+
+/* Make the video fill the width of its container */
+.new-video-item video {
+  width: 100%; /* Make the video take the full width of the item */
+  display: block;
+  border: none; /* No border around the video */
+  outline: none; /* Remove focus outline */
+  height: auto; /* Maintain video aspect ratio */
+}
+
+/* Optional: style for the prompt below the video */
+.new-video-item .new-text-prompt:last-child {
+  font-size: 20px;
+  font-weight: normal;
+  color: #666; /* Lighter color for the prompt */
+}
+
+/* Responsive design: Stack the videos vertically on smaller screens */
+@media (max-width: 768px) {
+  .new-video-item {
+    flex: 1 1 100%; /* Stack videos on smaller screens */
+    width: 100%; /* Full width on smaller devices */
+  }
+
+  .new-video-item:hover {
+    transform: none; /* Remove scale effect on hover */
+  }
+}
