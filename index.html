@@ -104,7 +104,7 @@
     .carousel {
       position: relative;
       padding: 0 50px; /* Small padding for arrows */
-      margin-bottom: 40px; /* Space for dots */
+      margin-bottom: 60px; /* More space for dots */
     }
 
     /* Move arrows to the sides of the carousel */
@@ -124,11 +124,19 @@
       right: 10px;
     }
 
-    /* Move dots lower */
+    /* Move dots much lower */
     .carousel .slider-navigation {
       position: relative;
-      margin-top: 20px;
+      margin-top: 40px;
       text-align: center;
+    }
+
+    /* Add spacing between videos in carousel items */
+    .carousel-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px; /* Add space between videos */
+      padding: 0 20px; /* Add some side padding */
     }
   </style>
 </head>
