@@ -99,6 +99,61 @@
       margin: 20px auto;
       text-align: center;
     }
+
+
+    /* Move carousel dots lower (below the text) */
+    .carousel .carousel-navigation {
+      bottom: -50px !important; /* Adjust this value as needed */
+    }
+    
+    /* Alternative: If you want dots even lower */
+    .carousel .carousel-navigation.is-bottom {
+      bottom: -60px !important;
+    }
+    
+    /* Move carousel arrows away from videos */
+    .carousel .carousel-navigation.is-overlay .carousel-nav-left {
+      left: -60px !important; /* Move left arrow further left */
+    }
+    
+    .carousel .carousel-navigation.is-overlay .carousel-nav-right {
+      right: -60px !important; /* Move right arrow further right */
+    }
+    
+    /* Alternative: Position arrows outside the carousel container entirely */
+    .carousel-container {
+      position: relative;
+      padding: 0 80px; /* Make space for arrows */
+    }
+    
+    .carousel .carousel-navigation.is-overlay .carousel-nav-left {
+      left: -80px !important;
+    }
+    
+    .carousel .carousel-navigation.is-overlay .carousel-nav-right {
+      right: -80px !important;
+    }
+    
+    /* Ensure arrows are visible and clickable */
+    .carousel .carousel-navigation.is-overlay .carousel-nav-left,
+    .carousel .carousel-navigation.is-overlay .carousel-nav-right {
+      z-index: 10;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Style the arrow icons */
+    .carousel .carousel-navigation.is-overlay .carousel-nav-left:before,
+    .carousel .carousel-navigation.is-overlay .carousel-nav-right:before {
+      color: white;
+      font-size: 18px;
+    }
+    
   </style>
 </head>
 <body>
