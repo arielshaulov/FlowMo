@@ -99,6 +99,98 @@
       margin: 20px auto;
       text-align: center;
     }
+
+    /* Custom carousel navigation styles */
+    .carousel {
+      position: relative;
+      padding: 0 60px; /* Add padding for arrows */
+      margin-bottom: 60px; /* Add space for dots */
+    }
+
+    /* Move arrows to the sides */
+    .carousel .slider-navigation-previous,
+    .carousel .slider-navigation-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.7);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .carousel .slider-navigation-previous:hover,
+    .carousel .slider-navigation-next:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .carousel .slider-navigation-previous {
+      left: 10px;
+    }
+
+    .carousel .slider-navigation-next {
+      right: 10px;
+    }
+
+    /* Move dots lower and outside the content area */
+    .carousel .slider-navigation {
+      position: absolute;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      z-index: 5;
+    }
+
+    .carousel .slider-navigation .slider-navigation-item {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.3);
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .carousel .slider-navigation .slider-navigation-item.is-active {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .carousel .slider-navigation .slider-navigation-item:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    /* Ensure carousel content doesn't overlap with navigation */
+    .carousel-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 20px 0;
+    }
+
+    .video-item-new {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-item-new video {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -270,7 +362,6 @@
         </div>
       </div>
 
-
       <div class="carousel-item carousel-item-new">
         <div class="video-item video-item-new">
             <video loading="lazy" autoplay loop muted>
@@ -300,8 +391,6 @@
             <div class="video-title">A painter creating a landscape on canvas.</div>
         </div>
       </div>
-
-
     </div>
 
     <!-- CogVideoX-5B Results -->
@@ -383,8 +472,6 @@
             <div class="video-title">A chef flipping vegetables in a wok with dramatic flames.</div>
         </div>
       </div>
-
-
     </div>
   </div>
 </section>
@@ -449,7 +536,7 @@
         </div>
         <div class="video-item video-item-new">
             <video loading="lazy" autoplay loop muted>
-                <source src="out_freeinit/1_A_close-up_of_a_person’s_feet_as_they_walk_through_1024_concat.mp4" type="video/mp4">
+                <source src="out_freeinit/1_A_close-up_of_a_person's_feet_as_they_walk_through_1024_concat.mp4" type="video/mp4">
             </video>
             <div class="video-title">A close-up of a person's feet as they walk through flowers.</div>
         </div>
@@ -484,8 +571,6 @@
             <div class="video-title">An origami bird transforming into a real dove and taking flight.</div>
         </div>
       </div>
-
-
     </div>
   </div>
 </section>
@@ -636,6 +721,7 @@
                href="https://nerfies.github.io/">Nerfies</a>
              project page. If you want to reuse their
              <a rel="source code"
+               href="https://github.com/nerfies/nerfies.github.io">source code</a>, please credit them appropriately.
           </p>
         </div>
       </div>
