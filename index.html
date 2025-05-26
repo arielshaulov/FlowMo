@@ -100,37 +100,20 @@
       text-align: center;
     }
 
-    /* Custom carousel navigation styles */
+    /* Minimal carousel navigation adjustments */
     .carousel {
       position: relative;
-      padding: 0 60px; /* Add padding for arrows */
-      margin-bottom: 60px; /* Add space for dots */
+      padding: 0 50px; /* Small padding for arrows */
+      margin-bottom: 40px; /* Space for dots */
     }
 
-    /* Move arrows to the sides */
+    /* Move arrows to the sides of the carousel */
     .carousel .slider-navigation-previous,
     .carousel .slider-navigation-next {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       z-index: 10;
-      background: rgba(0, 0, 0, 0.7);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .carousel .slider-navigation-previous:hover,
-    .carousel .slider-navigation-next:hover {
-      background: rgba(0, 0, 0, 0.9);
     }
 
     .carousel .slider-navigation-previous {
@@ -141,55 +124,11 @@
       right: 10px;
     }
 
-    /* Move dots lower and outside the content area */
+    /* Move dots lower */
     .carousel .slider-navigation {
-      position: absolute;
-      bottom: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      z-index: 5;
-    }
-
-    .carousel .slider-navigation .slider-navigation-item {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.3);
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .carousel .slider-navigation .slider-navigation-item.is-active {
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .carousel .slider-navigation .slider-navigation-item:hover {
-      background: rgba(0, 0, 0, 0.6);
-    }
-
-    /* Ensure carousel content doesn't overlap with navigation */
-    .carousel-item {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      padding: 20px 0;
-    }
-
-    .video-item-new {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .video-item-new video {
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-      border-radius: 8px;
+      position: relative;
+      margin-top: 20px;
+      text-align: center;
     }
   </style>
 </head>
