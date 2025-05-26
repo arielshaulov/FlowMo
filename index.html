@@ -131,12 +131,20 @@
       text-align: center;
     }
 
-    /* Add spacing between videos in carousel items */
+    /* Add spacing between videos in carousel items with larger size */
     .carousel-item {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 30px; /* Add space between videos */
-      padding: 0 20px; /* Add some side padding */
+      gap: 40px; /* Space between videos */
+      padding: 20px 10px; /* Vertical and horizontal padding */
+      max-width: 1200px; /* Maintain good width */
+      margin: 0 auto; /* Center the content */
+    }
+
+    .carousel-item video {
+      width: 100%;
+      height: auto;
+      min-height: 250px; /* Ensure videos have good height */
     }
   </style>
 </head>
