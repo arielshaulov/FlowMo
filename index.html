@@ -99,6 +99,14 @@
       margin: 20px auto;
       text-align: center;
     }
+
+    .grey-background {
+      background-color: #f8f9fa;
+      padding: 40px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
   </style>
 </head>
 <body>
@@ -155,39 +163,42 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Text-to-video diffusion models are notoriously limited in their ability to model temporal
-            aspects such as motion, physics, and dynamic interactions. Existing approaches address this
-            limitation by retraining the model or introducing external conditioning signals to enforce
-            temporal consistency. In this work, we explore whether a meaningful temporal representation can
-            be extracted directly from the predictions of a pre-trained model without any additional
-            training or auxiliary inputs. We introduce <strong>FlowMo</strong>, a novel training-free
-            guidance method that enhances motion coherence using only the model's own predictions in each
-            diffusion step.
-          </p>
-          <p>
-            FlowMo first derives an appearance-debiased temporal representation by measuring the distance
-            between latents corresponding to consecutive frames. This highlights the implicit temporal
-            structure predicted by the model.
-            It then estimates motion coherence by measuring the patch-wise variance across the temporal
-            dimension, and guides the model to reduce this variance dynamically during sampling. Extensive
-            experiments across multiple text-to-video models demonstrate that FlowMo significantly improves
-            motion coherence without sacrificing visual quality or prompt alignment, offering an effective
-            plug-and-play solution for enhancing the temporal fidelity of pre-trained video diffusion
-            models.
-          </p>
+  
+<section class="grey-background">
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Text-to-video diffusion models are notoriously limited in their ability to model temporal
+              aspects such as motion, physics, and dynamic interactions. Existing approaches address this
+              limitation by retraining the model or introducing external conditioning signals to enforce
+              temporal consistency. In this work, we explore whether a meaningful temporal representation can
+              be extracted directly from the predictions of a pre-trained model without any additional
+              training or auxiliary inputs. We introduce <strong>FlowMo</strong>, a novel training-free
+              guidance method that enhances motion coherence using only the model's own predictions in each
+              diffusion step.
+            </p>
+            <p>
+              FlowMo first derives an appearance-debiased temporal representation by measuring the distance
+              between latents corresponding to consecutive frames. This highlights the implicit temporal
+              structure predicted by the model.
+              It then estimates motion coherence by measuring the patch-wise variance across the temporal
+              dimension, and guides the model to reduce this variance dynamically during sampling. Extensive
+              experiments across multiple text-to-video models demonstrate that FlowMo significantly improves
+              motion coherence without sacrificing visual quality or prompt alignment, offering an effective
+              plug-and-play solution for enhancing the temporal fidelity of pre-trained video diffusion
+              models.
+            </p>
+          </div>
         </div>
       </div>
+      <!--/ Abstract. -->
     </div>
-    <!--/ Abstract. -->
-  </div>
+  </section>
 </section>
 
 <!-- Qualitative Comparison Section -->
