@@ -106,6 +106,85 @@
       border-radius: 8px;
       margin: 20px 0;
     }
+
+     /* New carousel styles matching Hila's design */
+    .results-carousel-2x1 {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0px;
+      padding: 0;
+      margin: 0 auto;
+      justify-content: center;
+      width: 90vw;
+      max-width: 1400px;
+      background-color: var(--main-bg-color);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .carousel-item-2x1 {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      width: 100%;
+      background-color: var(--main-bg-color) !important;
+    }
+
+    .carousel-row-2x1 {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 17px;
+      gap: 15px;
+      width: 100%;
+    }
+
+    .video-item-2x1 {
+      width: calc(50% - 7.5px);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .video-item-2x1 video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: none;
+      outline: none;
+      border-radius: 8px;
+    }
+
+    .video-title-2x1 {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 0px;
+      font-family: "Google Sans", sans-serif;
+      font-weight: bold;
+      font-size: clamp(12px, 1.8vw, 18px);
+      color: #333;
+    }
+
+    @media screen and (max-width: 768px) {
+      .results-carousel-2x1 {
+        width: 95vw;
+        gap: 0px;
+      }
+      
+      .carousel-row-2x1 {
+        gap: 10px;
+      }
+      
+      .video-item-2x1 {
+        width: calc(50% - 5px);
+      }
+
+      .video-title-2x1 {
+        font-size: clamp(10px, 1.5vw, 14px);
+      }
+    }
     
   </style>
 </head>
@@ -218,103 +297,71 @@
     </div>
 
     <!-- Wan2.1-1.3B Results -->
-    <h3 class="title is-4 has-text-centered comparison-section">Wan2.1-1.3B</h3>
+   <!-- Example Carousel -->
+    <h3 class="title is-4 has-text-centered comparison-section">Video Results</h3>
     
-    <div id="wan-carousel" class="carousel results-carousel">
-      <div class="carousel-item carousel-item-new">
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_boy_with_glasses_flying_a_kite_in_a_grassy_field_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A boy with glasses flying a kite in a grassy field.</div>
-        </div>
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/gym_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A  woman performing a challenging exercise.</div>
+    <div id="example-carousel" class="carousel results-carousel-2x1">
+      <!-- Slide 1 -->
+      <div class="carousel-item carousel-item-2x1">
+        <div class="carousel-row-2x1">
+          <div class="video-item video-item-2x1">
+              <div class="demo-video">
+                Video 1<br>
+                Base Model
+              </div>
+              <div class="video-title-2x1">A boy with glasses flying a kite in a grassy field.</div>
+          </div>
+          <div class="video-item video-item-2x1">
+              <div class="demo-video">
+                Video 1<br>
+                + FlowMo
+              </div>
+              <div class="video-title-2x1">A woman performing a challenging exercise.</div>
+          </div>
         </div>
       </div>
       
-      <div class="carousel-item carousel-item-new">
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_dolphin_jumping_out_of_ocean_waves_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A dolphin jumping out of ocean waves.</div>
-        </div>
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_ninja_flipping_through_a_bamboo_forest_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A ninja flipping through a bamboo fores.</div>
-        </div>
-      </div>
-
-      <div class="carousel-item carousel-item-new">
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_person_rowing_a_boat_across_a_misty_lake_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A person rowing a boat across a misty lake.</div>
-        </div>
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_roulette_wheel_in_a_dimly_lit_room_or_casino_flo_1024_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A roulette wheel in a dimly lit room or casino floor.</div>
+      <!-- Slide 2 -->
+      <div class="carousel-item carousel-item-2x1">
+        <div class="carousel-row-2x1">
+          <div class="video-item video-item-2x1">
+              <div class="demo-video">
+                Video 2<br>
+                Base Model
+              </div>
+              <div class="video-title-2x1">A dolphin jumping out of ocean waves.</div>
+          </div>
+          <div class="video-item video-item-2x1">
+              <div class="demo-video">
+                Video 2<br>
+                + FlowMo
+              </div>
+              <div class="video-title-2x1">A ninja flipping through a bamboo forest.</div>
+          </div>
         </div>
       </div>
 
-      <div class="carousel-item carousel-item-new">
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_senior_couple_dancing_at_sunset_on_a_pier_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A senior couple dancing at sunset on a pier.</div>
-        </div>
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_woman_in_a_flowing_dress_dancing_in_a_field_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A woman in a flowing dress dancing in a field.</div>
-        </div>
-      </div>
-
-
-      <div class="carousel-item carousel-item-new">
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_child_jumping_on_a_trampoline_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A child jumping on a trampoline.</div>
-        </div>
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_helicopter_flying_over_a_forest._The_helicopter__1024_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A helicopter flying over a forest.</div>
+      <!-- Slide 3 -->
+      <div class="carousel-item carousel-item-2x1">
+        <div class="carousel-row-2x1">
+          <div class="video-item video-item-2x1">
+              <div class="demo-video">
+                Video 3<br>
+                Base Model
+              </div>
+              <div class="video-title-2x1">A person rowing a boat across a misty lake.</div>
+          </div>
+          <div class="video-item video-item-2x1">
+              <div class="demo-video">
+                Video 3<br>
+                + FlowMo
+              </div>
+              <div class="video-title-2x1">A roulette wheel in a dimly lit room or casino floor.</div>
+          </div>
         </div>
       </div>
-
-      <div class="carousel-item carousel-item-new">
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/Pikachu_roasting_marshmallows_with_Charmander_at_a_42_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">Pikachu with Charmander at a campfire.</div>
-        </div>
-        <div class="video-item video-item-new">
-            <video loading="lazy" autoplay loop muted>
-                <source src="out_wan/A_painter_creating_a_landscape_on_canvas_72_concat.mp4" type="video/mp4">
-            </video>
-            <div class="video-title">A painter creating a landscape on canvas.</div>
-        </div>
-      </div>
-
-
     </div>
-
+    
     <!-- CogVideoX-5B Results -->
     <h3 class="title is-4 has-text-centered comparison-section">CogVideoX-5B</h3>
     
