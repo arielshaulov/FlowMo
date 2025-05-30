@@ -9,26 +9,21 @@
 > Text-to-video diffusion models are notoriously limited in their ability to model temporal aspects such as motion, physics, and dynamic interactions. Existing approaches address this limitation by retraining the model or introducing external conditioning signals to enforce temporal consistency. In this work, we explore whether a meaningful temporal representation can be extracted directly from the predictions of a pre-trained model without any additional training or auxiliary inputs. We introduce FlowMo, a novel training-free guidance method that enhances motion coherence using only the model's own predictions in each diffusion step. FlowMo first derives an appearance-debiased temporal representation by measuring the distance between latents corresponding to consecutive frames. This highlights the implicit temporal structure predicted by the model. It then estimates motion coherence by measuring the patch-wise variance across the temporal dimension, and guides the model to reduce this variance dynamically during sampling. Extensive experiments across multiple text-to-video models demonstrate that FlowMo significantly improves motion coherence without sacrificing visual quality or prompt alignment, offering an effective plug-and-play solution for enhancing the temporal fidelity of pre-trained video diffusion models.
 
 
-## Requirements
-
 # Wan2.1
 
 The official repository for **Wan2.1**, a high-quality text-to-video generation model.
 
 ## 📦 Getting Started
 
-1. **Visit the repository**  
-   [https://github.com/Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1)
-
-2. **Clone the repository**
-   ```bash
-   git clone https://github.com/Wan-Video/Wan2.1.git
-   cd Wan2.1
-
+1. **Clone the repository**
+   ````
+   git clone https://github.com/arielshaulov/FlowMo.git
+   ````
    
-````
-conda env create -f environment.yml
-````
+2. **Visit the repository**
+   [https://github.com/Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1)
+   follow their instructions to download the Wan2.1 model
+
 
 ## Run
 ````
