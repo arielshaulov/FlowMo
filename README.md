@@ -20,10 +20,6 @@ Text-to-video diffusion models are notoriously limited in their ability to model
 
 ---
 
-## 👥 Authors
-
----
-
 ## 🚀 Getting Started
 
 ### Prerequisites
