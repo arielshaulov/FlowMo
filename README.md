@@ -124,7 +124,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-Thanks to the [Wan2.1](https://github.com/Wan-Video/Wan2.1) team for their excellent text-to-video model
+- Thanks to the [Wan2.1](https://github.com/Wan-Video/Wan2.1) and [CogVideo](https://github.com/THUDM/CogVideo) team for their excellent text-to-video models
+- Thanks to the [FreeInit](https://github.com/TianxingWu/FreeInit) team for their innovative frequency-domain noise initialization approach
 
 ---
 
