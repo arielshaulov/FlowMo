@@ -2,15 +2,8 @@
 
 <div align="center">
 
-[![Project Website](https://img.shields.io/static/v1?label=Project&message=Website&color=red&style=for-the-badge)](https://arielshaulov.github.io/FlowMo/)
-[![arXiv](https://img.shields.io/badge/arXiv-2309.03884-b31b1b.svg?style=for-the-badge)](https://arxiv.org/abs/2309.03884)
-[![GitHub](https://img.shields.io/github/stars/arielshaulov/video-motion?style=for-the-badge&logo=github)](https://github.com/arielshaulov/video-motion)
-
 <a href="https://arielshaulov.github.io/FlowMo/"><img src="https://img.shields.io/static/v1?label=Project&message=Website&color=red" height=20.5></a> 
  <a href="https://github.com/arielshaulov/video-motion"><img src="https://img.shields.io/badge/arXiv-2306.00966-b31b1b.svg" height=20.5></a>
-
-
-*Training-free guidance for enhanced motion coherence in video diffusion models*
 
 </div>
 
