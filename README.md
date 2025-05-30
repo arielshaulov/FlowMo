@@ -25,7 +25,7 @@ Text-to-video diffusion models are notoriously limited in their ability to model
 ### Prerequisites
 - Python 3.8+
 - PyTorch
-- CUDA-compatible GPU
+- CUDA-compatible GPU (2 x H100)
 
 ### Installation
 
