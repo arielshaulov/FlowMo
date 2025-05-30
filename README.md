@@ -84,7 +84,8 @@ FlowMo demonstrates significant improvements in:
 
 ## 🚧 Future Work & TODO
 
-- [ ] **Cog based code**
+- [x] **Release Wan based code**
+- [ ] **Release Cog based code**
 - [ ] **Freeinit code**
 
 
