@@ -5,8 +5,6 @@
  <a href="https://github.com/arielshaulov/video-motion"><img src="https://img.shields.io/badge/arXiv-2306.00966-b31b1b.svg" height=20.5></a>
 </div>
 
-**Ariel Shaulov\*** • **Itay Hazan\*** • **Lior Wolf** • **Hila Chefer**
-
 ## 📝 Abstract
 
 Text-to-video diffusion models are notoriously limited in their ability to model temporal aspects such as motion, physics, and dynamic interactions. Existing approaches address this limitation by retraining the model or introducing external conditioning signals to enforce temporal consistency. 
