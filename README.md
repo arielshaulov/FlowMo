@@ -67,7 +67,7 @@ python generate.py --task t2v-1.3B \
 | `--size` | Output video resolution | `832*480` |
 | `--ckpt_dir` | Path to model weights | Required |
 | `--prompts` | Text prompt for generation | Required |
-| `--seeds` | Random seed for reproducibility | `1024` |
+| `--seeds` | Random seed for reproducibility | `42 72` |
 | `--optimize` | Enable FlowMo optimization | `True` |
 
 ---
