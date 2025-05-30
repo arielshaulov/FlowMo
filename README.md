@@ -55,7 +55,7 @@ python generate.py --task t2v-1.3B \
                    --size 832*480 \
                    --ckpt_dir path/to/model/weights \
                    --prompts "A painter creating a landscape on canvas." \
-                   --seeds 42 \
+                   --seeds 42 72 \
                    --optimize "True"
 ```
 
