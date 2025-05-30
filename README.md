@@ -115,8 +115,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Thanks to the [Wan2.1](https://github.com/Wan-Video/Wan2.1) team for their excellent text-to-video model
-- Special thanks to the broader video generation research community
+Thanks to the [Wan2.1](https://github.com/Wan-Video/Wan2.1) team for their excellent text-to-video model
 
 ---
 
