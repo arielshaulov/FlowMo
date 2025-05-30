@@ -87,25 +87,6 @@ python generate.py --task t2v-1.3B \
 
 ---
 
-## 🔬 Method Overview
-
-```mermaid
-graph LR
-    A[Pre-trained Video Model] --> B[Frame Latents]
-    B --> C[Temporal Distance Measurement]
-    C --> D[Variance-Based Coherence Estimation]
-    D --> E[Dynamic Guidance]
-    E --> F[Enhanced Motion Coherence]
-```
-
-FlowMo operates by:
-1. **Extracting temporal representations** from consecutive frame latents
-2. **Measuring motion coherence** via patch-wise variance analysis
-3. **Applying dynamic guidance** to reduce temporal inconsistencies
-4. **Preserving visual quality** while enhancing motion fidelity
-
----
-
 ## 📊 Results
 
 FlowMo demonstrates significant improvements in:
