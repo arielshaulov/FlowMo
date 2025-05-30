@@ -7,6 +7,10 @@
 
 </div>
 
+**Ariel Shaulov\*** • **Itay Hazan\*** • **Lior Wolf** • **Hila Chefer**
+
+*\*Equal contribution*
+
 ---
 
 ## 📝 Abstract
@@ -25,10 +29,6 @@ Text-to-video diffusion models are notoriously limited in their ability to model
 ---
 
 ## 👥 Authors
-
-**Ariel Shaulov\*** • **Itay Hazan\*** • **Lior Wolf** • **Hila Chefer**
-
-*\*Equal contribution*
 
 ---
 
