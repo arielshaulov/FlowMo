@@ -38,13 +38,10 @@ python generate.py --task t2v-1.3B \
 ## Citation
 If you find our code useful for your research, please consider citing our paper.
 ```
-@misc{shaar2025adaptingunknowntrainingfreeaudiovisual,
-      title={Adapting to the Unknown: Training-Free Audio-Visual Event Perception with Dynamic Thresholds}, 
-      author={Eitan Shaar and Ariel Shaulov and Gal Chechik and Lior Wolf},
-      year={2025},
-      eprint={2503.13693},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2503.13693}, 
+@article{flowmo2025,
+  title={FlowMo: Variance-Based Flow Guidance for Coherent Motion in Video Generation},
+  author={Shaulov, Ariel and Hazan, Itay and Wolf, Lior and Chefer, Hila},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2025}
 }
 ```
