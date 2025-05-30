@@ -22,16 +22,17 @@ The official repository for **Wan2.1**, a high-quality text-to-video generation 
    
 2. **Visit the repository**
    [https://github.com/Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1)
-   follow their instructions to download the Wan2.1 model
+   and follow their instructions on order to run the Wan2.1 model
 
-
+                    
 ## Run
 ````
-# LanguageBind
-python main.py --video_dir_path "" --audio_dir_path "" --gpu_id 0 --backbone language_bind --candidates_file_path "" --alpha 0.5 --filter_threshold 0.55 --threshold_stage1 0.75 --threshold_stage2 0.75 --gamma 2.5 --dataset LLP/AVE --method bbse-cosine --fusion early
-
-# CLIP & CLAP
-python main.py --video_dir_path "" --audio_dir_path "" --gpu_id 0 --backbone clip_clap --candidates_file_path "" --alpha 0.45 --filter_threshold 0.5 --threshold_stage1 0.75 --threshold_stage2 0.75 --gamma 1 --dataset LLP/AVE --method bbse-cosine --fusion early
+python generate.py --task t2v-1.3B \
+                    --size 832*480 \
+                    --ckpt_dir path/to/model/weighs \
+                    --prompts "A painter creating a landscape on canvas." \
+                    --seeds 1024 \
+                    --optimize "True" \
 ````
 
 ## Citation
