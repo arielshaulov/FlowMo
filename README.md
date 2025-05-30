@@ -10,6 +10,22 @@
 
 
 ## Requirements
+
+# Wan2.1
+
+The official repository for **Wan2.1**, a high-quality text-to-video generation model.
+
+## 📦 Getting Started
+
+1. **Visit the repository**  
+   [https://github.com/Wan-Video/Wan2.1](https://github.com/Wan-Video/Wan2.1)
+
+2. **Clone the repository**
+   ```bash
+   git clone https://github.com/Wan-Video/Wan2.1.git
+   cd Wan2.1
+
+   
 ````
 conda env create -f environment.yml
 ````
