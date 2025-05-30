@@ -84,8 +84,8 @@ FlowMo demonstrates significant improvements in:
 
 ## 🚧 Future Work & TODO
 
-### 📋 Upcoming Features
-- [ ] **Multi-resolution support** - Add support for different video resolutions
+- [ ] **Cog based code**
+- [ ] **Freeinit code**
 
 
 ---
