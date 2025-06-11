@@ -416,7 +416,7 @@ def generate(args):
             motion_optimizer = MotionVarianceOptimizer(
                 iterations=1,
                 lr=args.lr,
-                start_after_steps=int(args.sample_steps * 0.01),  # Start after 20% of steps
+                start_after_steps=int(args.sample_steps * 0.01),
                 apply_frequency=1
             )
 
